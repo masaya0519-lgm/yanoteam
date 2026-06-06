@@ -630,26 +630,113 @@
 
       <div class="card">
         <div class="card-header">
-          <div class="card-title">メンバーの経験分布</div>
-          <div class="card-sub">何人が何案件を経験済みか</div>
-        </div>
-        <div style="display:flex;gap:20px;align-items:center">
-          <div style="display:flex;gap:10px;flex:1">
-            <div style="display:flex;align-items:center;gap:8px;flex:1;padding:10px;background:var(--bg);border-radius:8px">
-              <div style="background:var(--primary);height:36px;width:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px;font-weight:800">4</div>
-              <div><div style="font-size:12px;font-weight:700;color:var(--dark)">1案件のみ</div><div style="font-size:11px;color:var(--text-muted)">経験が一箇所に集中</div></div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;flex:1;padding:10px;background:var(--green-light);border-radius:8px">
-              <div style="background:var(--green);height:36px;width:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px;font-weight:800">2</div>
-              <div><div style="font-size:12px;font-weight:700;color:var(--dark)">2案件以上</div><div style="font-size:11px;color:#065F46">複数領域を経験済み</div></div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;flex:1;padding:10px;background:var(--bg);border-radius:8px">
-              <div style="background:#94A3B8;height:36px;width:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px;font-weight:800">1</div>
-              <div><div style="font-size:12px;font-weight:700;color:var(--dark)">アサイン待ち</div><div style="font-size:11px;color:var(--text-muted)">次案件を調整中</div></div>
-            </div>
+          <div>
+            <div class="card-title">誰に頼む？ — メンバー得意領域</div>
+            <div class="card-sub">困ったときはここを見て声をかけてください</div>
           </div>
-          <div style="padding:10px 14px;background:var(--amber-light);border-radius:8px;font-size:12px;color:#92400E;line-height:1.6;max-width:280px">
-            ⚠ <strong>7名中4名が1案件のみの経験。</strong>コラボを増やして横断経験を積む機会を作ることが急務です。
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <div class="avatar" style="background:#6366F1;font-size:11px;width:30px;height:30px">田</div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark)">田中 慎也</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+              <span class="chip chip-blue">クラウド移行</span>
+              <span class="chip chip-blue">インフラ設計</span>
+              <span class="chip chip-gray">PM進行</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「AWS/Azureへの移行」「サーバー設計」「プロジェクト進行管理」で頼れます</div>
+            <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <div class="avatar" style="background:#10B981;font-size:11px;width:30px;height:30px">鈴</div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark)">鈴木 麻衣</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+              <span class="chip chip-green">Salesforce</span>
+              <span class="chip chip-green">M365 / Teams</span>
+              <span class="chip chip-gray">権限設計</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「SFの設定・権限」「TeamsやSharePointの構成」で詰まったら声をかけて</div>
+            <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <div class="avatar" style="background:#8B5CF6;font-size:11px;width:30px;height:30px">佐</div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark)">佐藤 健二</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+              <span class="chip chip-purple">DX戦略</span>
+              <span class="chip chip-purple">提案書作成</span>
+              <span class="chip chip-gray">ヒアリング設計</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「提案書の構成」「DXロードマップの描き方」「顧客ヒアリングの設計」はお任せを</div>
+            <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <div class="avatar" style="background:#EF4444;font-size:11px;width:30px;height:30px">山</div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark)">山田 拓也</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+              <span class="chip chip-red">Salesforce設定</span>
+              <span class="chip chip-gray">SFA運用設計</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「SalesforceのSFA設定」「営業部門向けの運用フロー設計」を担当中</div>
+            <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <div class="avatar" style="background:#F97316;font-size:11px;width:30px;height:30px">中</div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark)">中村 奈々</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+              <span class="chip chip-amber">トレーニング</span>
+              <span class="chip chip-amber">マニュアル作成</span>
+              <span class="chip chip-gray">定着支援</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「ユーザー研修の設計・実施」「操作マニュアル作成」「システム定着の仕掛け」はここへ</div>
+            <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <div class="avatar" style="background:#06B6D4;font-size:11px;width:30px;height:30px">伊</div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark)">伊藤 翔平</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+              <span class="chip chip-blue">データ分析</span>
+              <span class="chip chip-blue">BI構築</span>
+              <span class="chip chip-gray">BigQuery / SQL</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「データパイプライン」「ダッシュボード構築」「SQLで何か見たい」ときはぜひ</div>
+            <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <div class="avatar" style="background:#84CC16;font-size:11px;width:30px;height:30px">加</div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark)">加藤 さくら</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+              <span class="chip chip-green">HR業務設計</span>
+              <span class="chip chip-gray">業務改善</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「人事・採用まわりの業務整理」「業務フロー改善」に詳しい。次案件で経験拡大中</div>
+            <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
+          </div>
+          <div style="padding:12px;border:1px solid #FDE68A;border-radius:8px;background:var(--amber-light)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <div class="avatar" style="background:#F59E0B;font-size:11px;width:30px;height:30px">矢</div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark)">矢野 (Manager)</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+              <span class="chip chip-amber">顧客折衝</span>
+              <span class="chip chip-amber">アカウント管理</span>
+              <span class="chip chip-gray">チーム運営</span>
+            </div>
+            <div style="font-size:11px;color:#92400E;line-height:1.5;margin-bottom:8px">顧客との関係構築・エスカレーション・チームの方向性判断はまず相談を</div>
+            <button class="btn" style="width:100%;font-size:11px;padding:5px;background:#F59E0B;color:white;border:none">💬 Slackで相談</button>
           </div>
         </div>
       </div>
