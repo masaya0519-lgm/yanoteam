@@ -306,227 +306,107 @@
     <!-- ════════════════ PAGE: DASHBOARD ════════════════ -->
     <div class="page active" id="page-dashboard">
 
-      <!-- Stat Cards -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">📁</div>
+      <!-- Stats: 案件数と人数だけ -->
+      <div style="display:flex;gap:12px;margin-bottom:22px">
+        <div class="stat-card" style="flex:1">
           <div class="stat-label">アクティブ案件</div>
           <div class="stat-value">5</div>
-          <div class="stat-delta up">▲ 先月比 +1件</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px">顧客A × 2 ／ 顧客B × 2 ／ 検討中 × 1</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon">🤝</div>
-          <div class="stat-label">今週のコラボ機会</div>
-          <div class="stat-value" style="color:var(--primary)">2</div>
-          <div class="stat-delta" style="color:var(--primary)">✦ 自動検知</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">💴</div>
-          <div class="stat-label">今月売上達成率</div>
-          <div class="stat-value" style="color:var(--amber)">78%</div>
-          <div class="stat-delta down">▼ 目標 ¥3,600万</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">📚</div>
-          <div class="stat-label">今月の新規経験</div>
-          <div class="stat-value" style="color:var(--green)">3</div>
-          <div class="stat-delta up">▲ 先月比 +2件</div>
+        <div class="stat-card" style="flex:1">
+          <div class="stat-label">チームメンバー</div>
+          <div class="stat-value">8</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px">稼働中 6名 ／ アサイン待ち 1名 ／ Manager 1名</div>
         </div>
       </div>
 
-      <!-- Collaboration Opportunities -->
-      <div class="section-title">🤝 今週のコラボ提案 <span class="ai-tag">✦ AI自動検知</span></div>
-      <div class="collab-grid mb-6">
-        <div class="collab-card">
-          <span class="collab-tag">🔴 早めに動きたい</span>
-          <div class="collab-title">顧客B営業部：Salesforce権限設計で詰まっています</div>
-          <div class="collab-body">
-            山田さんの日報に「権限モデルの複雑さに手が止まっている」との記載。<br>
-            鈴木さんが前案件でSalesforce権限設計を担当した経験があります。
-          </div>
-          <div class="collab-chips">
-            <span class="chip chip-red">山田さん：詰まり気味</span>
-            <span class="chip chip-blue">鈴木さん：Salesforce経験あり</span>
-          </div>
-          <div class="collab-action mt-4" style="display:flex;gap:8px">
-            <button class="btn btn-primary" style="font-size:12px;padding:5px 12px">鈴木さんにSlackで繋ぐ</button>
-            <button class="btn btn-outline" style="font-size:12px;padding:5px 12px">詳細を見る</button>
-          </div>
+      <!-- 重要課題 -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="card-title">重要度の高い課題</div>
+          <div class="card-sub">対応が必要なものだけを表示しています</div>
         </div>
-        <div class="collab-card">
-          <span class="collab-tag" style="background:var(--amber)">🟡 付加価値チャンス</span>
-          <div class="collab-title">顧客A経営企画部：DX戦略にデータ活用の視点を追加できる</div>
-          <div class="collab-body">
-            佐藤さんのDX戦略案件が提案フェーズに入っています。<br>
-            伊藤さんのデータ分析スキルを活用すると提案の厚みが増し、追加案件に繋がる可能性があります。
+        <div style="display:flex;flex-direction:column;gap:8px">
+
+          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--red-light);border-radius:8px;border-left:4px solid var(--red)">
+            <span style="font-size:20px;flex-shrink:0">🔴</span>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700;color:#991B1B">顧客B Salesforce — 権限設計で詰まり、M2が遅延見込み</div>
+              <div style="font-size:12px;color:#991B1B;margin-top:2px">山田さんが行き詰まっています。鈴木さんに経験があります。</div>
+            </div>
+            <button class="btn btn-primary" style="font-size:12px;padding:6px 14px;flex-shrink:0">鈴木さんに繋ぐ</button>
           </div>
-          <div class="collab-chips">
-            <span class="chip chip-amber">佐藤さん：提案フェーズ</span>
-            <span class="chip chip-green">伊藤さん：データ分析が得意</span>
+
+          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--amber-light);border-radius:8px;border-left:4px solid var(--amber)">
+            <span style="font-size:20px;flex-shrink:0">🟡</span>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700;color:#92400E">顧客B — 営業部長が今期末に異動。後任次第で案件影響あり</div>
+              <div style="font-size:12px;color:#92400E;margin-top:2px">山田さんの飲み会情報より。早めに後任との関係構築を検討。</div>
+            </div>
+            <button class="btn btn-outline" style="font-size:12px;padding:6px 14px;flex-shrink:0;border-color:var(--amber);color:var(--amber)">矢野さんに相談</button>
           </div>
-          <div class="collab-action mt-4" style="display:flex;gap:8px">
-            <button class="btn btn-primary" style="font-size:12px;padding:5px 12px">伊藤さんをアサインする</button>
-            <button class="btn btn-outline" style="font-size:12px;padding:5px 12px">詳細を見る</button>
+
+          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--primary-light);border-radius:8px;border-left:4px solid var(--primary)">
+            <span style="font-size:20px;flex-shrink:0">💡</span>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700;color:#1D4ED8">顧客A DX戦略 — データ活用ニーズが浮上。提案に加えると案件拡大の可能性</div>
+              <div style="font-size:12px;color:#1D4ED8;margin-top:2px">佐藤さんの日報より。伊藤さんのスキルを活用できます。</div>
+            </div>
+            <button class="btn btn-primary" style="font-size:12px;padding:6px 14px;flex-shrink:0">伊藤さんに声をかける</button>
           </div>
+
         </div>
       </div>
 
-      <!-- Team Activity Table -->
+      <!-- 最新情報 -->
       <div class="card">
         <div class="card-header">
-          <div>
-            <div class="card-title">チームの今週の動き</div>
-            <div class="card-sub">Slackの日報・案件チャンネルから自動集約</div>
-          </div>
+          <div class="card-title">最新情報</div>
+          <div class="card-sub">Slack・Teams・日報からの直近の動き</div>
         </div>
-        <table class="member-table">
-          <thead>
-            <tr>
-              <th>メンバー</th>
-              <th>担当案件</th>
-              <th>今週のポイント</th>
-              <th>稼働感</th>
-              <th>ステータス</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><div class="member-name-cell"><div class="avatar" style="background:#F59E0B;font-size:11px">矢</div><div><div style="font-weight:700">矢野 (Manager)</div></div></div></td>
-              <td><span class="chip chip-gray">全体管理</span></td>
-              <td class="text-muted">チーム方針・顧客折衝・週次レビュー</td>
-              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:65%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
-              <td><span class="status-badge status-ok">稼働中</span></td>
-            </tr>
-            <tr>
-              <td><div class="member-name-cell"><div class="avatar" style="background:#6366F1;font-size:11px">田</div><div><div style="font-weight:700">田中 慎也</div></div></div></td>
-              <td><span class="chip chip-blue">顧客A / IT部門</span></td>
-              <td class="text-muted">システム移行のテスト計画作成、テスト環境の設定を完了</td>
-              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:70%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
-              <td><span class="status-badge status-ok">順調</span></td>
-            </tr>
-            <tr>
-              <td><div class="member-name-cell"><div class="avatar" style="background:#10B981;font-size:11px">鈴</div><div><div style="font-weight:700">鈴木 麻衣</div></div></div></td>
-              <td><span class="chip chip-blue">顧客A / IT部門</span></td>
-              <td class="text-muted">移行スクリプトのレビュー完了。今週は比較的余裕あり</td>
-              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-low" style="width:40%"></div></div><span class="workload-label" style="color:var(--green)">余裕あり</span></div></td>
-              <td><span class="status-badge status-ok">順調</span></td>
-            </tr>
-            <tr>
-              <td><div class="member-name-cell"><div class="avatar" style="background:#8B5CF6;font-size:11px">佐</div><div><div style="font-weight:700">佐藤 健二</div></div></div></td>
-              <td><span class="chip chip-purple">顧客A / 経営企画</span></td>
-              <td class="text-muted">DX戦略のドラフト作成中。提案資料に向けたヒアリングを実施</td>
-              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:75%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
-              <td><span class="status-badge status-ok">順調</span></td>
-            </tr>
-            <tr>
-              <td><div class="member-name-cell"><div class="avatar" style="background:#EF4444;font-size:11px">山</div><div><div style="font-weight:700">山田 拓也</div></div></div></td>
-              <td><span class="chip chip-green">顧客B / 営業部</span></td>
-              <td class="text-muted">Salesforce権限設計で課題発生。顧客の要件が複雑で進捗遅延気味</td>
-              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-high" style="width:90%"></div></div><span class="workload-label" style="color:var(--red)">高負荷</span></div></td>
-              <td><span class="status-badge status-alert">⚠ 支援要</span></td>
-            </tr>
-            <tr>
-              <td><div class="member-name-cell"><div class="avatar" style="background:#F97316;font-size:11px">中</div><div><div style="font-weight:700">中村 奈々</div></div></div></td>
-              <td><span class="chip chip-green">顧客B / 営業部</span></td>
-              <td class="text-muted">ユーザートレーニング資料作成。マニュアルのレビューを顧客に依頼済み</td>
-              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:60%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
-              <td><span class="status-badge status-ok">順調</span></td>
-            </tr>
-            <tr>
-              <td><div class="member-name-cell"><div class="avatar" style="background:#06B6D4;font-size:11px">伊</div><div><div style="font-weight:700">伊藤 翔平</div></div></div></td>
-              <td><span class="chip chip-amber">顧客B / マーケ</span></td>
-              <td class="text-muted">データ基盤のパイプライン設計完了。来週からBI実装フェーズへ</td>
-              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:65%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
-              <td><span class="status-badge status-ok">順調</span></td>
-            </tr>
-            <tr>
-              <td><div class="member-name-cell"><div class="avatar" style="background:#84CC16;font-size:11px">加</div><div><div style="font-weight:700">加藤 さくら</div></div></div></td>
-              <td><span class="chip chip-gray">アサイン待ち</span></td>
-              <td class="text-muted">先月の案件が完了。今週はドキュメント整理・スキルアップ期間</td>
-              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-low" style="width:20%"></div></div><span class="workload-label" style="color:var(--green)">空きあり</span></div></td>
-              <td><span class="status-badge status-warn">次案件調整中</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <div style="display:flex;flex-direction:column">
 
-      <!-- Slack Channel Feed -->
-      <div class="card mt-4">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Slackチャンネルの最新発信</div>
-            <div class="card-sub">案件ch・日報ch・チームchの投稿を自動集約</div>
-          </div>
-          <span class="ai-tag">✦ AI要約</span>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:0">
-
-          <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px">
-              <span class="chip chip-blue" style="font-size:10px;white-space:nowrap">#案件-顧客B</span>
-              <span style="font-size:10px;color:var(--text-muted)">10分前</span>
+          <div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);align-items:flex-start">
+            <div style="min-width:70px;text-align:right">
+              <div style="font-size:10px;color:var(--text-muted)">10分前</div>
+              <span class="chip chip-blue" style="font-size:10px">#案件-顧客B</span>
             </div>
-            <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
-              <div class="avatar" style="background:#EF4444;font-size:10px;width:26px;height:26px;flex-shrink:0">山</div>
-              <div>
-                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:2px">山田 拓也</div>
-                <div style="font-size:12px;color:var(--text);line-height:1.6">Profileの継承設定まわりで詰まってます。Permission Setとの優先度の整理が複雑で、一回誰かと壁打ちしたいかも</div>
-                <div style="margin-top:6px;padding:6px 10px;background:var(--primary-light);border-radius:6px;font-size:11px;color:#1D4ED8">
-                  ✦ <strong>要約：</strong>Salesforce権限設計で課題発生。技術的な壁打ちサポートが必要な状態
-                </div>
-              </div>
+            <div class="avatar" style="background:#EF4444;font-size:10px;width:24px;height:24px;flex-shrink:0">山</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
+              <strong style="color:var(--dark)">山田</strong>　Profileの継承設定で詰まってます。壁打ちできる人いますか
             </div>
           </div>
 
-          <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px">
-              <span class="chip chip-purple" style="font-size:10px;white-space:nowrap">#日報</span>
-              <span style="font-size:10px;color:var(--text-muted)">1時間前</span>
+          <div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);align-items:flex-start">
+            <div style="min-width:70px;text-align:right">
+              <div style="font-size:10px;color:var(--text-muted)">1時間前</div>
+              <span class="chip chip-purple" style="font-size:10px">#日報</span>
             </div>
-            <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
-              <div class="avatar" style="background:#8B5CF6;font-size:10px;width:26px;height:26px;flex-shrink:0">佐</div>
-              <div>
-                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:2px">佐藤 健二</div>
-                <div style="font-size:12px;color:var(--text);line-height:1.6">経営企画部とのヒアリング完了。先方からデータを使った意思決定の仕組みも欲しいという話が出てきた。提案の幅が広がりそう</div>
-                <div style="margin-top:6px;padding:6px 10px;background:var(--green-light);border-radius:6px;font-size:11px;color:#065F46">
-                  ✦ <strong>要約：</strong>顧客から追加ニーズが発生。データ活用の提案を加えると案件拡大の可能性あり
-                </div>
-              </div>
+            <div class="avatar" style="background:#8B5CF6;font-size:10px;width:24px;height:24px;flex-shrink:0">佐</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
+              <strong style="color:var(--dark)">佐藤</strong>　ヒアリング完了。先方からデータを使った意思決定の仕組みも欲しいと言われた。提案の幅が広がりそう
             </div>
           </div>
 
-          <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px">
-              <span class="chip chip-amber" style="font-size:10px;white-space:nowrap">#案件-顧客A</span>
-              <span style="font-size:10px;color:var(--text-muted)">2時間前</span>
+          <div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);align-items:flex-start">
+            <div style="min-width:70px;text-align:right">
+              <div style="font-size:10px;color:var(--text-muted)">2時間前</div>
+              <span class="chip chip-amber" style="font-size:10px">#案件-顧客A</span>
             </div>
-            <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
-              <div class="avatar" style="background:#6366F1;font-size:10px;width:26px;height:26px;flex-shrink:0">田</div>
-              <div>
-                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:2px">田中 慎也</div>
-                <div style="font-size:12px;color:var(--text);line-height:1.6">テスト環境の構築が完了しました。来週から本番前の検証フェーズに入ります。顧客の承認も取れてます 👍</div>
-                <div style="margin-top:6px;padding:6px 10px;background:var(--green-light);border-radius:6px;font-size:11px;color:#065F46">
-                  ✦ <strong>要約：</strong>システム移行が予定通り進行中。次フェーズの提案タイミングが近づいている
-                </div>
-              </div>
+            <div class="avatar" style="background:#6366F1;font-size:10px;width:24px;height:24px;flex-shrink:0">田</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
+              <strong style="color:var(--dark)">田中</strong>　テスト環境の構築が完了。来週から本番前検証フェーズに入ります 👍
             </div>
           </div>
 
-          <div style="display:flex;gap:12px;padding:12px 0">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px">
-              <span class="chip chip-gray" style="font-size:10px;white-space:nowrap">#general</span>
-              <span style="font-size:10px;color:var(--text-muted)">昨日</span>
+          <div style="display:flex;gap:12px;padding:11px 0;align-items:flex-start">
+            <div style="min-width:70px;text-align:right">
+              <div style="font-size:10px;color:var(--text-muted)">昨日</div>
+              <span class="chip chip-gray" style="font-size:10px">#general</span>
             </div>
-            <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
-              <div class="avatar" style="background:#06B6D4;font-size:10px;width:26px;height:26px;flex-shrink:0">伊</div>
-              <div>
-                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:2px">伊藤 翔平</div>
-                <div style="font-size:12px;color:var(--text);line-height:1.6">BigQueryのパーティショニング設計について調べたことをNotionにまとめました。他の案件でも使えると思うので見てもらえると嬉しいです</div>
-                <div style="margin-top:6px;padding:6px 10px;background:var(--primary-light);border-radius:6px;font-size:11px;color:#1D4ED8">
-                  ✦ <strong>要約：</strong>技術ナレッジを共有。データ系案件を持つメンバーへの展開価値あり
-                </div>
-              </div>
-            </div>
+            <div class="avatar" style="background:#06B6D4;font-size:10px;width:24px;height:24px;flex-shrink:0">伊</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
+              <strong style="color:var(--dark)">伊藤</strong>　BigQueryのパーティショニング設計をNotionにまとめました。他案件でも使えると思うので見てもらえると嬉しいです</div>
           </div>
 
         </div>
