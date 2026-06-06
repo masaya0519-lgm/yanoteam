@@ -297,6 +297,44 @@
       .stats-grid { grid-template-columns: 1fr; }
       .member-card-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── Grade System ── */
+    .grade-legend { display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px; }
+    .grade-chip { display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;border:1px solid; }
+    .grade-g1 { background:#F8FAFC;color:#64748B;border-color:#CBD5E1; }
+    .grade-g2 { background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE; }
+    .grade-g3 { background:#D1FAE5;color:#065F46;border-color:#A7F3D0; }
+    .grade-g4 { background:#FEF3C7;color:#92400E;border-color:#FDE68A; }
+    .grade-g5 { background:#FEE2E2;color:#991B1B;border-color:#FCA5A5; }
+    .grade-g6 { background:#EDE9FE;color:#5B21B6;border-color:#C4B5FD; }
+    .grade-gm { background:#1E293B;color:#F1F5F9;border-color:#1E293B; }
+    .gm-row { background:white;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden; }
+    .gm-header { display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;user-select:none; }
+    .gm-header:hover { background:var(--bg); }
+    .gm-name { font-size:14px;font-weight:700;color:var(--dark); }
+    .gm-role { font-size:11px;color:var(--text-muted); }
+    .gm-arrow { margin-left:auto;font-size:12px;color:var(--text-muted);transition:transform 0.2s; }
+    .gm-arrow.open { transform:rotate(180deg); }
+    .gm-progress-text { font-size:11px;color:var(--text-muted);white-space:nowrap; }
+    .gm-detail { display:none;padding:0 16px 16px; }
+    .gm-detail.open { display:block; }
+    .req-item { border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden; }
+    .req-header { display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg); }
+    .req-status-icon { font-size:15px;flex-shrink:0; }
+    .req-text { font-size:13px;font-weight:600;color:var(--dark);flex:1; }
+    .req-actions { padding:10px 12px;border-top:1px solid var(--border); }
+    .req-action-row { display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;font-size:12px;line-height:1.5; }
+    .req-action-row:last-child { margin-bottom:0; }
+    .req-action-label { font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px; }
+    .req-action-member { background:#EFF6FF;color:#1D4ED8; }
+    .req-action-mgr { background:#F5F3FF;color:#5B21B6; }
+    .overall-actions-block { margin-top:14px;padding:12px;background:var(--primary-light);border-radius:8px;border:1px solid #BFDBFE; }
+    .overall-actions-title { font-size:11px;font-weight:700;color:#1D4ED8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px; }
+    .overall-action-item { display:flex;gap:8px;font-size:12px;color:#1E40AF;margin-bottom:5px;line-height:1.5; }
+    .overall-action-item:last-child { margin-bottom:0; }
+    @media (max-width:768px) {
+      .gm-role { display:none; }
+    }
   </style>
 </head>
 <body>
@@ -1008,17 +1046,449 @@
       <div id="growth-member">
 
       <!-- Data source banner -->
-      <div style="display:flex;gap:10px;margin-bottom:20px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;align-items:center">
+      <div style="display:flex;gap:10px;margin-bottom:20px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;align-items:center;flex-wrap:wrap">
         <span style="font-size:12px;color:var(--text-muted);font-weight:600">データ源：</span>
-        <span class="chip chip-blue">💬 Slackの発言・活動</span>
+        <span class="chip chip-blue">💬 Slack発言・活動</span>
         <span class="chip chip-purple">🎙 1on1音声記録（AI解析）</span>
         <span class="chip chip-green">📋 案件の担当実績</span>
         <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">最終更新：今日 09:15</span>
       </div>
 
-      <!-- Growth Ladder -->
-      <div class="section-title">成長ラダー（仮説 — 矢野さんと合意予定）</div>
-      <div class="ladder mb-6">
+      <!-- Grade Legend -->
+      <div class="section-title">グレード定義（全社共通・仮説 — 矢野さんと合意予定）</div>
+      <div class="grade-legend mb-6">
+        <div class="grade-chip grade-g1"><span>G1</span><span>見習い実行</span></div>
+        <div class="grade-chip grade-g2"><span>G2</span><span>自律実行</span></div>
+        <div class="grade-chip grade-g3"><span>G3</span><span>多領域・支援</span></div>
+        <div class="grade-chip grade-g4"><span>G4</span><span>提案・AM</span></div>
+        <div class="grade-chip grade-g5"><span>G5</span><span>マネジメント</span></div>
+        <div class="grade-chip grade-g6"><span>G6</span><span>組織貢献</span></div>
+        <div class="grade-chip grade-gm"><span>G7+</span><span>マネージャー</span></div>
+      </div>
+
+      <!-- Member Grade Accordion -->
+      <div class="section-title">メンバー別グレード進捗</div>
+
+      <!-- ── 田中 慎也 ── -->
+      <div class="gm-row">
+        <div class="gm-header" onclick="toggleGradeMember('tanaka')">
+          <div class="avatar" style="background:#6366F1;font-size:11px">田</div>
+          <div><div class="gm-name">田中 慎也</div><div class="gm-role">クラウド・インフラ</div></div>
+          <span class="grade-chip grade-g3" style="margin-left:12px">G3</span>
+          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span class="grade-chip grade-g4">G4</span>
+          <span class="gm-progress-text" style="margin-left:8px">2 / 4 達成</span>
+          <span class="gm-arrow" id="arr-tanaka">▼</span>
+        </div>
+        <div class="gm-detail" id="gmd-tanaka">
+          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">✅</span>
+              <span class="req-text">チームメンバーへの技術指導・成果物レビューを実施</span>
+              <span class="chip chip-green" style="font-size:10px">達成</span>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">✅</span>
+              <span class="req-text">顧客との関係構築（アカウントマネジメント）を継続実施</span>
+              <span class="chip chip-green" style="font-size:10px">達成</span>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">🔄</span>
+              <span class="req-text">案件の計画・スケジュール管理をリード</span>
+              <span class="chip chip-amber" style="font-size:10px">進行中</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>A社案件のWBSを自分で作成し、週次で進捗管理する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>月次レビューでPMスキルへのフィードバックを実施する</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">後輩・新メンバーへのOJT・メンタリングを実施</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>山田さんのインフラ学習のサポートを自ら申し出る</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>メンタリング対象者を正式にアサインし機会を作る</div>
+            </div>
+          </div>
+          <div class="overall-actions-block">
+            <div class="overall-actions-title">🎯 全体アクション（要件外の成長施策）</div>
+            <div class="overall-action-item"><span>▸</span><span>今期はAMスキル強化に注力。顧客Aとの定例会議のファシリテーションを単独でリードする機会を増やす</span></div>
+            <div class="overall-action-item"><span>▸</span><span>クラウド設計のナレッジをチーム向けに月1回共有セッションで展開する（矢野さん調整）</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 鈴木 麻衣 ── -->
+      <div class="gm-row">
+        <div class="gm-header" onclick="toggleGradeMember('suzuki')">
+          <div class="avatar" style="background:#10B981;font-size:11px">鈴</div>
+          <div><div class="gm-name">鈴木 麻衣</div><div class="gm-role">Salesforce・M365</div></div>
+          <span class="grade-chip grade-g3" style="margin-left:12px">G3</span>
+          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span class="grade-chip grade-g4">G4</span>
+          <span class="gm-progress-text" style="margin-left:8px">1 / 4 達成</span>
+          <span class="gm-arrow" id="arr-suzuki">▼</span>
+        </div>
+        <div class="gm-detail" id="gmd-suzuki">
+          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">✅</span>
+              <span class="req-text">顧客との関係構築（アカウントマネジメント）を継続実施</span>
+              <span class="chip chip-green" style="font-size:10px">達成</span>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">🔄</span>
+              <span class="req-text">チームメンバーへの技術指導・成果物レビューを実施</span>
+              <span class="chip chip-amber" style="font-size:10px">進行中</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>山田さんのSalesforce権限設計レビューを週次で実施する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>レビューの場を正式セッションとして設定し記録する</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">案件の計画・スケジュール管理をリード</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>次の案件でPM役を担い、自分でスケジュールを管理する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>M365導入案件のPMをアサインし経験機会を創出する</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">後輩・新メンバーへのOJT・メンタリングを実施</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>加藤さんのM365学習をペアワーク形式でサポートする</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>ペアワーク体制を1on1でオフィシャルに設定する</div>
+            </div>
+          </div>
+          <div class="overall-actions-block">
+            <div class="overall-actions-title">🎯 全体アクション（要件外の成長施策）</div>
+            <div class="overall-action-item"><span>▸</span><span>Salesforce×M365の掛け合わせ提案をまとめ、次の顧客提案の場でプレゼンする</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 佐藤 健二 ── -->
+      <div class="gm-row">
+        <div class="gm-header" onclick="toggleGradeMember('sato')">
+          <div class="avatar" style="background:#8B5CF6;font-size:11px">佐</div>
+          <div><div class="gm-name">佐藤 健二</div><div class="gm-role">戦略・コンサル</div></div>
+          <span class="grade-chip grade-g4" style="margin-left:12px">G4</span>
+          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span class="grade-chip grade-g5">G5</span>
+          <span class="gm-progress-text" style="margin-left:8px">2 / 4 達成</span>
+          <span class="gm-arrow" id="arr-sato">▼</span>
+        </div>
+        <div class="gm-detail" id="gmd-sato">
+          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G4 → G5 要件チェックリスト</div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">✅</span>
+              <span class="req-text">複数案件を同時に管理し責任を持った経験がある</span>
+              <span class="chip chip-green" style="font-size:10px">達成</span>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">✅</span>
+              <span class="req-text">チーム内の知識共有・ベストプラクティス標準化を主導</span>
+              <span class="chip chip-green" style="font-size:10px">達成</span>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">🔄</span>
+              <span class="req-text">新規提案・アップセルを主体的に推進した実績</span>
+              <span class="chip chip-amber" style="font-size:10px">進行中</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>顧客BへのDX戦略提案書を今月中に完成させ提出する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>顧客Bキーパーソンへのアクセス機会を設ける</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">売上目標の達成に当事者として関与した経験</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>アカウントプランのKPI達成状況を自分で追跡・報告する習慣をつける</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>売上・アクションプラン画面を共有し自分ゴト化を支援する</div>
+            </div>
+          </div>
+          <div class="overall-actions-block">
+            <div class="overall-actions-title">🎯 全体アクション（要件外の成長施策）</div>
+            <div class="overall-action-item"><span>▸</span><span>加藤さんへの提案書作成メンタリングを担当し、後進育成実績を作る（G5要件の先取り）</span></div>
+            <div class="overall-action-item"><span>▸</span><span>伊藤さんとのコラボで「戦略×データ」の複合提案を試みる</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 山田 拓也 ── -->
+      <div class="gm-row">
+        <div class="gm-header" onclick="toggleGradeMember('yamada')">
+          <div class="avatar" style="background:#EF4444;font-size:11px">山</div>
+          <div><div class="gm-name">山田 拓也</div><div class="gm-role">Salesforce</div></div>
+          <span class="grade-chip grade-g2" style="margin-left:12px">G2</span>
+          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span class="grade-chip grade-g3">G3</span>
+          <span class="gm-progress-text" style="margin-left:8px">1 / 4 達成</span>
+          <span class="gm-arrow" id="arr-yamada">▼</span>
+        </div>
+        <div class="gm-detail" id="gmd-yamada">
+          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">✅</span>
+              <span class="req-text">顧客課題をヒアリングして解決方向を独力で提示できる</span>
+              <span class="chip chip-green" style="font-size:10px">達成</span>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">🔄</span>
+              <span class="req-text">他のメンバーの案件に補助参加・サポートした実績</span>
+              <span class="chip chip-amber" style="font-size:10px">進行中</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>鈴木さんのM365案件に週1回サポートとして参加する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>鈴木さんとのペアワークを1on1で正式セットする</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">担当領域と異なる業種・技術の案件を1件以上経験</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>顧客B人事部案件への関与に手を挙げる</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>顧客B HR DX案件をサブアサインとして打診する</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">顧客への提案資料（提案書・要件定義書）を自分で作成</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>Salesforce権限設計の要件定義書を一人で書き上げる</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>佐藤さんの提案書を参考資料として共有し、レビューサイクルを設ける</div>
+            </div>
+          </div>
+          <div class="overall-actions-block">
+            <div class="overall-actions-title">🎯 全体アクション（要件外の成長施策）</div>
+            <div class="overall-action-item"><span>▸</span><span>Salesforceの深みが不安との1on1発言あり。田中さんとのインフラ×SF複合案件コラボを検討</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 中村 奈々 ── -->
+      <div class="gm-row">
+        <div class="gm-header" onclick="toggleGradeMember('nakamura')">
+          <div class="avatar" style="background:#F97316;font-size:11px">中</div>
+          <div><div class="gm-name">中村 奈々</div><div class="gm-role">トレーニング・定着</div></div>
+          <span class="grade-chip grade-g2" style="margin-left:12px">G2</span>
+          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span class="grade-chip grade-g3">G3</span>
+          <span class="gm-progress-text" style="margin-left:8px">1 / 4 達成</span>
+          <span class="gm-arrow" id="arr-nakamura">▼</span>
+        </div>
+        <div class="gm-detail" id="gmd-nakamura">
+          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">✅</span>
+              <span class="req-text">他のメンバーの案件に補助参加・サポートした実績</span>
+              <span class="chip chip-green" style="font-size:10px">達成</span>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">🔄</span>
+              <span class="req-text">担当領域と異なる業種・技術の案件を1件以上経験</span>
+              <span class="chip chip-amber" style="font-size:10px">進行中</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>顧客AのIT導入トレーニング以外の領域（例：業務フロー改善）に参加する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>顧客B業務改善案件への関与機会を作る</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">顧客への提案資料（提案書・要件定義書）を自分で作成</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>研修設計のドキュメントを提案書フォーマットに昇華させて作成する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>佐藤さんに提案書メンタリングをお願いする</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">顧客課題をヒアリングして解決方向を独力で提示できる</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>次の顧客ヒアリング会議を単独でファシリテートする</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>まず同席→フィードバック→単独のステップで機会を設計する</div>
+            </div>
+          </div>
+          <div class="overall-actions-block">
+            <div class="overall-actions-title">🎯 全体アクション（要件外の成長施策）</div>
+            <div class="overall-action-item"><span>▸</span><span>チーム内の知識共有セッションのファシリテーターを担当し、場を主導する経験を積む</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 伊藤 翔平 ── -->
+      <div class="gm-row">
+        <div class="gm-header" onclick="toggleGradeMember('ito')">
+          <div class="avatar" style="background:#06B6D4;font-size:11px">伊</div>
+          <div><div class="gm-name">伊藤 翔平</div><div class="gm-role">データ分析・BI</div></div>
+          <span class="grade-chip grade-g3" style="margin-left:12px">G3</span>
+          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span class="grade-chip grade-g4">G4</span>
+          <span class="gm-progress-text" style="margin-left:8px">1 / 4 達成</span>
+          <span class="gm-arrow" id="arr-ito">▼</span>
+        </div>
+        <div class="gm-detail" id="gmd-ito">
+          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">✅</span>
+              <span class="req-text">チームメンバーへの技術指導・成果物レビューを実施</span>
+              <span class="chip chip-green" style="font-size:10px">達成</span>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">🔄</span>
+              <span class="req-text">顧客との関係構築（アカウントマネジメント）を継続実施</span>
+              <span class="chip chip-amber" style="font-size:10px">進行中</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>顧客B営業部との定期BI報告会議を自分でエスコートする</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>矢野さん→伊藤さんへの引き継ぎを段階的に進める</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">案件の計画・スケジュール管理をリード</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>BI構築案件のロードマップを自分で作成・管理する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>次のBI案件でPM役を正式にアサインする</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">後輩・新メンバーへのOJT・メンタリングを実施</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>加藤さんへのデータ分析基礎レクチャーを月1回実施する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>佐藤・伊藤とのコラボ（戦略×データ）機会を設計する</div>
+            </div>
+          </div>
+          <div class="overall-actions-block">
+            <div class="overall-actions-title">🎯 全体アクション（要件外の成長施策）</div>
+            <div class="overall-action-item"><span>▸</span><span>佐藤さんのDX戦略提案に技術検証パートで参加し、戦略×データの両輪経験を作る</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 加藤 さくら ── -->
+      <div class="gm-row">
+        <div class="gm-header" onclick="toggleGradeMember('kato')">
+          <div class="avatar" style="background:#84CC16;font-size:11px">加</div>
+          <div><div class="gm-name">加藤 さくら</div><div class="gm-role">HR・業務改善</div></div>
+          <span class="grade-chip grade-g2" style="margin-left:12px">G2</span>
+          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span class="grade-chip grade-g3">G3</span>
+          <span class="gm-progress-text" style="margin-left:8px">0 / 4 達成</span>
+          <span class="gm-arrow" id="arr-kato">▼</span>
+        </div>
+        <div class="gm-detail" id="gmd-kato">
+          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">🔄</span>
+              <span class="req-text">顧客への提案資料（提案書・要件定義書）を自分で作成</span>
+              <span class="chip chip-amber" style="font-size:10px">進行中</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>顧客B HR DX案件の提案書ドラフトを今月中に作成する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>佐藤さんにメンタリングを依頼し、レビューサイクルを設定する</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">🔄</span>
+              <span class="req-text">顧客課題をヒアリングして解決方向を独力で提示できる</span>
+              <span class="chip chip-amber" style="font-size:10px">進行中</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>HR部門との次回ミーティングで自分から課題仮説を提示してみる</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>ミーティング後にフィードバック面談を設定する</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">担当領域と異なる業種・技術の案件を1件以上経験</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>顧客Aの案件に週半日サポートとして関与する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>顧客Aチームに加藤さんの参加を打診する</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-header">
+              <span class="req-status-icon">⬜</span>
+              <span class="req-text">他のメンバーの案件に補助参加・サポートした実績</span>
+              <span class="chip chip-gray" style="font-size:10px">未着手</span>
+            </div>
+            <div class="req-actions">
+              <div class="req-action-row"><span class="req-action-label req-action-member">メンバー</span>鈴木さんのSalesforce案件でユーザートレーニング部分を担当する</div>
+              <div class="req-action-row"><span class="req-action-label req-action-mgr">矢野さん</span>鈴木さんとのペアワーク体制を公式に設定する</div>
+            </div>
+          </div>
+          <div class="overall-actions-block">
+            <div class="overall-actions-title">🎯 全体アクション（要件外の成長施策）</div>
+            <div class="overall-action-item"><span>▸</span><span>顧客B HR DX案件のリードとしてアサイン予定。矢野さんサポートのもとG2→G3を一気に突破できるチャンス</span></div>
+            <div class="overall-action-item"><span>▸</span><span>「次の案件でリードをやりたい」という1on1での意欲を受けて、今期中に正式アサインを検討</span></div>
+          </div>
+        </div>
+      </div>
+
+      </div><!-- /growth-member tab -->
         <div class="ladder-step reached">
           <div class="ladder-level">Lv.1</div>
           <div class="ladder-title">担当案件を自律実行</div>
@@ -2241,6 +2711,14 @@
   }
 
   // MOC preview: let user see manager view
+  function toggleGradeMember(id) {
+    var detail = document.getElementById('gmd-' + id);
+    var arrow  = document.getElementById('arr-' + id);
+    var isOpen = detail.classList.contains('open');
+    detail.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
+
   function unlockGrowth() {
     document.getElementById('growth-locked').style.display = 'none';
     document.getElementById('growth-content').style.display = 'block';
