@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YanoTeam Portal</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #2563EB;
+      --primary-light: #EFF6FF;
+      --primary-dark: #1D4ED8;
+      --green: #10B981;
+      --green-light: #ECFDF5;
+      --amber: #F59E0B;
+      --amber-light: #FFFBEB;
+      --red: #EF4444;
+      --red-light: #FEF2F2;
+      --purple: #8B5CF6;
+      --purple-light: #F5F3FF;
+      --dark: #1E293B;
+      --text: #334155;
+      --text-muted: #94A3B8;
+      --border: #E2E8F0;
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+      --sidebar-w: 220px;
+    }
+
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; font-size: 14px; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w); background: var(--dark); color: #CBD5E1;
+      display: flex; flex-direction: column; flex-shrink: 0; position: fixed;
+      height: 100vh; overflow-y: auto; z-index: 100;
+    }
+    .sidebar-logo {
+      padding: 20px 16px 16px; border-bottom: 1px solid #334155;
+    }
+    .sidebar-logo .logo-mark { font-size: 18px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
+    .sidebar-logo .logo-sub { font-size: 11px; color: #64748B; margin-top: 2px; }
+
+    .nav-section { padding: 16px 0 8px; }
+    .nav-label { padding: 4px 16px 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: #475569; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px; padding: 9px 16px;
+      cursor: pointer; border-radius: 0; transition: background 0.15s;
+      color: #94A3B8; font-size: 13.5px;
+    }
+    .nav-item:hover { background: #293548; color: #E2E8F0; }
+    .nav-item.active { background: #1E3A5F; color: #FFFFFF; border-right: 3px solid var(--primary); }
+    .nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+    .nav-badge { margin-left: auto; background: var(--red); color: white; font-size: 10px; padding: 1px 6px; border-radius: 10px; font-weight: 700; }
+
+    .sidebar-bottom { margin-top: auto; padding: 12px 16px; border-top: 1px solid #334155; }
+    .user-chip { display: flex; align-items: center; gap: 8px; }
+    .avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; flex-shrink: 0; }
+    .user-chip .user-name { font-size: 12px; color: #CBD5E1; }
+    .user-chip .user-role { font-size: 10px; color: #64748B; }
+
+    /* ── Main ── */
+    .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+    .topbar {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 12px 28px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .topbar-title { font-size: 16px; font-weight: 700; color: var(--dark); }
+    .topbar-date { font-size: 12px; color: var(--text-muted); }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .btn { padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-outline { background: white; color: var(--primary); border: 1px solid var(--primary); }
+
+    .content { padding: 24px 28px; flex: 1; }
+
+    /* ── Cards ── */
+    .card { background: var(--white); border-radius: 10px; border: 1px solid var(--border); padding: 20px; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .card-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── Stat Cards ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+    .stat-card { background: var(--white); border-radius: 10px; border: 1px solid var(--border); padding: 16px 20px; }
+    .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-value { font-size: 28px; font-weight: 800; color: var(--dark); margin: 4px 0; line-height: 1; }
+    .stat-delta { font-size: 12px; font-weight: 600; }
+    .stat-delta.up { color: var(--green); }
+    .stat-delta.down { color: var(--red); }
+    .stat-icon { font-size: 22px; margin-bottom: 8px; }
+
+    /* ── Collab Cards ── */
+    .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+    .collab-card { background: var(--primary-light); border: 1px solid #BFDBFE; border-radius: 10px; padding: 16px; position: relative; }
+    .collab-card .collab-tag { font-size: 10px; font-weight: 700; background: var(--primary); color: white; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; }
+    .collab-card .collab-title { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .collab-card .collab-body { font-size: 12px; color: #1E40AF; line-height: 1.6; }
+    .collab-card .collab-action { margin-top: 10px; }
+    .collab-card .collab-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .chip { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+    .chip-blue { background: #DBEAFE; color: #1D4ED8; }
+    .chip-green { background: #D1FAE5; color: #065F46; }
+    .chip-amber { background: #FEF3C7; color: #92400E; }
+    .chip-red { background: #FEE2E2; color: #991B1B; }
+    .chip-purple { background: #EDE9FE; color: #5B21B6; }
+    .chip-gray { background: #F1F5F9; color: #475569; }
+
+    /* ── Member Table ── */
+    .member-table { width: 100%; border-collapse: collapse; }
+    .member-table th { text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+    .member-table td { padding: 12px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
+    .member-table tr:last-child td { border-bottom: none; }
+    .member-table tr:hover td { background: var(--bg); }
+
+    .member-name-cell { display: flex; align-items: center; gap: 10px; }
+    .workload-bar { width: 80px; height: 6px; border-radius: 3px; background: #E2E8F0; overflow: hidden; }
+    .workload-fill { height: 100%; border-radius: 3px; }
+    .workload-high { background: var(--red); }
+    .workload-mid { background: var(--amber); }
+    .workload-low { background: var(--green); }
+    .workload-label { font-size: 11px; font-weight: 600; margin-left: 6px; }
+
+    /* ── Status dot ── */
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+    .dot-green { background: var(--green); }
+    .dot-amber { background: var(--amber); }
+    .dot-red { background: var(--red); }
+    .dot-blue { background: var(--primary); }
+
+    /* ── Grid layouts ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+    /* ── Progress ── */
+    .progress-row { margin-bottom: 14px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+    .progress-label span:first-child { font-weight: 600; color: var(--dark); }
+    .progress-label span:last-child { color: var(--text-muted); }
+    .progress-track { height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 4px; }
+
+    /* ── Action items ── */
+    .action-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .action-item:last-child { border-bottom: none; }
+    .action-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .action-num-1 { background: #FEE2E2; color: var(--red); }
+    .action-num-2 { background: #FEF3C7; color: #92400E; }
+    .action-num-3 { background: #D1FAE5; color: #065F46; }
+    .action-body { flex: 1; }
+    .action-title { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+    .action-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+    .action-meta { margin-top: 5px; display: flex; gap: 6px; }
+
+    /* ── Case Map ── */
+    .case-map { width: 100%; border-collapse: collapse; }
+    .case-map th { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); }
+    .case-map td { padding: 14px; border: 1px solid var(--border); vertical-align: top; }
+    .case-map .client-header { background: #F0F9FF; font-weight: 700; font-size: 13px; color: var(--dark); text-align: center; }
+    .case-card { }
+    .case-name { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .case-members { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+    .case-activity { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+    .status-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+    .status-ok { background: var(--green-light); color: #065F46; }
+    .status-warn { background: var(--amber-light); color: #92400E; }
+    .status-alert { background: var(--red-light); color: #991B1B; }
+
+    /* ── Skill Matrix ── */
+    .skill-table { width: 100%; border-collapse: collapse; }
+    .skill-table th { font-size: 11px; font-weight: 600; color: var(--text-muted); text-align: center; padding: 8px 6px; border-bottom: 2px solid var(--border); }
+    .skill-table th.left-align { text-align: left; }
+    .skill-table td { padding: 10px 6px; border-bottom: 1px solid var(--border); text-align: center; font-size: 13px; }
+    .skill-table td.name-col { text-align: left; }
+    .skill-table tr:hover td { background: var(--bg); }
+    .skill-dot-full { font-size: 16px; }
+    .skill-dot-half { font-size: 16px; opacity: 0.5; }
+    .skill-dot-none { font-size: 16px; color: #E2E8F0; }
+    .level-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+
+    /* ── Growth Ladder ── */
+    .ladder { display: flex; gap: 0; margin-bottom: 20px; }
+    .ladder-step { flex: 1; padding: 12px; text-align: center; border: 1px solid var(--border); position: relative; }
+    .ladder-step:not(:last-child)::after { content: '→'; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-muted); z-index: 1; }
+    .ladder-step.current { background: var(--primary); color: white; border-color: var(--primary); }
+    .ladder-step.reached { background: var(--green-light); border-color: #A7F3D0; }
+    .ladder-level { font-size: 10px; font-weight: 600; opacity: 0.7; text-transform: uppercase; }
+    .ladder-title { font-size: 12px; font-weight: 700; margin-top: 4px; }
+
+    /* ── Slack Mock ── */
+    .slack-container { background: #1A1D21; border-radius: 10px; padding: 0; overflow: hidden; }
+    .slack-header { background: #222529; padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #383B40; }
+    .slack-channel-name { color: #E8E8E8; font-size: 14px; font-weight: 700; }
+    .slack-body { padding: 16px; }
+    .slack-msg { display: flex; gap: 12px; margin-bottom: 20px; }
+    .slack-msg-content { flex: 1; }
+    .slack-msg-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .slack-bot-name { font-size: 14px; font-weight: 700; color: #E8E8E8; }
+    .slack-app-badge { font-size: 9px; background: #4A9C6F; color: white; padding: 1px 5px; border-radius: 3px; font-weight: 600; vertical-align: middle; }
+    .slack-time { font-size: 11px; color: #616061; }
+    .slack-text { color: #D1D2D3; font-size: 13.5px; line-height: 1.6; }
+    .slack-text strong { color: #E8E8E8; }
+    .slack-attachment { border-left: 4px solid var(--primary); background: #222529; padding: 10px 14px; border-radius: 0 6px 6px 0; margin-top: 8px; }
+    .slack-attachment.green-border { border-left-color: var(--green); }
+    .slack-attachment.amber-border { border-left-color: var(--amber); }
+    .slack-attach-title { font-size: 13px; font-weight: 700; color: #E8E8E8; margin-bottom: 6px; }
+    .slack-attach-body { font-size: 12px; color: #9B9C9E; line-height: 1.7; }
+    .slack-btn-row { display: flex; gap: 8px; margin-top: 10px; }
+    .slack-btn { padding: 6px 14px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; background: #383B40; color: #E8E8E8; border: 1px solid #4A4D52; }
+    .slack-btn.primary { background: var(--primary); color: white; border-color: transparent; }
+    .slack-divider { border: none; border-top: 1px solid #383B40; margin: 16px 0; }
+
+    /* ── Member card ── */
+    .member-card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+    .member-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .member-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .member-card-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .member-card-role { font-size: 11px; color: var(--text-muted); }
+    .member-next { background: var(--primary-light); border-radius: 6px; padding: 8px 10px; font-size: 11px; color: #1D4ED8; line-height: 1.5; }
+    .member-next strong { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; color: #2563EB; }
+
+    /* ── Misc ── */
+    .section-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
+    .mb-4 { margin-bottom: 16px; }
+    .mb-6 { margin-bottom: 24px; }
+    .mt-4 { margin-top: 16px; }
+    .text-muted { color: var(--text-muted); font-size: 12px; }
+    .ai-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; background: var(--purple-light); color: var(--purple); padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+
+    /* ── Page visibility ── */
+    .page { display: none; }
+    .page.active { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">YanoTeam</div>
+    <div class="logo-sub">Intelligence Portal</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">メイン</div>
+    <div class="nav-item active" onclick="navigate('dashboard', this)">
+      <span class="nav-icon">🏠</span> チームダッシュボード
+      <span class="nav-badge">2</span>
+    </div>
+    <div class="nav-item" onclick="navigate('cases', this)">
+      <span class="nav-icon">📋</span> 案件マップ
+    </div>
+    <div class="nav-item" onclick="navigate('revenue', this)">
+      <span class="nav-icon">📈</span> 売上・アクション
+    </div>
+    <div class="nav-item nav-locked" onclick="navigate('growth', this)" style="opacity:0.5;cursor:not-allowed" title="マネージャーのみ閲覧可能">
+      <span class="nav-icon">🔒</span> メンバー成長
+      <span style="margin-left:auto;font-size:10px;color:#64748B">Manager only</span>
+    </div>
+    <div class="nav-item" onclick="navigate('slack', this)">
+      <span class="nav-icon">💬</span> Slack連携イメージ
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">その他</div>
+    <div class="nav-item" onclick="navigate('guide', this)">
+      <span class="nav-icon">📖</span> 使い方
+    </div>
+    <div class="nav-item" onclick="navigate('changelog', this)">
+      <span class="nav-icon">🕐</span> 変更履歴
+    </div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="user-chip">
+      <div class="avatar" style="background:#6366F1">田</div>
+      <div>
+        <div class="user-name">田中 慎也</div>
+        <div class="user-role">コンサルタント</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+<main class="main">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="page-title">チームダッシュボード</div>
+      <div class="topbar-date">2026年6月第2週 (6/8〜6/12)</div>
+    </div>
+    <div class="topbar-right">
+      <span class="text-muted">最終更新: 今日 09:15</span>
+      <button class="btn btn-primary">矢野さんに共有</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ════════════════ PAGE: DASHBOARD ════════════════ -->
+    <div class="page active" id="page-dashboard">
+
+      <!-- Stat Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📁</div>
+          <div class="stat-label">アクティブ案件</div>
+          <div class="stat-value">5</div>
+          <div class="stat-delta up">▲ 先月比 +1件</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🤝</div>
+          <div class="stat-label">今週のコラボ機会</div>
+          <div class="stat-value" style="color:var(--primary)">2</div>
+          <div class="stat-delta" style="color:var(--primary)">✦ 自動検知</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💴</div>
+          <div class="stat-label">今月売上達成率</div>
+          <div class="stat-value" style="color:var(--amber)">78%</div>
+          <div class="stat-delta down">▼ 目標 ¥3,600万</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-label">今月の新規経験</div>
+          <div class="stat-value" style="color:var(--green)">3</div>
+          <div class="stat-delta up">▲ 先月比 +2件</div>
+        </div>
+      </div>
+
+      <!-- Collaboration Opportunities -->
+      <div class="section-title">🤝 今週のコラボ提案 <span class="ai-tag">✦ AI自動検知</span></div>
+      <div class="collab-grid mb-6">
+        <div class="collab-card">
+          <span class="collab-tag">🔴 早めに動きたい</span>
+          <div class="collab-title">顧客B営業部：Salesforce権限設計で詰まっています</div>
+          <div class="collab-body">
+            山田さんの日報に「権限モデルの複雑さに手が止まっている」との記載。<br>
+            鈴木さんが前案件でSalesforce権限設計を担当した経験があります。
+          </div>
+          <div class="collab-chips">
+            <span class="chip chip-red">山田さん：詰まり気味</span>
+            <span class="chip chip-blue">鈴木さん：Salesforce経験あり</span>
+          </div>
+          <div class="collab-action mt-4" style="display:flex;gap:8px">
+            <button class="btn btn-primary" style="font-size:12px;padding:5px 12px">鈴木さんにSlackで繋ぐ</button>
+            <button class="btn btn-outline" style="font-size:12px;padding:5px 12px">詳細を見る</button>
+          </div>
+        </div>
+        <div class="collab-card">
+          <span class="collab-tag" style="background:var(--amber)">🟡 付加価値チャンス</span>
+          <div class="collab-title">顧客A経営企画部：DX戦略にデータ活用の視点を追加できる</div>
+          <div class="collab-body">
+            佐藤さんのDX戦略案件が提案フェーズに入っています。<br>
+            伊藤さんのデータ分析スキルを活用すると提案の厚みが増し、追加案件に繋がる可能性があります。
+          </div>
+          <div class="collab-chips">
+            <span class="chip chip-amber">佐藤さん：提案フェーズ</span>
+            <span class="chip chip-green">伊藤さん：データ分析が得意</span>
+          </div>
+          <div class="collab-action mt-4" style="display:flex;gap:8px">
+            <button class="btn btn-primary" style="font-size:12px;padding:5px 12px">伊藤さんをアサインする</button>
+            <button class="btn btn-outline" style="font-size:12px;padding:5px 12px">詳細を見る</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Activity Table -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">チームの今週の動き</div>
+            <div class="card-sub">Slackの日報・案件チャンネルから自動集約</div>
+          </div>
+        </div>
+        <table class="member-table">
+          <thead>
+            <tr>
+              <th>メンバー</th>
+              <th>担当案件</th>
+              <th>今週のポイント</th>
+              <th>稼働感</th>
+              <th>ステータス</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="member-name-cell"><div class="avatar" style="background:#F59E0B;font-size:11px">矢</div><div><div style="font-weight:700">矢野 (Manager)</div></div></div></td>
+              <td><span class="chip chip-gray">全体管理</span></td>
+              <td class="text-muted">チーム方針・顧客折衝・週次レビュー</td>
+              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:65%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
+              <td><span class="status-badge status-ok">稼働中</span></td>
+            </tr>
+            <tr>
+              <td><div class="member-name-cell"><div class="avatar" style="background:#6366F1;font-size:11px">田</div><div><div style="font-weight:700">田中 慎也</div></div></div></td>
+              <td><span class="chip chip-blue">顧客A / IT部門</span></td>
+              <td class="text-muted">システム移行のテスト計画作成、テスト環境の設定を完了</td>
+              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:70%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
+              <td><span class="status-badge status-ok">順調</span></td>
+            </tr>
+            <tr>
+              <td><div class="member-name-cell"><div class="avatar" style="background:#10B981;font-size:11px">鈴</div><div><div style="font-weight:700">鈴木 麻衣</div></div></div></td>
+              <td><span class="chip chip-blue">顧客A / IT部門</span></td>
+              <td class="text-muted">移行スクリプトのレビュー完了。今週は比較的余裕あり</td>
+              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-low" style="width:40%"></div></div><span class="workload-label" style="color:var(--green)">余裕あり</span></div></td>
+              <td><span class="status-badge status-ok">順調</span></td>
+            </tr>
+            <tr>
+              <td><div class="member-name-cell"><div class="avatar" style="background:#8B5CF6;font-size:11px">佐</div><div><div style="font-weight:700">佐藤 健二</div></div></div></td>
+              <td><span class="chip chip-purple">顧客A / 経営企画</span></td>
+              <td class="text-muted">DX戦略のドラフト作成中。提案資料に向けたヒアリングを実施</td>
+              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:75%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
+              <td><span class="status-badge status-ok">順調</span></td>
+            </tr>
+            <tr>
+              <td><div class="member-name-cell"><div class="avatar" style="background:#EF4444;font-size:11px">山</div><div><div style="font-weight:700">山田 拓也</div></div></div></td>
+              <td><span class="chip chip-green">顧客B / 営業部</span></td>
+              <td class="text-muted">Salesforce権限設計で課題発生。顧客の要件が複雑で進捗遅延気味</td>
+              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-high" style="width:90%"></div></div><span class="workload-label" style="color:var(--red)">高負荷</span></div></td>
+              <td><span class="status-badge status-alert">⚠ 支援要</span></td>
+            </tr>
+            <tr>
+              <td><div class="member-name-cell"><div class="avatar" style="background:#F97316;font-size:11px">中</div><div><div style="font-weight:700">中村 奈々</div></div></div></td>
+              <td><span class="chip chip-green">顧客B / 営業部</span></td>
+              <td class="text-muted">ユーザートレーニング資料作成。マニュアルのレビューを顧客に依頼済み</td>
+              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:60%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
+              <td><span class="status-badge status-ok">順調</span></td>
+            </tr>
+            <tr>
+              <td><div class="member-name-cell"><div class="avatar" style="background:#06B6D4;font-size:11px">伊</div><div><div style="font-weight:700">伊藤 翔平</div></div></div></td>
+              <td><span class="chip chip-amber">顧客B / マーケ</span></td>
+              <td class="text-muted">データ基盤のパイプライン設計完了。来週からBI実装フェーズへ</td>
+              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-mid" style="width:65%"></div></div><span class="workload-label" style="color:var(--amber)">普通</span></div></td>
+              <td><span class="status-badge status-ok">順調</span></td>
+            </tr>
+            <tr>
+              <td><div class="member-name-cell"><div class="avatar" style="background:#84CC16;font-size:11px">加</div><div><div style="font-weight:700">加藤 さくら</div></div></div></td>
+              <td><span class="chip chip-gray">アサイン待ち</span></td>
+              <td class="text-muted">先月の案件が完了。今週はドキュメント整理・スキルアップ期間</td>
+              <td><div style="display:flex;align-items:center"><div class="workload-bar"><div class="workload-fill workload-low" style="width:20%"></div></div><span class="workload-label" style="color:var(--green)">空きあり</span></div></td>
+              <td><span class="status-badge status-warn">次案件調整中</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Slack Channel Feed -->
+      <div class="card mt-4">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Slackチャンネルの最新発信</div>
+            <div class="card-sub">案件ch・日報ch・チームchの投稿を自動集約</div>
+          </div>
+          <span class="ai-tag">✦ AI要約</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0">
+
+          <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px">
+              <span class="chip chip-blue" style="font-size:10px;white-space:nowrap">#案件-顧客B</span>
+              <span style="font-size:10px;color:var(--text-muted)">10分前</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
+              <div class="avatar" style="background:#EF4444;font-size:10px;width:26px;height:26px;flex-shrink:0">山</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:2px">山田 拓也</div>
+                <div style="font-size:12px;color:var(--text);line-height:1.6">Profileの継承設定まわりで詰まってます。Permission Setとの優先度の整理が複雑で、一回誰かと壁打ちしたいかも</div>
+                <div style="margin-top:6px;padding:6px 10px;background:var(--primary-light);border-radius:6px;font-size:11px;color:#1D4ED8">
+                  ✦ <strong>要約：</strong>Salesforce権限設計で課題発生。技術的な壁打ちサポートが必要な状態
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px">
+              <span class="chip chip-purple" style="font-size:10px;white-space:nowrap">#日報</span>
+              <span style="font-size:10px;color:var(--text-muted)">1時間前</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
+              <div class="avatar" style="background:#8B5CF6;font-size:10px;width:26px;height:26px;flex-shrink:0">佐</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:2px">佐藤 健二</div>
+                <div style="font-size:12px;color:var(--text);line-height:1.6">経営企画部とのヒアリング完了。先方からデータを使った意思決定の仕組みも欲しいという話が出てきた。提案の幅が広がりそう</div>
+                <div style="margin-top:6px;padding:6px 10px;background:var(--green-light);border-radius:6px;font-size:11px;color:#065F46">
+                  ✦ <strong>要約：</strong>顧客から追加ニーズが発生。データ活用の提案を加えると案件拡大の可能性あり
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px">
+              <span class="chip chip-amber" style="font-size:10px;white-space:nowrap">#案件-顧客A</span>
+              <span style="font-size:10px;color:var(--text-muted)">2時間前</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
+              <div class="avatar" style="background:#6366F1;font-size:10px;width:26px;height:26px;flex-shrink:0">田</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:2px">田中 慎也</div>
+                <div style="font-size:12px;color:var(--text);line-height:1.6">テスト環境の構築が完了しました。来週から本番前の検証フェーズに入ります。顧客の承認も取れてます 👍</div>
+                <div style="margin-top:6px;padding:6px 10px;background:var(--green-light);border-radius:6px;font-size:11px;color:#065F46">
+                  ✦ <strong>要約：</strong>システム移行が予定通り進行中。次フェーズの提案タイミングが近づいている
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;padding:12px 0">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px">
+              <span class="chip chip-gray" style="font-size:10px;white-space:nowrap">#general</span>
+              <span style="font-size:10px;color:var(--text-muted)">昨日</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
+              <div class="avatar" style="background:#06B6D4;font-size:10px;width:26px;height:26px;flex-shrink:0">伊</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:2px">伊藤 翔平</div>
+                <div style="font-size:12px;color:var(--text);line-height:1.6">BigQueryのパーティショニング設計について調べたことをNotionにまとめました。他の案件でも使えると思うので見てもらえると嬉しいです</div>
+                <div style="margin-top:6px;padding:6px 10px;background:var(--primary-light);border-radius:6px;font-size:11px;color:#1D4ED8">
+                  ✦ <strong>要約：</strong>技術ナレッジを共有。データ系案件を持つメンバーへの展開価値あり
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /page-dashboard -->
+
+
+    <!-- ════════════════ PAGE: CASES ════════════════ -->
+    <div class="page" id="page-cases">
+
+      <div class="section-title">案件マップ — チーム全体の構造</div>
+      <div class="card mb-6">
+        <table class="case-map">
+          <thead>
+            <tr>
+              <th style="width:120px">顧客 / 部署</th>
+              <th>案件名・内容</th>
+              <th style="width:160px">担当メンバー</th>
+              <th style="width:100px">ステータス</th>
+              <th>直近の動き</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="client-header" rowspan="2">顧客A<br><span style="font-size:11px;font-weight:400;color:#64748B">IT企業 / 約500名</span></td>
+              <td>
+                <div class="case-name">基幹システム移行プロジェクト</div>
+                <div class="text-muted">オンプレ→クラウド移行、フェーズ1(インフラ)完了・フェーズ2(アプリ)進行中</div>
+              </td>
+              <td>
+                <div class="case-members">
+                  <span class="chip chip-blue">田中</span>
+                  <span class="chip chip-green">鈴木</span>
+                </div>
+                <div class="text-muted" style="font-size:11px">チーム: 2名</div>
+              </td>
+              <td><span class="status-badge status-ok">🟢 順調</span></td>
+              <td class="text-muted" style="font-size:12px">テスト計画を完成。来週から本番前検証フェーズへ移行予定。顧客レビュー待ち。</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="case-name">DX戦略策定支援</div>
+                <div class="text-muted">経営企画部向けにDX推進ロードマップを策定中。提案フェーズへ移行</div>
+              </td>
+              <td>
+                <div class="case-members">
+                  <span class="chip chip-purple">佐藤</span>
+                </div>
+                <div class="text-muted" style="font-size:11px">チーム: 1名</div>
+              </td>
+              <td><span class="status-badge status-ok">🟢 順調</span></td>
+              <td class="text-muted" style="font-size:12px">ヒアリング完了。提案書ドラフト作成中。データ活用の観点を補強できると提案の厚みが増す。</td>
+            </tr>
+            <tr>
+              <td class="client-header" rowspan="3">顧客B<br><span style="font-size:11px;font-weight:400;color:#64748B">製造業 / 約1,200名</span></td>
+              <td>
+                <div class="case-name">Salesforce導入・定着支援</div>
+                <div class="text-muted">SFA導入。ユーザー設定・権限設計・トレーニング</div>
+              </td>
+              <td>
+                <div class="case-members">
+                  <span class="chip chip-red">山田</span>
+                  <span class="chip chip-amber">中村</span>
+                </div>
+                <div class="text-muted" style="font-size:11px">チーム: 2名</div>
+              </td>
+              <td><span class="status-badge status-alert">🔴 要注意</span></td>
+              <td class="text-muted" style="font-size:12px">権限設計で複雑な要件が発生し山田さんが詰まっている状態。鈴木さんのサポートを検討中。</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="case-name">データ分析基盤構築</div>
+                <div class="text-muted">マーケ部門向けBI環境の設計・構築。Redash + BigQuery</div>
+              </td>
+              <td>
+                <div class="case-members">
+                  <span class="chip chip-blue" style="background:#CFFAFE;color:#0E7490">伊藤</span>
+                </div>
+                <div class="text-muted" style="font-size:11px">チーム: 1名</div>
+              </td>
+              <td><span class="status-badge status-warn">🟡 進行中</span></td>
+              <td class="text-muted" style="font-size:12px">パイプライン設計完了。来週からBI実装フェーズへ。来月末リリース予定。</td>
+            </tr>
+            <tr>
+              <td style="background:#F8FAFC">
+                <div class="case-name" style="color:var(--text-muted)">次期案件（候補）</div>
+                <div class="text-muted">顧客Bの人事部からHR DXの相談あり。提案フェーズに入れるか検討中</div>
+              </td>
+              <td>
+                <div class="case-members">
+                  <span class="chip chip-gray">加藤（候補）</span>
+                </div>
+              </td>
+              <td><span class="status-badge" style="background:#F1F5F9;color:#64748B">🔵 検討中</span></td>
+              <td class="text-muted" style="font-size:12px">矢野さんが顧客と初回面談済み。加藤さんをアサインできると経験拡大の機会になる。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">案件別 チームスキルカバレッジ</div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label"><span>顧客A / システム移行</span><span>スキルカバー 90%</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:90%;background:var(--green)"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label"><span>顧客A / DX戦略</span><span>スキルカバー 70%</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:70%;background:var(--amber)"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label"><span>顧客B / Salesforce</span><span>スキルカバー 65%</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:65%;background:var(--amber)"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label"><span>顧客B / データ分析</span><span>スキルカバー 85%</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:85%;background:var(--green)"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">メンバーの経験分布</div>
+            <div class="card-sub">何人が何案件を経験済みか</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:80px;font-size:12px;font-weight:600;color:var(--dark)">1案件のみ</div>
+              <div style="flex:1;display:flex;gap:4px">
+                <div style="background:var(--primary);height:28px;border-radius:4px;width:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700">4名</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:80px;font-size:12px;font-weight:600;color:var(--dark)">2案件以上</div>
+              <div style="flex:1;display:flex;gap:4px">
+                <div style="background:var(--green);height:28px;border-radius:4px;width:25%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700">2名</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:80px;font-size:12px;font-weight:600;color:var(--text-muted)">アサイン中</div>
+              <div style="flex:1;display:flex;gap:4px">
+                <div style="background:#E2E8F0;height:28px;border-radius:4px;width:12%;display:flex;align-items:center;justify-content:center;color:#64748B;font-size:12px;font-weight:700">1名</div>
+              </div>
+            </div>
+            <div style="margin-top:8px;padding:10px;background:var(--amber-light);border-radius:8px;font-size:12px;color:#92400E;line-height:1.6">
+              ⚠ <strong>7名中4名が1案件のみの経験</strong>。チームとしての知見共有が急務です。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case Detail: Milestone & Issues -->
+      <div class="section-title mt-4">案件詳細 — マイルストン・課題・目指す状態</div>
+      <div class="text-muted mb-4" style="font-size:12px">Slack/Teamsでの返信から自動更新。担当者が入力フォームを開かなくても情報が蓄積されます。</div>
+
+      <!-- Case: Salesforce -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <div>
+            <div class="card-title">顧客B / 営業部 ― Salesforce導入・定着支援</div>
+            <div class="card-sub">担当：山田・中村 ｜ 最終更新：今日 11:42（Slackの返信から自動反映）</div>
+          </div>
+          <span class="status-badge status-alert">🔴 要注意</span>
+        </div>
+
+        <!-- Goal -->
+        <div style="padding:12px;background:var(--primary-light);border-radius:8px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">🎯 目指す状態（完了定義）</div>
+          <div style="font-size:13px;color:#1E3A5F;line-height:1.7">営業部の全ユーザー（42名）がSalesforceを日常的に使用し、週次の商談更新率が80%以上になっている状態。運用マニュアルが整備され、顧客自身で追加設定・トラブル対応ができる自走状態を目指す。</div>
+        </div>
+
+        <!-- Milestones -->
+        <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:10px">📍 マイルストン</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--green-light);border-radius:6px">
+            <span style="font-size:16px">✅</span>
+            <div style="flex:1">
+              <div style="font-size:12px;font-weight:700;color:#065F46">M1：要件定義・設計完了</div>
+              <div style="font-size:11px;color:#065F46">5月16日完了 ｜ ユーザー要件を確定、オブジェクト・項目設計書を承認済み</div>
+            </div>
+            <span style="font-size:11px;color:#065F46;font-weight:600">完了</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--red-light);border-radius:6px;border:1px solid #FECACA">
+            <span style="font-size:16px">⚠️</span>
+            <div style="flex:1">
+              <div style="font-size:12px;font-weight:700;color:#991B1B">M2：権限設計・初期設定完了</div>
+              <div style="font-size:11px;color:#991B1B">予定：6月13日 ｜ Profile/Permission Set設計で課題発生中。3日遅延の見込み</div>
+            </div>
+            <span style="font-size:11px;color:#991B1B;font-weight:700">遅延⚡</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
+            <span style="font-size:16px">⬜</span>
+            <div style="flex:1">
+              <div style="font-size:12px;font-weight:700;color:var(--text-muted)">M3：ユーザーテスト・フィードバック反映</div>
+              <div style="font-size:11px;color:var(--text-muted)">予定：6月27日 ｜ M2の遅延により調整中</div>
+            </div>
+            <span style="font-size:11px;color:var(--text-muted);font-weight:600">未着手</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
+            <span style="font-size:16px">⬜</span>
+            <div style="flex:1">
+              <div style="font-size:12px;font-weight:700;color:var(--text-muted)">M4：全社展開・トレーニング完了</div>
+              <div style="font-size:11px;color:var(--text-muted)">予定：7月18日 ｜ 42名へのトレーニング実施</div>
+            </div>
+            <span style="font-size:11px;color:var(--text-muted);font-weight:600">未着手</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
+            <span style="font-size:16px">🏁</span>
+            <div style="flex:1">
+              <div style="font-size:12px;font-weight:700;color:var(--text-muted)">M5：本番リリース・定着支援開始</div>
+              <div style="font-size:11px;color:var(--text-muted)">予定：8月1日 ｜ 自走状態の確認まで伴走</div>
+            </div>
+            <span style="font-size:11px;color:var(--text-muted);font-weight:600">未着手</span>
+          </div>
+        </div>
+
+        <!-- Issues -->
+        <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:10px">🔥 現在の課題</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="padding:10px 12px;background:var(--red-light);border-radius:6px;border-left:3px solid var(--red)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div style="font-size:12px;font-weight:700;color:#991B1B">Profile継承とPermission Setの優先度整理が複雑</div>
+              <span class="chip chip-red" style="font-size:10px">未解決</span>
+            </div>
+            <div style="font-size:11px;color:#991B1B;margin-top:4px;line-height:1.6">顧客の部門構造が複雑でロールモデルの設計に時間がかかっている。鈴木さんのサポートで今週中の解決を目指す。</div>
+            <div style="font-size:10px;color:#B91C1C;margin-top:4px">最終更新：山田さんの今日のSlack投稿から自動反映</div>
+          </div>
+          <div style="padding:10px 12px;background:var(--amber-light);border-radius:6px;border-left:3px solid var(--amber)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div style="font-size:12px;font-weight:700;color:#92400E">顧客側の意思決定者が不在がちでレビューが遅れる</div>
+              <span class="chip chip-amber" style="font-size:10px">監視中</span>
+            </div>
+            <div style="font-size:11px;color:#92400E;margin-top:4px;line-height:1.6">IT部長が出張中のため承認が滞りがち。矢野さんに顧客上位層へのエスカレーションを要検討。</div>
+            <div style="font-size:10px;color:#B45309;margin-top:4px">最終更新：先週の中村さんの日報から自動反映</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case: DX Strategy (compact) -->
+      <div class="card mb-4">
+        <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+          <div>
+            <div class="card-title">顧客A / 経営企画部 ― DX戦略策定支援</div>
+            <div class="card-sub">担当：佐藤 ｜ 最終更新：今日 09:30（日報から自動反映）</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="status-badge status-ok">🟢 順調</span>
+            <span style="color:var(--text-muted);font-size:12px">▼ 展開</span>
+          </div>
+        </div>
+        <div style="display:none;margin-top:16px">
+          <div style="padding:10px;background:var(--primary-light);border-radius:8px;margin-bottom:12px;font-size:12px;color:#1E3A5F;line-height:1.7">
+            🎯 <strong>目指す状態：</strong>経営企画部が自律的にDX推進を進められるロードマップと体制が整備された状態。初年度の優先施策3つが特定され、実行予算が確保されている。
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="padding:6px 12px;background:var(--green-light);border-radius:6px;font-size:12px;color:#065F46">✅ M1 現状調査・ヒアリング完了</span>
+            <span style="padding:6px 12px;background:#FEF3C7;border-radius:6px;font-size:12px;color:#92400E">🔄 M2 戦略ドラフト作成中（6/20予定）</span>
+            <span style="padding:6px 12px;background:var(--bg);border-radius:6px;font-size:12px;color:var(--text-muted)">⬜ M3 経営会議プレゼン（7/10予定）</span>
+            <span style="padding:6px 12px;background:var(--bg);border-radius:6px;font-size:12px;color:var(--text-muted)">⬜ M4 ロードマップ確定（7/31予定）</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-cases -->
+
+
+    <!-- ════════════════ PAGE: REVENUE ════════════════ -->
+    <div class="page" id="page-revenue">
+
+      <div class="grid-2 mb-6">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">今月の売上状況</div>
+              <div class="card-sub">2026年6月 — 目標 ¥3,600万</div>
+            </div>
+          </div>
+          <!-- Big gauge -->
+          <div style="text-align:center;margin:12px 0">
+            <div style="font-size:48px;font-weight:800;color:var(--amber)">78%</div>
+            <div style="font-size:14px;color:var(--text-muted)">¥2,800万 / ¥3,600万</div>
+            <div style="font-size:12px;color:var(--red);margin-top:4px;font-weight:600">残り ¥800万 (月末まで18日)</div>
+          </div>
+          <div class="progress-track" style="height:12px;margin-bottom:16px">
+            <div class="progress-fill" style="width:78%;background:var(--amber)"></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label"><span>顧客A (目標 ¥2,000万)</span><span>¥1,650万 / 83%</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:83%;background:var(--green)"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label"><span>顧客B (目標 ¥1,600万)</span><span>¥1,150万 / 72%</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:72%;background:var(--amber)"></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">アカウントプランとの乖離</div>
+              <div class="card-sub">SharePointのアカウントプランから自動比較</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="padding:12px;background:var(--green-light);border-radius:8px;border-left:4px solid var(--green)">
+              <div style="font-size:12px;font-weight:700;color:#065F46;margin-bottom:4px">✅ 顧客A：計画通り</div>
+              <div style="font-size:12px;color:#065F46">システム移行フェーズ2が予定通り進行中。DX戦略も次フェーズへ繋がる可能性あり。</div>
+            </div>
+            <div style="padding:12px;background:var(--amber-light);border-radius:8px;border-left:4px solid var(--amber)">
+              <div style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:4px">⚠ 顧客B：追加提案の機会</div>
+              <div style="font-size:12px;color:#92400E">Salesforce導入後のレポーティング強化が未検討。データ分析基盤と組み合わせた提案が刺さる可能性あり。</div>
+            </div>
+            <div style="padding:12px;background:var(--primary-light);border-radius:8px;border-left:4px solid var(--primary)">
+              <div style="font-size:12px;font-weight:700;color:#1D4ED8;margin-bottom:4px">💡 新規案件候補</div>
+              <div style="font-size:12px;color:#1D4ED8">顧客B人事部からHR DXの相談あり。Q3の売上目標達成に貢献できる規模感。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Action Plan -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">今週のアクションプラン</div>
+            <div class="card-sub">売上データ + アカウントプラン + チーム稼働状況を基に生成</div>
+          </div>
+          <span class="ai-tag">✦ AI生成</span>
+        </div>
+        <div class="action-item">
+          <div class="action-num action-num-1">1</div>
+          <div class="action-body">
+            <div class="action-title">顧客B営業部に追加提案の打ち合わせを設定する</div>
+            <div class="action-desc">Salesforce導入後のレポーティング強化 + データ分析基盤の連携提案で¥300〜500万の追加見込あり。山田・伊藤を同席させると技術的な説得力が増す。</div>
+            <div class="action-meta">
+              <span class="chip chip-red">期限: 今週中</span>
+              <span class="chip chip-gray">担当: 矢野さん</span>
+              <span class="chip chip-blue">関連: 山田・伊藤</span>
+            </div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num action-num-2">2</div>
+          <div class="action-body">
+            <div class="action-title">顧客AシステムフェーズをNEXTフェーズで提案を準備する</div>
+            <div class="action-desc">フェーズ2が完了見込みになってきた。フェーズ3(運用最適化)の提案書を来週中に作成し、先手を打つ。田中・鈴木に依頼。</div>
+            <div class="action-meta">
+              <span class="chip chip-amber">期限: 来週中</span>
+              <span class="chip chip-gray">担当: 矢野さん・田中</span>
+            </div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num action-num-3">3</div>
+          <div class="action-body">
+            <div class="action-title">顧客B人事部 HR DX案件の初回提案を準備する</div>
+            <div class="action-desc">加藤さんがアサイン待ちのため、この案件のリードとして経験させる絶好のチャンス。矢野さんがサポートしながら進めることで成長機会になる。</div>
+            <div class="action-meta">
+              <span class="chip chip-green">期限: 今月中</span>
+              <span class="chip chip-gray">担当: 加藤（リード）+ 矢野さん</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-revenue -->
+
+
+    <!-- ════════════════ PAGE: GROWTH ════════════════ -->
+    <div class="page" id="page-growth">
+
+      <!-- Access Denied for non-manager -->
+      <div id="growth-locked" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:16px">
+        <div style="font-size:56px">🔒</div>
+        <div style="font-size:18px;font-weight:800;color:var(--dark)">マネージャー専用ページ</div>
+        <div style="font-size:13px;color:var(--text-muted);text-align:center;line-height:1.8;max-width:360px">
+          メンバー成長マップはチームマネージャー（矢野さん）のみ閲覧できます。<br>
+          メンバーの評価・成長状況・スキルマトリクスが含まれます。
+        </div>
+        <button class="btn btn-outline" onclick="unlockGrowth()" style="margin-top:8px">
+          🔓 矢野さんとしてプレビュー（MOC確認用）
+        </button>
+      </div>
+
+      <!-- Actual content (hidden by default) -->
+      <div id="growth-content" style="display:none">
+
+      <!-- Manager nav tabs -->
+      <div style="display:flex;gap:0;margin-bottom:24px;border-bottom:2px solid var(--border)">
+        <div class="mgr-tab active" onclick="switchTab('growth-member',this)" style="padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid var(--primary);margin-bottom:-2px;color:var(--primary)">👤 メンバー成長</div>
+        <div class="mgr-tab" onclick="switchTab('growth-quality',this)" style="padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--text-muted)">✅ 品質管理計画</div>
+        <div class="mgr-tab" onclick="switchTab('growth-expand',this)" style="padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--text-muted)">📈 チーム拡大計画</div>
+      </div>
+
+      <!-- ─── TAB: メンバー成長 ─── -->
+      <div id="growth-member">
+
+      <!-- Data source banner -->
+      <div style="display:flex;gap:10px;margin-bottom:20px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;align-items:center">
+        <span style="font-size:12px;color:var(--text-muted);font-weight:600">データ源：</span>
+        <span class="chip chip-blue">💬 Slackの発言・活動</span>
+        <span class="chip chip-purple">🎙 1on1音声記録（AI解析）</span>
+        <span class="chip chip-green">📋 案件の担当実績</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">最終更新：今日 09:15</span>
+      </div>
+
+      <!-- Growth Ladder -->
+      <div class="section-title">成長ラダー（仮説 — 矢野さんと合意予定）</div>
+      <div class="ladder mb-6">
+        <div class="ladder-step reached">
+          <div class="ladder-level">Lv.1</div>
+          <div class="ladder-title">担当案件を自律実行</div>
+        </div>
+        <div class="ladder-step" style="background:#FEF3C7;border-color:#FDE68A">
+          <div class="ladder-level" style="color:#92400E">Lv.2</div>
+          <div class="ladder-title" style="color:#92400E">複数領域の経験</div>
+        </div>
+        <div class="ladder-step">
+          <div class="ladder-level">Lv.3</div>
+          <div class="ladder-title">チーム支援・レビュー</div>
+        </div>
+        <div class="ladder-step">
+          <div class="ladder-level">Lv.4</div>
+          <div class="ladder-title">提案・AM経験</div>
+        </div>
+        <div class="ladder-step" style="background:#1E3A5F;color:white;border-color:#1E3A5F">
+          <div class="ladder-level">Lv.5</div>
+          <div class="ladder-title">マネージャー</div>
+        </div>
+      </div>
+
+      <!-- Member Cards -->
+      <div class="section-title">メンバーの現在地と次のステップ</div>
+      <div class="member-card-grid mb-6">
+        <div class="member-card">
+          <div class="member-card-top">
+            <div class="avatar" style="background:#6366F1;font-size:11px">田</div>
+            <div><div class="member-card-name">田中 慎也</div><div class="member-card-role">クラウド・インフラ</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <span class="level-badge" style="background:#FEF3C7;color:#92400E">Lv.2</span>
+            <span style="font-size:11px;color:var(--text-muted)">複数経験取得中</span>
+          </div>
+          <div class="member-next">
+            <strong>次のステップ</strong>
+            他メンバーの案件レビューを担当することでLv.3へ。提案書作成経験が不足。
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-card-top">
+            <div class="avatar" style="background:#10B981;font-size:11px">鈴</div>
+            <div><div class="member-card-name">鈴木 麻衣</div><div class="member-card-role">Salesforce・M365</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <span class="level-badge" style="background:#D1FAE5;color:#065F46">Lv.2</span>
+            <span style="font-size:11px;color:var(--text-muted)">複数スキル保有</span>
+          </div>
+          <div class="member-next">
+            <strong>次のステップ</strong>
+            山田さんのSalesforce案件サポートがLv.3への第一歩。他案件への関与実績を作る。
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-card-top">
+            <div class="avatar" style="background:#8B5CF6;font-size:11px">佐</div>
+            <div><div class="member-card-name">佐藤 健二</div><div class="member-card-role">戦略・コンサル</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <span class="level-badge" style="background:#FEF3C7;color:#92400E">Lv.2</span>
+            <span style="font-size:11px;color:var(--text-muted)">戦略系が得意</span>
+          </div>
+          <div class="member-next">
+            <strong>次のステップ</strong>
+            DX戦略提案が完成すればLv.4の提案経験に該当。データ分析の知見を補完したい。
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-card-top">
+            <div class="avatar" style="background:#EF4444;font-size:11px">山</div>
+            <div><div class="member-card-name">山田 拓也</div><div class="member-card-role">Salesforce</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <span class="level-badge" style="background:#FEE2E2;color:#991B1B">Lv.1</span>
+            <span style="font-size:11px;color:var(--text-muted)">Salesforce専任</span>
+          </div>
+          <div class="member-next">
+            <strong>次のステップ</strong>
+            権限設計課題を乗り越えることで深みがつく。次は別領域の案件経験が必要。
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-card-top">
+            <div class="avatar" style="background:#F97316;font-size:11px">中</div>
+            <div><div class="member-card-name">中村 奈々</div><div class="member-card-role">トレーニング・定着</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <span class="level-badge" style="background:#FEE2E2;color:#991B1B">Lv.1</span>
+            <span style="font-size:11px;color:var(--text-muted)">研修・定着が得意</span>
+          </div>
+          <div class="member-next">
+            <strong>次のステップ</strong>
+            顧客Aへの支援サポートや、チームの知識共有セッション進行などでLv.2へ。
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-card-top">
+            <div class="avatar" style="background:#06B6D4;font-size:11px">伊</div>
+            <div><div class="member-card-name">伊藤 翔平</div><div class="member-card-role">データ分析・BI</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <span class="level-badge" style="background:#D1FAE5;color:#065F46">Lv.2</span>
+            <span style="font-size:11px;color:var(--text-muted)">技術力が高い</span>
+          </div>
+          <div class="member-next">
+            <strong>次のステップ</strong>
+            佐藤さんのDX戦略に技術視点でコラボすることで、戦略×技術の両輪経験を積める。
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-card-top">
+            <div class="avatar" style="background:#84CC16;font-size:11px">加</div>
+            <div><div class="member-card-name">加藤 さくら</div><div class="member-card-role">HR・業務改善</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <span class="level-badge" style="background:#FEE2E2;color:#991B1B">Lv.1</span>
+            <span style="font-size:11px;color:var(--text-muted)">次案件待ち</span>
+          </div>
+          <div class="member-next">
+            <strong>次のステップ</strong>
+            顧客B人事部HR DX案件をリードするチャンス。矢野さんサポートのもとLv.2→3を一気に狙える。
+          </div>
+        </div>
+      </div>
+
+      <!-- Skill Matrix -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">スキルマトリクス</div>
+            <div class="card-sub">● 実務経験あり　◐ 学習中・補助経験　○ 未経験</div>
+          </div>
+        </div>
+        <table class="skill-table">
+          <thead>
+            <tr>
+              <th class="left-align" style="width:100px">メンバー</th>
+              <th>クラウド<br>インフラ</th>
+              <th>Salesforce</th>
+              <th>データ<br>分析・BI</th>
+              <th>DX戦略<br>策定</th>
+              <th>提案書<br>作成</th>
+              <th>チーム<br>育成</th>
+              <th>PM・<br>進行管理</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name-col"><div style="display:flex;align-items:center;gap:6px"><div class="avatar" style="background:#6366F1;font-size:10px;width:24px;height:24px">田</div>田中</div></td>
+              <td>●</td><td>○</td><td>◐</td><td>○</td><td>◐</td><td>○</td><td>●</td>
+            </tr>
+            <tr>
+              <td class="name-col"><div style="display:flex;align-items:center;gap:6px"><div class="avatar" style="background:#10B981;font-size:10px;width:24px;height:24px">鈴</div>鈴木</div></td>
+              <td>◐</td><td>●</td><td>○</td><td>○</td><td>◐</td><td>○</td><td>◐</td>
+            </tr>
+            <tr>
+              <td class="name-col"><div style="display:flex;align-items:center;gap:6px"><div class="avatar" style="background:#8B5CF6;font-size:10px;width:24px;height:24px">佐</div>佐藤</div></td>
+              <td>○</td><td>○</td><td>◐</td><td>●</td><td>●</td><td>◐</td><td>●</td>
+            </tr>
+            <tr>
+              <td class="name-col"><div style="display:flex;align-items:center;gap:6px"><div class="avatar" style="background:#EF4444;font-size:10px;width:24px;height:24px">山</div>山田</div></td>
+              <td>○</td><td>●</td><td>○</td><td>○</td><td>○</td><td>○</td><td>◐</td>
+            </tr>
+            <tr>
+              <td class="name-col"><div style="display:flex;align-items:center;gap:6px"><div class="avatar" style="background:#F97316;font-size:10px;width:24px;height:24px">中</div>中村</div></td>
+              <td>○</td><td>◐</td><td>○</td><td>○</td><td>◐</td><td>●</td><td>◐</td>
+            </tr>
+            <tr>
+              <td class="name-col"><div style="display:flex;align-items:center;gap:6px"><div class="avatar" style="background:#06B6D4;font-size:10px;width:24px;height:24px">伊</div>伊藤</div></td>
+              <td>●</td><td>○</td><td>●</td><td>◐</td><td>○</td><td>○</td><td>◐</td>
+            </tr>
+            <tr>
+              <td class="name-col"><div style="display:flex;align-items:center;gap:6px"><div class="avatar" style="background:#84CC16;font-size:10px;width:24px;height:24px">加</div>加藤</div></td>
+              <td>○</td><td>○</td><td>○</td><td>◐</td><td>◐</td><td>◐</td><td>◐</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:14px;padding:12px;background:var(--amber-light);border-radius:8px;font-size:12px;color:#92400E;line-height:1.7">
+          ⚠ <strong>チームの弱点</strong>：データ分析とDX戦略策定は特定メンバーへの依存度が高い。
+          伊藤・佐藤のノウハウを他メンバーに横展開する仕組みが重要。
+        </div>
+      </div>
+
+      <!-- 1on1 Summary -->
+      <div class="card mt-4">
+        <div class="card-header">
+          <div>
+            <div class="card-title">1on1 サマリー <span style="font-size:11px;font-weight:400;color:var(--text-muted)">— 音声記録からAI自動抽出</span></div>
+            <div class="card-sub">直近の1on1でのキーワード・懸念・成長アクションを自動要約</div>
+          </div>
+          <span class="ai-tag">🎙 音声解析</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <div class="avatar" style="background:#EF4444;font-size:10px;width:26px;height:26px">山</div>
+              <span style="font-weight:700;font-size:13px">山田 拓也</span>
+              <span style="font-size:11px;color:var(--text-muted)">6月3日の1on1</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+              <span class="chip chip-red">😟 「Salesforceの深みが出てきて不安」</span>
+              <span class="chip chip-amber">💬 「他の案件も経験してみたい」</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
+              <strong style="color:var(--dark)">矢野さんのアクション：</strong>鈴木さんとのペアワークを設定する。次案件の候補として顧客B人事部を提示して意欲を確認する。
+            </div>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <div class="avatar" style="background:#84CC16;font-size:10px;width:26px;height:26px">加</div>
+              <span style="font-weight:700;font-size:13px">加藤 さくら</span>
+              <span style="font-size:11px;color:var(--text-muted)">6月5日の1on1</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+              <span class="chip chip-green">😊 「次の案件でリードをやってみたい」</span>
+              <span class="chip chip-blue">💬 「提案書の書き方を学びたい」</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
+              <strong style="color:var(--dark)">矢野さんのアクション：</strong>HR DX案件のリードとしてアサインする。提案書作成は佐藤さんにメンタリングを依頼する。
+            </div>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <div class="avatar" style="background:#8B5CF6;font-size:10px;width:26px;height:26px">佐</div>
+              <span style="font-weight:700;font-size:13px">佐藤 健二</span>
+              <span style="font-size:11px;color:var(--text-muted)">6月4日の1on1</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+              <span class="chip chip-purple">🚀 「後輩の育成に関わりたい」</span>
+              <span class="chip chip-amber">💬 「売上目標の自分の貢献度が見えない」</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
+              <strong style="color:var(--dark)">矢野さんのアクション：</strong>加藤さんへの提案書メンタリングを依頼。売上・アクションプラン画面を共有してチームへの貢献を可視化する。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div><!-- /growth-member tab -->
+
+      <!-- ─── TAB: 品質管理計画 ─── -->
+      <div id="growth-quality" style="display:none">
+        <div style="display:flex;gap:10px;margin-bottom:20px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;align-items:center">
+          <span style="font-size:12px;color:var(--text-muted);font-weight:600">データ源：</span>
+          <span class="chip chip-blue">📋 案件レビュー記録</span>
+          <span class="chip chip-green">🤝 顧客フィードバック</span>
+          <span class="chip chip-purple">🎙 1on1・振り返り音声</span>
+        </div>
+
+        <div class="grid-2 mb-4">
+          <div class="card">
+            <div class="card-title mb-4">品質基準の達成状況</div>
+            <div class="progress-row">
+              <div class="progress-label"><span>成果物レビュー実施率</span><span>85%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:85%;background:var(--green)"></div></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-label"><span>顧客満足度（直近アンケート）</span><span>4.1 / 5.0</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:82%;background:var(--green)"></div></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-label"><span>納期遵守率</span><span>72%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:72%;background:var(--amber)"></div></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-label"><span>再作業・手戻り件数（今月）</span><span>2件</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:30%;background:var(--amber)"></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title mb-4">品質リスク</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="padding:10px;background:var(--red-light);border-radius:6px;border-left:3px solid var(--red);font-size:12px;color:#991B1B;line-height:1.6">
+                <strong>納期遵守率が低下中</strong><br>Salesforce案件の遅延が影響。M2完了後に挽回計画を立てる。
+              </div>
+              <div style="padding:10px;background:var(--amber-light);border-radius:6px;border-left:3px solid var(--amber);font-size:12px;color:#92400E;line-height:1.6">
+                <strong>1名アサイン案件のレビュー体制が薄い</strong><br>佐藤・伊藤の単独案件はピアレビューを設定する。
+              </div>
+              <div style="padding:10px;background:var(--green-light);border-radius:6px;border-left:3px solid var(--green);font-size:12px;color:#065F46;line-height:1.6">
+                <strong>顧客満足度は維持</strong><br>4.1は前四半期比+0.2。コラボ増加で更なる向上を狙う。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title mb-4">品質管理アクション（今月）</div>
+          <div class="action-item">
+            <div class="action-num action-num-1">1</div>
+            <div class="action-body">
+              <div class="action-title">Salesforce案件の週次レビューを矢野さんが実施</div>
+              <div class="action-desc">M2遅延を受け、毎週月曜に山田・中村と30分の進捗確認MTGを設定。鈴木さんのサポートで今週中の解決を目指す。</div>
+              <div class="action-meta"><span class="chip chip-red">今週開始</span><span class="chip chip-gray">担当：矢野さん</span></div>
+            </div>
+          </div>
+          <div class="action-item">
+            <div class="action-num action-num-2">2</div>
+            <div class="action-body">
+              <div class="action-title">1名アサイン案件にピアレビューを導入</div>
+              <div class="action-desc">佐藤のDX戦略提案書と伊藤のBI設計書を、それぞれ田中・鈴木がレビューする体制を作る。コラボ経験の獲得にも繋がる。</div>
+              <div class="action-meta"><span class="chip chip-amber">来週まで</span><span class="chip chip-gray">担当：矢野さん設定</span></div>
+            </div>
+          </div>
+          <div class="action-item">
+            <div class="action-num action-num-3">3</div>
+            <div class="action-body">
+              <div class="action-title">振り返りテンプレートをSlackで運用開始</div>
+              <div class="action-desc">案件完了後に「よかったこと・改善点・次回に活かすこと」をSlackに投稿→ポータルにナレッジとして蓄積する仕組みを作る。</div>
+              <div class="action-meta"><span class="chip chip-green">今月中</span><span class="chip chip-gray">担当：全員</span></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /growth-quality tab -->
+
+      <!-- ─── TAB: チーム拡大計画 ─── -->
+      <div id="growth-expand" style="display:none">
+        <div style="display:flex;gap:10px;margin-bottom:20px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;align-items:center">
+          <span style="font-size:12px;color:var(--text-muted);font-weight:600">データ源：</span>
+          <span class="chip chip-amber">💴 売上・稼働データ（Kintone）</span>
+          <span class="chip chip-blue">📄 チームプラン（SharePoint）</span>
+        </div>
+
+        <div class="stats-grid mb-4">
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-label">現在の人数</div>
+            <div class="stat-value">8</div>
+            <div class="stat-delta" style="color:var(--text-muted)">矢野1 + メンバー7</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-label">目標人数（Q4）</div>
+            <div class="stat-value" style="color:var(--primary)">12</div>
+            <div class="stat-delta up">+4名の採用計画</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💴</div>
+            <div class="stat-label">採用後の売上目標</div>
+            <div class="stat-value" style="color:var(--green)">6,000万</div>
+            <div class="stat-delta up">現在比 +67%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-label">マネージャー候補</div>
+            <div class="stat-value" style="color:var(--amber)">2</div>
+            <div class="stat-delta" style="color:var(--amber)">佐藤・田中（仮）</div>
+          </div>
+        </div>
+
+        <div class="grid-2 mb-4">
+          <div class="card">
+            <div class="card-title mb-4">採用計画タイムライン</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="padding:10px 12px;background:var(--amber-light);border-radius:6px;border-left:3px solid var(--amber)">
+                <div style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:4px">Q3（7〜9月） +2名採用</div>
+                <div style="font-size:12px;color:#92400E;line-height:1.6">インフラ・クラウド経験者 1名<br>コンサルタント（中途）1名<br>→ 顧客Bの拡大に対応</div>
+              </div>
+              <div style="padding:10px 12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--border)">
+                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q4（10〜12月） +2名採用</div>
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.6">データ分析・BI経験者 1名<br>新規顧客開拓用コンサルタント 1名</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title mb-4">内部登用・昇格計画</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="padding:10px 12px;background:var(--primary-light);border-radius:6px;border-left:3px solid var(--primary)">
+                <div style="font-size:12px;font-weight:700;color:#1D4ED8;margin-bottom:4px">佐藤 健二 → サブマネージャー候補</div>
+                <div style="font-size:12px;color:#1D4ED8;line-height:1.6">DX戦略案件の提案成功が条件。加藤さんのメンタリングでLv.4達成を確認後、Q4での登用を検討。</div>
+              </div>
+              <div style="padding:10px 12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--border)">
+                <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">田中 慎也 → テックリード候補</div>
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.6">インフラ・クラウドの深い知見を活かしたロール。チーム拡大後の技術品質を担う役割。来年Q1目安。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">チーム拡大に向けた今の取り組み</div>
+            <div class="card-sub">現メンバーの成長が採用後のオンボーディング品質に直結する</div>
+          </div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px;padding:12px;background:var(--green-light);border-radius:8px;font-size:12px;color:#065F46;line-height:1.7">
+              <strong>✅ 今やっていること</strong><br>
+              案件横断コラボの仕組みを作ることで、将来の新人OJTの基盤を整えている
+            </div>
+            <div style="flex:1;min-width:200px;padding:12px;background:var(--amber-light);border-radius:8px;font-size:12px;color:#92400E;line-height:1.7">
+              <strong>⚠ 課題</strong><br>
+              佐藤・田中が将来のサブマネに育たないと、12名体制を矢野さん一人で見ることになる
+            </div>
+            <div style="flex:1;min-width:200px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:12px;color:#1D4ED8;line-height:1.7">
+              <strong>💡 このシステムの役割</strong><br>
+              採用後に「誰が何を教えられるか」が即わかる状態を今のうちに作っておく
+            </div>
+          </div>
+        </div>
+      </div><!-- /growth-expand tab -->
+
+      </div><!-- /growth-content -->
+    </div><!-- /page-growth -->
+
+
+    <!-- ════════════════ PAGE: SLACK ════════════════ -->
+    <div class="page" id="page-slack">
+
+      <div class="section-title">Slack連携のイメージ</div>
+      <div class="text-muted mb-6">これらはポータルに連動してSlack上で自動送信されるメッセージのイメージです。</div>
+
+      <!-- Daily Digest -->
+      <div class="card mb-6">
+        <div class="card-title mb-4">① 朝の日次ダイジェスト（#yanoteam-digest チャンネル）</div>
+        <div class="slack-container">
+          <div class="slack-header">
+            <span style="color:#5C9EAD;font-size:16px">#</span>
+            <span class="slack-channel-name">yanoteam-digest</span>
+          </div>
+          <div class="slack-body">
+            <div class="slack-msg">
+              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
+              <div class="slack-msg-content">
+                <div class="slack-msg-header">
+                  <span class="slack-bot-name">YanoTeam Bot</span>
+                  <span class="slack-app-badge">APP</span>
+                  <span class="slack-time">今日 09:00</span>
+                </div>
+                <div class="slack-text">
+                  おはようございます！ <strong>6月10日（水）のチームダイジェスト</strong>です 🌤
+                </div>
+                <div class="slack-attachment">
+                  <div class="slack-attach-title">📊 今日のポイント</div>
+                  <div class="slack-attach-body">
+                    • 今月売上進捗：<strong style="color:#F59E0B">78%（¥2,800万 / ¥3,600万）</strong> 残り18日<br>
+                    • アクティブ案件：5件 ｜ 支援必要案件：1件（顧客B営業部）<br>
+                    • 今日のコラボ提案：2件あります 👇
+                  </div>
+                </div>
+                <div class="slack-attachment green-border">
+                  <div class="slack-attach-title">🤝 コラボ提案</div>
+                  <div class="slack-attach-body">
+                    <strong style="color:#E8E8E8">鈴木さん</strong> — 山田さんのSalesforce権限設計を30分サポートできますか？
+                    先月の案件での経験が直接活かせます。<br><br>
+                    <strong style="color:#E8E8E8">伊藤さん</strong> — 佐藤さんのDX提案にデータ活用の視点を追加してみませんか？
+                  </div>
+                  <div class="slack-btn-row">
+                    <button class="slack-btn primary">✋ 協力します</button>
+                    <button class="slack-btn">詳細を見る</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collaboration Alert -->
+      <div class="card mb-6">
+        <div class="card-title mb-4">② リアルタイム コラボ提案（#yanoteam-collab チャンネル）</div>
+        <div class="slack-container">
+          <div class="slack-header">
+            <span style="color:#5C9EAD;font-size:16px">#</span>
+            <span class="slack-channel-name">yanoteam-collab</span>
+          </div>
+          <div class="slack-body">
+            <div class="slack-msg">
+              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
+              <div class="slack-msg-content">
+                <div class="slack-msg-header">
+                  <span class="slack-bot-name">YanoTeam Bot</span>
+                  <span class="slack-app-badge">APP</span>
+                  <span class="slack-time">今日 11:42</span>
+                </div>
+                <div class="slack-text">
+                  🔴 <strong>山田さんの日報で「詰まっている」シグナルを検知しました</strong>
+                </div>
+                <div class="slack-attachment" style="border-left-color:var(--red)">
+                  <div class="slack-attach-title">検知内容</div>
+                  <div class="slack-attach-body">
+                    案件：顧客B / Salesforce権限設計<br>
+                    日報より：「Profile/Permission Setの組み合わせが複雑で設計が進まない」<br>
+                    <br>
+                    <strong style="color:#E8E8E8">🎯 鈴木さんが2月に同様の課題を解決した経験があります</strong>
+                  </div>
+                  <div class="slack-btn-row">
+                    <button class="slack-btn primary">鈴木さんと山田さんを繋ぐ</button>
+                    <button class="slack-btn">スルーする</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="slack-divider">
+            <div class="slack-msg">
+              <div class="avatar" style="background:#10B981;width:36px;height:36px;font-size:12px;border-radius:50%">鈴</div>
+              <div class="slack-msg-content">
+                <div class="slack-msg-header">
+                  <span class="slack-bot-name" style="color:#4ADE80">鈴木 麻衣</span>
+                  <span class="slack-time">今日 11:45</span>
+                </div>
+                <div class="slack-text">
+                  了解です！山田さん、今日の14時以降空いてますよー 😊 一緒に見ましょう
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Summary -->
+      <div class="card">
+        <div class="card-title mb-4">③ 週次サマリー（毎週金曜 17:00）</div>
+        <div class="slack-container">
+          <div class="slack-header">
+            <span style="color:#5C9EAD;font-size:16px">#</span>
+            <span class="slack-channel-name">yanoteam-digest</span>
+          </div>
+          <div class="slack-body">
+            <div class="slack-msg">
+              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
+              <div class="slack-msg-content">
+                <div class="slack-msg-header">
+                  <span class="slack-bot-name">YanoTeam Bot</span>
+                  <span class="slack-app-badge">APP</span>
+                  <span class="slack-time">金曜日 17:00</span>
+                </div>
+                <div class="slack-text">
+                  お疲れ様でした！<strong>今週のチームサマリー</strong>です 🎉
+                </div>
+                <div class="slack-attachment green-border">
+                  <div class="slack-attach-title">✅ 今週の成果</div>
+                  <div class="slack-attach-body">
+                    • 鈴木さんが山田さんの案件をサポート → 権限設計が完了 <strong style="color:#4ADE80">🎉 初のクロス案件コラボ達成！</strong><br>
+                    • 伊藤さんが佐藤さんのDX提案にデータ分析視点を追加<br>
+                    • 今週の新規経験獲得：鈴木（Salesforceコラボ）、伊藤（戦略提案参加）
+                  </div>
+                </div>
+                <div class="slack-attachment amber-border">
+                  <div class="slack-attach-title">📌 来週のフォーカス</div>
+                  <div class="slack-attach-body">
+                    • 顧客B追加提案打ち合わせ（矢野さん + 山田・伊藤）<br>
+                    • 加藤さんのHR DX案件キックオフ準備<br>
+                    • 売上残り¥800万：今月中にフェーズ3提案を提出
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Milestone Reminder -->
+      <div class="card mb-6">
+        <div class="card-title mb-4">⑤ マイルストン・課題のSlackリマインド → 返信で自動更新</div>
+        <div class="text-muted mb-4" style="font-size:12px">管理簿に入力するのではなく、Slackへの返信が自動でポータルに反映されます。担当者は会話するだけ。</div>
+        <div class="slack-container">
+          <div class="slack-header">
+            <span style="color:#5C9EAD;font-size:16px">#</span>
+            <span class="slack-channel-name">案件-顧客B-salesforce</span>
+          </div>
+          <div class="slack-body">
+
+            <!-- Bot reminder -->
+            <div class="slack-msg">
+              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
+              <div class="slack-msg-content">
+                <div class="slack-msg-header">
+                  <span class="slack-bot-name">YanoTeam Bot</span>
+                  <span class="slack-app-badge">APP</span>
+                  <span class="slack-time">月曜日 09:00</span>
+                </div>
+                <div class="slack-text">
+                  山田さん、おはようございます！<br>
+                  今週の確認です 📋
+                </div>
+                <div class="slack-attachment" style="border-left-color:var(--amber)">
+                  <div class="slack-attach-title">📍 M2：権限設計・初期設定（期限：6月13日）</div>
+                  <div class="slack-attach-body">
+                    先週時点：Profile/Permission Set設計で課題発生中<br>
+                    <br>
+                    今週の進捗はどうですか？<br>
+                    <strong style="color:#E8E8E8">① 順調に進んでいる　② 詰まっている　③ 遅延しそう</strong>
+                  </div>
+                  <div class="slack-btn-row">
+                    <button class="slack-btn primary">① 順調</button>
+                    <button class="slack-btn" style="border-color:#F59E0B;color:#F59E0B">② 詰まってる</button>
+                    <button class="slack-btn" style="border-color:#EF4444;color:#EF4444">③ 遅延しそう</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="slack-divider">
+
+            <!-- Member reply -->
+            <div class="slack-msg">
+              <div class="avatar" style="background:#EF4444;width:36px;height:36px;font-size:12px;border-radius:50%">山</div>
+              <div class="slack-msg-content">
+                <div class="slack-msg-header">
+                  <span class="slack-bot-name" style="color:#FC8181">山田 拓也</span>
+                  <span class="slack-time">月曜日 09:15</span>
+                </div>
+                <div class="slack-text">
+                  ② 詰まってる感じです。Profile継承の設計がまだ固まらなくて。<br>
+                  鈴木さんに今日か明日ちょっと見てもらえると助かります。<br>
+                  今週中には権限設計を終わらせて、来週から設定作業に入りたいです。
+                </div>
+              </div>
+            </div>
+
+            <hr class="slack-divider">
+
+            <!-- Bot processes reply -->
+            <div class="slack-msg">
+              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
+              <div class="slack-msg-content">
+                <div class="slack-msg-header">
+                  <span class="slack-bot-name">YanoTeam Bot</span>
+                  <span class="slack-app-badge">APP</span>
+                  <span class="slack-time">月曜日 09:15</span>
+                </div>
+                <div class="slack-text">ありがとうございます！ポータルを更新しました ✅</div>
+                <div class="slack-attachment green-border">
+                  <div class="slack-attach-title">📝 ポータル更新内容</div>
+                  <div class="slack-attach-body">
+                    • M2ステータス：<strong style="color:#FBBF24">詰まり気味</strong><br>
+                    • 課題：Profile継承設計が未完了<br>
+                    • 目標：今週中に権限設計完了、来週から設定作業開始<br>
+                    • 鈴木さんへのサポート依頼を<strong style="color:#E8E8E8">#yanoteam-collab に通知しました</strong>
+                  </div>
+                </div>
+                <div style="margin-top:8px;font-size:12px;color:#9B9C9E">
+                  矢野さんにも週次レポートとして共有されます
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:12px;color:#1D4ED8;line-height:1.7">
+          💡 <strong>Teams版も同様</strong>：顧客環境のTeamsチャンネルでのやりとり（顧客との合意事項・決定事項）も同じ仕組みで自動取り込みし、ポータルの課題・進捗に反映できます。
+        </div>
+      </div>
+
+      <!-- Channel Aggregation -->
+      <div class="card">
+        <div class="card-title mb-4">④ チャンネル発信の自動集約（ポータルへのフィード）</div>
+        <div class="text-muted mb-4" style="font-size:12px">案件ch・日報ch・#generalなど複数チャンネルへの投稿をAIが要約・分類してポータルとBotに集約します</div>
+        <div class="slack-container">
+          <div class="slack-header">
+            <span style="color:#5C9EAD;font-size:16px">#</span>
+            <span class="slack-channel-name">yanoteam-digest</span>
+          </div>
+          <div class="slack-body">
+            <div class="slack-msg">
+              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
+              <div class="slack-msg-content">
+                <div class="slack-msg-header">
+                  <span class="slack-bot-name">YanoTeam Bot</span>
+                  <span class="slack-app-badge">APP</span>
+                  <span class="slack-time">今日 18:00</span>
+                </div>
+                <div class="slack-text">
+                  📡 <strong>今日のチャンネル発信まとめ</strong>（自動集約）
+                </div>
+                <div class="slack-attachment" style="border-left-color:#EF4444">
+                  <div class="slack-attach-title">🔴 #案件-顧客B より — 山田さん</div>
+                  <div class="slack-attach-body">
+                    「Salesforce権限設計で詰まっています。壁打ちしたい」<br>
+                    → <strong style="color:#E8E8E8">🤝 鈴木さんに繋ぎましょうか？</strong>
+                  </div>
+                  <div class="slack-btn-row">
+                    <button class="slack-btn primary">繋ぐ</button>
+                    <button class="slack-btn">スルー</button>
+                  </div>
+                </div>
+                <div class="slack-attachment green-border" style="margin-top:8px">
+                  <div class="slack-attach-title">🟢 #日報 より — 佐藤さん</div>
+                  <div class="slack-attach-body">
+                    「顧客からデータ活用の追加ニーズが出てきた」<br>
+                    → <strong style="color:#E8E8E8">💡 案件拡大のチャンス。伊藤さんのスキルが活きそう</strong>
+                  </div>
+                </div>
+                <div class="slack-attachment" style="border-left-color:#8B5CF6;margin-top:8px">
+                  <div class="slack-attach-title">📚 #general より — 伊藤さん</div>
+                  <div class="slack-attach-body">
+                    「BigQueryのパーティショニング設計をNotionにまとめました」<br>
+                    → <strong style="color:#E8E8E8">📌 ナレッジ共有あり。田中さん・佐藤さんに関連</strong>
+                  </div>
+                  <div class="slack-btn-row">
+                    <button class="slack-btn">Notionを見る</button>
+                    <button class="slack-btn primary">関係者に通知する</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:12px;color:#1D4ED8;line-height:1.7">
+          💡 <strong>集約の仕組み</strong>：各チャンネルへの投稿をAIが読み取り、①コラボ機会、②案件進捗シグナル、③ナレッジ共有 の3種類に分類してBotとポータルに表示します。全チャンネルを読まなくても「チームに何が起きているか」が一目でわかります。
+        </div>
+      </div>
+
+    </div><!-- /page-slack -->
+
+
+    <!-- ════════════════ PAGE: GUIDE ════════════════ -->
+    <div class="page" id="page-guide">
+
+      <div class="section-title">YanoTeam Portal — 使い方ガイド</div>
+      <div class="text-muted mb-6">このポータルは、チームの情報を一箇所に集めて「協力するのが最も楽な状態」を作るためのツールです。</div>
+
+      <!-- Overview -->
+      <div class="card mb-4">
+        <div class="card-title mb-4">📐 このポータルでできること</div>
+        <div class="grid-3" style="gap:12px">
+          <div style="padding:14px;background:var(--primary-light);border-radius:8px">
+            <div style="font-size:20px;margin-bottom:6px">🤝</div>
+            <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px">コラボ機会を自動検知</div>
+            <div style="font-size:12px;color:#1D4ED8;line-height:1.6">Slack/Teamsの発言を分析し、「この人のスキルがあの案件に使える」を自動で提案します。</div>
+          </div>
+          <div style="padding:14px;background:var(--green-light);border-radius:8px">
+            <div style="font-size:20px;margin-bottom:6px">📊</div>
+            <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px">案件の状態を一元管理</div>
+            <div style="font-size:12px;color:#065F46;line-height:1.6">マイルストン・課題・進捗をSlackへの返信から自動更新。入力フォームは不要です。</div>
+          </div>
+          <div style="padding:14px;background:var(--amber-light);border-radius:8px">
+            <div style="font-size:20px;margin-bottom:6px">📈</div>
+            <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px">売上とアクションを繋げる</div>
+            <div style="font-size:12px;color:#92400E;line-height:1.6">KintoneとアカウントプランをAIが分析し、今週チームが集中すべきことを提案します。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pages guide -->
+      <div class="card mb-4">
+        <div class="card-title mb-4">🗺 各ページの説明</div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
+            <div style="width:160px;flex-shrink:0">
+              <span style="font-size:14px">🏠</span>
+              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">チームダッシュボード</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">チーム全体の状況を毎日確認するトップページ。Slackの日報・案件ch・#generalの投稿が自動集約されます。コラボ提案カードが表示されたら、積極的に動いてみてください。<br><span style="color:var(--primary);font-weight:600">👥 全員が利用</span></div>
+          </div>
+          <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
+            <div style="width:160px;flex-shrink:0">
+              <span style="font-size:14px">📋</span>
+              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">案件マップ</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">担当中の全案件のマイルストン・課題・目指す状態を確認できます。内容の更新は<strong style="color:var(--dark)">Slackのリマインドに返信するだけ</strong>で自動反映されます。Teamsでの顧客とのやりとりも取り込まれます。<br><span style="color:var(--primary);font-weight:600">👥 全員が利用</span></div>
+          </div>
+          <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
+            <div style="width:160px;flex-shrink:0">
+              <span style="font-size:14px">📈</span>
+              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">売上・アクション</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">Kintoneの売上データとアカウントプランをもとに今週のアクション提案が表示されます。主に矢野さんが意思決定に活用しますが、メンバーも自分の貢献度の確認に使えます。<br><span style="color:var(--primary);font-weight:600">👥 全員が利用</span></div>
+          </div>
+          <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
+            <div style="width:160px;flex-shrink:0">
+              <span style="font-size:14px">🔒</span>
+              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">メンバー成長</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">スキルマップ・1on1サマリー・品質管理計画・チーム拡大計画が確認できます。1on1の音声記録からAIがキーワードとアクションを自動抽出します。<br><span style="color:var(--red);font-weight:600">🔒 矢野さん（マネージャー）専用</span></div>
+          </div>
+          <div style="display:flex;gap:14px;padding:14px 0">
+            <div style="width:160px;flex-shrink:0">
+              <span style="font-size:14px">💬</span>
+              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">Slack連携イメージ</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">ポータルと連動してSlackに自動送信されるメッセージのサンプルです。朝のダイジェスト・コラボ提案・マイルストンリマインド・週次サマリーが含まれます。<br><span style="color:var(--primary);font-weight:600">📖 MOC確認用</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slack interaction guide -->
+      <div class="card mb-4">
+        <div class="card-title mb-4">💬 Slackとの連携の仕組み</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>日報・案件チャンネルへの投稿</strong><br>いつも通りSlackに投稿するだけでOK。Botが自動で読み取ってポータルに反映します。特別なフォーマットは不要です。</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>Botからのリマインドに返信</strong><br>月曜朝にBotからマイルストンの進捗確認が届きます。自然な文章で返信するとポータルが更新されます。ボタンで簡単回答もできます。</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>コラボ提案を受け取る</strong><br>#yanoteam-collabにコラボ提案が届いたら「協力します」ボタンを押すか、メンションで返信してください。それだけでコラボ実績として記録されます。</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>Teams（顧客環境）の発言も連携</strong><br>顧客とのTeamsチャットでの合意事項・決定事項も自動で取り込まれ、案件の課題・進捗に反映されます。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="card">
+        <div class="card-title mb-4">❓ よくある質問</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
+            <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. 日報をどのチャンネルに書けばいいですか？</div>
+            <div style="font-size:12px;color:var(--text-muted)">A. 今まで通りの場所でOKです。案件チャンネル・#日報・#generalのいずれも自動で読み取ります。</div>
+          </div>
+          <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
+            <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. 自分のSlack発言が全部見られますか？</div>
+            <div style="font-size:12px;color:var(--text-muted)">A. DMと非公開チャンネルは読み取りません。チームの案件ch・日報ch・#generalのみが対象です。</div>
+          </div>
+          <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
+            <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. コラボ提案を断りたい場合は？</div>
+            <div style="font-size:12px;color:var(--text-muted)">A. 「スルーする」ボタンを押すか、返信しなければ大丈夫です。プレッシャーをかけるためのものではありません。</div>
+          </div>
+          <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
+            <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. ポータルの情報が実態と違う場合は？</div>
+            <div style="font-size:12px;color:var(--text-muted)">A. 該当のSlackチャンネルに正しい情報を投稿してください。Botが読み取って更新します。直接編集する機能は今後追加予定です。</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-guide -->
+
+
+    <!-- ════════════════ PAGE: CHANGELOG ════════════════ -->
+    <div class="page" id="page-changelog">
+
+      <div class="section-title">変更履歴</div>
+      <div class="text-muted mb-6">ポータルの機能追加・変更・修正の記録です。</div>
+
+      <div class="card">
+        <div style="display:flex;flex-direction:column;gap:0">
+
+          <div style="padding:16px 0;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <span style="font-size:12px;font-weight:800;color:var(--dark)">v0.3</span>
+              <span class="chip chip-green" style="font-size:10px">最新</span>
+              <span style="font-size:11px;color:var(--text-muted)">2026年6月6日</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;使い方ガイド・変更履歴ページを追加</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;マネージャー専用画面に「品質管理計画」「チーム拡大計画」タブを追加</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;1on1音声記録サマリー（AI自動抽出）を成長マップに追加</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;メンバー成長ページをマネージャー専用に変更（ロック画面追加）</div>
+            </div>
+          </div>
+
+          <div style="padding:16px 0;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <span style="font-size:12px;font-weight:800;color:var(--dark)">v0.2</span>
+              <span class="chip chip-blue" style="font-size:10px">MOC</span>
+              <span style="font-size:11px;color:var(--text-muted)">2026年6月6日</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;案件マップにマイルストン・課題・目指す状態を追加</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;Slack連携：マイルストンリマインド→返信→自動更新のフローを追加（⑤）</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;案件詳細の折りたたみ展開UIを追加</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;ダッシュボードにSlackチャンネル発信フィードを追加</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;Slack連携：チャンネル横断集約Bot（④）を追加</div>
+            </div>
+          </div>
+
+          <div style="padding:16px 0;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <span style="font-size:12px;font-weight:800;color:var(--dark)">v0.1</span>
+              <span class="chip chip-gray" style="font-size:10px">初版</span>
+              <span style="font-size:11px;color:var(--text-muted)">2026年6月6日</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;チームダッシュボード（コラボ提案カード・メンバー活動テーブル）</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;案件マップ（顧客×部署×担当者マトリクス）</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;売上・アクションプラン（Kintone連携・AI生成アクション）</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;メンバー成長マップ（成長ラダー・スキルマトリクス）</div>
+              <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;Slack連携イメージ（朝のダイジェスト・コラボ提案・週次サマリー）</div>
+            </div>
+          </div>
+
+          <div style="padding:16px 0">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <span style="font-size:12px;font-weight:800;color:var(--text-muted)">予定</span>
+              <span class="chip chip-purple" style="font-size:10px">Backlog</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;実データ連携（Slack API・Kintone API・SharePoint API）</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;Teams（顧客環境）からの情報取り込み</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;1on1音声記録のアップロード・AI解析機能</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;Slack Botの実装・自動送信</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;ポータル情報の直接編集機能</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;ログイン・権限管理（矢野さん用/メンバー用ビューの切り替え）</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /page-changelog -->
+
+  </div><!-- /content -->
+</main>
+
+<script>
+  const titles = {
+    dashboard: 'チームダッシュボード',
+    cases: '案件マップ',
+    revenue: '売上・アクションプラン',
+    growth: 'メンバー成長マップ',
+    slack: 'Slack連携イメージ',
+    guide: '使い方',
+    changelog: '変更履歴'
+  };
+
+  const managerOnlyPages = ['growth'];
+
+  function navigate(page, el) {
+    if (el.classList.contains('nav-locked')) return; // block click for locked nav
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('page-' + page).classList.add('active');
+    document.getElementById('page-title').textContent = titles[page];
+    // Reset growth lock when navigating away
+    if (page !== 'growth') {
+      document.getElementById('growth-locked').style.display = 'flex';
+      document.getElementById('growth-content').style.display = 'none';
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function switchTab(tabId, el) {
+    ['growth-member','growth-quality','growth-expand'].forEach(id => {
+      document.getElementById(id).style.display = 'none';
+    });
+    document.querySelectorAll('.mgr-tab').forEach(t => {
+      t.style.borderBottomColor = 'transparent';
+      t.style.color = 'var(--text-muted)';
+    });
+    document.getElementById(tabId).style.display = 'block';
+    el.style.borderBottomColor = 'var(--primary)';
+    el.style.color = 'var(--primary)';
+  }
+
+  // MOC preview: let user see manager view
+  function unlockGrowth() {
+    document.getElementById('growth-locked').style.display = 'none';
+    document.getElementById('growth-content').style.display = 'block';
+    document.getElementById('page-title').textContent = 'メンバー成長マップ（矢野さんビュー）';
+  }
+
+  // Allow direct nav to growth page for MOC purposes via sidebar (show locked state)
+  document.querySelector('.nav-locked').addEventListener('click', function() {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('page-growth').classList.add('active');
+    document.getElementById('page-title').textContent = 'メンバー成長マップ';
+    document.getElementById('growth-locked').style.display = 'flex';
+    document.getElementById('growth-content').style.display = 'none';
+    window.scrollTo(0, 0);
+  });
+</script>
+
+</body>
+</html>
