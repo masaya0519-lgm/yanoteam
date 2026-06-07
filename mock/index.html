@@ -340,6 +340,25 @@
     .editable-text { border-radius:3px; }
     .editable-text:hover { outline:1px dashed rgba(37,99,235,0.3); }
     .editable-text:focus { outline:1px solid var(--primary) !important;background:rgba(37,99,235,0.04) !important; }
+    /* ── 接点マップ ── */
+    .intel-customer { margin-bottom:24px; }
+    .intel-customer-header { display:flex;align-items:center;gap:10px;margin-bottom:12px; }
+    .intel-customer-name { font-size:13px;font-weight:800;color:var(--dark); }
+    .intel-dept { margin-bottom:16px;padding:12px 14px;border:1px solid var(--border);border-radius:8px;background:white; }
+    .intel-dept-header { display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border); }
+    .intel-dept-name { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);flex:1; }
+    .intel-contact { background:var(--bg);border-radius:6px;padding:10px 12px;margin-bottom:8px; }
+    .intel-contact-header { display:flex;align-items:center;gap:8px;margin-bottom:6px; }
+    .intel-contact-info { flex:1;min-width:0; }
+    .intel-contact-name { font-size:13px;font-weight:700;color:var(--dark); }
+    .intel-contact-role { font-size:11px;color:var(--text-muted);margin-top:1px; }
+    .intel-items { display:flex;flex-direction:column;gap:5px;padding-left:36px; }
+    .intel-item { display:flex;align-items:flex-start;gap:7px;font-size:12px; }
+    .intel-item-text { flex:1;color:var(--text);line-height:1.5;min-width:0; }
+    .intel-date { font-size:10px;color:var(--text-muted);white-space:nowrap;margin-top:2px; }
+    .intel-add-btn { background:none;border:none;font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px 6px; }
+    .intel-add-btn:hover { color:var(--primary); }
+    @media (max-width:768px) { .intel-items { padding-left:0; } }
     .val-input { border:none;border-bottom:1px solid var(--border);background:transparent;font-weight:700;font-size:12px;color:var(--dark);padding:0 2px;outline:none;text-align:right; }
     .val-input:focus { border-bottom-color:var(--primary); }
     .overall-action-item { display:flex;gap:8px;font-size:12px;color:#1E40AF;margin-bottom:5px;line-height:1.5; }
@@ -1024,6 +1043,183 @@
           </div>
         </div>
       </div>
+
+      <!-- 接点マップ -->
+      <div class="card mt-4">
+        <div class="card-header">
+          <div>
+            <div class="card-title">接点マップ・顧客インテリジェンス</div>
+            <div class="card-sub">部署と人ごとに仕入れた情報を蓄積する</div>
+          </div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">
+            <span class="chip chip-blue" style="font-size:10px">💬 Slack</span>
+            <span class="chip chip-amber" style="font-size:10px">🍻 懇親会</span>
+            <span class="chip chip-gray" style="font-size:10px">📅 打ち合わせ</span>
+            <span class="chip chip-purple" style="font-size:10px">🤝 Teams</span>
+          </div>
+        </div>
+
+        <!-- 顧客A -->
+        <div class="intel-customer">
+          <div class="intel-customer-header">
+            <div class="dot dot-green"></div>
+            <span class="intel-customer-name">顧客A</span>
+            <span class="chip chip-green" style="font-size:10px">支援中</span>
+          </div>
+
+          <!-- DX推進部 -->
+          <div class="intel-dept">
+            <div class="intel-dept-header">
+              <span class="intel-dept-name editable-text" contenteditable="true">DX推進部</span>
+              <button class="intel-add-btn" onclick="addIntelContact(this)">＋ 担当者</button>
+            </div>
+            <div class="intel-contact">
+              <div class="intel-contact-header">
+                <div class="avatar" style="background:#3B82F6;font-size:11px;flex-shrink:0">山</div>
+                <div class="intel-contact-info">
+                  <div class="intel-contact-name editable-text" contenteditable="true">山本 部長</div>
+                  <div class="intel-contact-role editable-text" contenteditable="true">DX推進部 部長 ／ 最終意思決定者</div>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)" title="情報を追加">＋ 情報</button>
+              </div>
+              <div class="intel-items">
+                <div class="intel-item">
+                  <span class="chip chip-blue" style="font-size:10px;white-space:nowrap">📅 打ち合わせ</span>
+                  <span class="intel-date">5/20</span>
+                  <span class="intel-item-text editable-text" contenteditable="true">DXへの熱量が高く来期予算を確保の方向。IT部門との社内調整がボトルネックになっている。</span>
+                </div>
+                <div class="intel-item">
+                  <span class="chip chip-amber" style="font-size:10px;white-space:nowrap">🍻 懇親会</span>
+                  <span class="intel-date">6/1</span>
+                  <span class="intel-item-text editable-text" contenteditable="true">IT部門との関係強化が個人的な悩みとのこと。我々が橋渡し役になれる可能性あり。</span>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)">＋ 情報を追加</button>
+              </div>
+            </div>
+            <div class="intel-contact">
+              <div class="intel-contact-header">
+                <div class="avatar" style="background:#8B5CF6;font-size:11px;flex-shrink:0">鈴</div>
+                <div class="intel-contact-info">
+                  <div class="intel-contact-name editable-text" contenteditable="true">鈴木 主任</div>
+                  <div class="intel-contact-role editable-text" contenteditable="true">DX推進部 ／ 現場担当・窓口</div>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)" title="情報を追加">＋ 情報</button>
+              </div>
+              <div class="intel-items">
+                <div class="intel-item">
+                  <span class="chip chip-blue" style="font-size:10px;white-space:nowrap">💬 Slack</span>
+                  <span class="intel-date">6/3</span>
+                  <span class="intel-item-text editable-text" contenteditable="true">田中から共有：「鈴木さんが移行後の運用負荷を気にしているので、運用自動化を提案に入れると刺さるかも」</span>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)">＋ 情報を追加</button>
+              </div>
+            </div>
+            <button class="add-action-btn" onclick="addIntelContact(this)" style="margin-top:4px">+ 担当者を追加</button>
+          </div>
+
+          <!-- 経営企画部 -->
+          <div class="intel-dept">
+            <div class="intel-dept-header">
+              <span class="intel-dept-name editable-text" contenteditable="true">経営企画部</span>
+              <button class="intel-add-btn" onclick="addIntelContact(this)">＋ 担当者</button>
+            </div>
+            <div class="intel-contact">
+              <div class="intel-contact-header">
+                <div class="avatar" style="background:#10B981;font-size:11px;flex-shrink:0">田</div>
+                <div class="intel-contact-info">
+                  <div class="intel-contact-name editable-text" contenteditable="true">田村 マネージャー</div>
+                  <div class="intel-contact-role editable-text" contenteditable="true">経営企画部 ／ 予算・ROI管理</div>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)">＋ 情報</button>
+              </div>
+              <div class="intel-items">
+                <div class="intel-item">
+                  <span class="chip chip-gray" style="font-size:10px;white-space:nowrap">📅 打ち合わせ</span>
+                  <span class="intel-date">5/28</span>
+                  <span class="intel-item-text editable-text" contenteditable="true">投資対効果の数字を経営に見せたいとのニーズ。定量的なROI資料を次回提案に含めると刺さる。</span>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)">＋ 情報を追加</button>
+              </div>
+            </div>
+            <button class="add-action-btn" onclick="addIntelContact(this)" style="margin-top:4px">+ 担当者を追加</button>
+          </div>
+
+          <button class="add-action-btn" onclick="addIntelDept(this)">+ 部署を追加</button>
+        </div>
+
+        <div style="border-top:1px solid var(--border);margin:16px 0"></div>
+
+        <!-- 顧客B -->
+        <div class="intel-customer">
+          <div class="intel-customer-header">
+            <div class="dot dot-amber"></div>
+            <span class="intel-customer-name">顧客B</span>
+            <span class="chip chip-amber" style="font-size:10px">拡大余地あり</span>
+          </div>
+
+          <!-- 営業部 -->
+          <div class="intel-dept">
+            <div class="intel-dept-header">
+              <span class="intel-dept-name editable-text" contenteditable="true">営業部</span>
+              <button class="intel-add-btn" onclick="addIntelContact(this)">＋ 担当者</button>
+            </div>
+            <div class="intel-contact">
+              <div class="intel-contact-header">
+                <div class="avatar" style="background:#EF4444;font-size:11px;flex-shrink:0">木</div>
+                <div class="intel-contact-info">
+                  <div class="intel-contact-name editable-text" contenteditable="true">木村 営業部長</div>
+                  <div class="intel-contact-role editable-text" contenteditable="true">営業部長 ／ Salesforce導入オーナー</div>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)">＋ 情報</button>
+              </div>
+              <div class="intel-items">
+                <div class="intel-item">
+                  <span class="chip chip-amber" style="font-size:10px;white-space:nowrap">🍻 懇親会</span>
+                  <span class="intel-date">5/30</span>
+                  <span class="intel-item-text editable-text" contenteditable="true">Salesforce導入後のレポーティングが経営から不満と言われているとのこと。BI連携の提案をすると響きそう。</span>
+                </div>
+                <div class="intel-item">
+                  <span class="chip chip-purple" style="font-size:10px;white-space:nowrap">🤝 Teams</span>
+                  <span class="intel-date">6/4</span>
+                  <span class="intel-item-text editable-text" contenteditable="true">山田から転送：「権限設計の件でまた木村さんから問い合わせがあった。信頼を積み上げるチャンス」</span>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)">＋ 情報を追加</button>
+              </div>
+            </div>
+            <button class="add-action-btn" onclick="addIntelContact(this)" style="margin-top:4px">+ 担当者を追加</button>
+          </div>
+
+          <!-- 人事部 -->
+          <div class="intel-dept">
+            <div class="intel-dept-header">
+              <span class="intel-dept-name editable-text" contenteditable="true">人事部</span>
+              <button class="intel-add-btn" onclick="addIntelContact(this)">＋ 担当者</button>
+            </div>
+            <div class="intel-contact">
+              <div class="intel-contact-header">
+                <div class="avatar" style="background:#F97316;font-size:11px;flex-shrink:0">高</div>
+                <div class="intel-contact-info">
+                  <div class="intel-contact-name editable-text" contenteditable="true">高橋 HRマネージャー</div>
+                  <div class="intel-contact-role editable-text" contenteditable="true">人事部 ／ HR DX案件の相談者</div>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)">＋ 情報</button>
+              </div>
+              <div class="intel-items">
+                <div class="intel-item">
+                  <span class="chip chip-blue" style="font-size:10px;white-space:nowrap">💬 Slack</span>
+                  <span class="intel-date">6/5</span>
+                  <span class="intel-item-text editable-text" contenteditable="true">加藤から共有：「高橋さんが採用管理をデジタル化したいと言っていた。HR DX案件につながる可能性あり」</span>
+                </div>
+                <button class="intel-add-btn" onclick="addIntelItem(this)">＋ 情報を追加</button>
+              </div>
+            </div>
+            <button class="add-action-btn" onclick="addIntelContact(this)" style="margin-top:4px">+ 担当者を追加</button>
+          </div>
+
+          <button class="add-action-btn" onclick="addIntelDept(this)">+ 部署を追加</button>
+        </div>
+
+      </div><!-- /接点マップ -->
 
     </div><!-- /page-revenue -->
 
@@ -2710,6 +2906,52 @@
       }
     }
   });
+
+  // 接点マップ: 情報を追加
+  function addIntelItem(btn) {
+    var items = btn.closest('.intel-contact').querySelector('.intel-items');
+    var sourceOptions = ['💬 Slack','🍻 懇親会','📅 打ち合わせ','🤝 Teams','📧 メール'];
+    var src = sourceOptions[Math.floor(Math.random() * 2)]; // default Slack or 懇親会
+    var today = new Date();
+    var dateStr = (today.getMonth()+1) + '/' + today.getDate();
+    var item = document.createElement('div');
+    item.className = 'intel-item';
+    item.innerHTML = '<span class="chip chip-blue" contenteditable="true" style="cursor:text;white-space:nowrap">' + src + '</span>'
+      + '<span class="intel-date">' + dateStr + '</span>'
+      + '<span class="intel-item-text editable-text" contenteditable="true" style="min-width:60px">情報を入力...</span>';
+    items.insertBefore(item, btn);
+    item.querySelector('.intel-item-text').focus();
+  }
+  // 接点マップ: 担当者を追加
+  function addIntelContact(btn, colorHex, initial) {
+    var dept = btn.closest('.intel-dept');
+    var contact = document.createElement('div');
+    contact.className = 'intel-contact';
+    contact.innerHTML = '<div class="intel-contact-header">'
+      + '<div class="avatar" style="background:#94A3B8;font-size:11px;flex-shrink:0">人</div>'
+      + '<div class="intel-contact-info">'
+      + '<div class="intel-contact-name editable-text" contenteditable="true">氏名</div>'
+      + '<div class="intel-contact-role editable-text" contenteditable="true">役職・立場</div>'
+      + '</div>'
+      + '<button class="intel-add-btn" onclick="addIntelItem(this)" title="情報を追加">＋ 情報</button>'
+      + '</div>'
+      + '<div class="intel-items"><button class="intel-add-btn" onclick="addIntelItem(this)">＋ 情報を追加</button></div>';
+    dept.insertBefore(contact, btn);
+    contact.querySelector('.intel-contact-name').focus();
+  }
+  // 接点マップ: 部署を追加
+  function addIntelDept(btn) {
+    var customer = btn.closest('.intel-customer');
+    var dept = document.createElement('div');
+    dept.className = 'intel-dept';
+    dept.innerHTML = '<div class="intel-dept-header">'
+      + '<span class="intel-dept-name editable-text" contenteditable="true">部署名</span>'
+      + '<button class="intel-add-btn" onclick="addIntelContact(this)">＋ 担当者</button>'
+      + '</div>'
+      + '<button class="add-action-btn" onclick="addIntelContact(this)" style="margin-top:0">+ 担当者を追加</button>';
+    customer.insertBefore(dept, btn);
+    dept.querySelector('.intel-dept-name').focus();
+  }
 
   function toggleGradeMember(id) {
     var detail = document.getElementById('gmd-' + id);
