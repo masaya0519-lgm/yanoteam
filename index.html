@@ -359,6 +359,27 @@
     .intel-add-btn { background:none;border:none;font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px 6px; }
     .intel-add-btn:hover { color:var(--primary); }
     @media (max-width:768px) { .intel-items { padding-left:0; } }
+    /* ── メンバープロフィール ── */
+    .member-mini-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:20px; }
+    .member-mini { background:white;border:1px solid var(--border);border-radius:8px;padding:10px 8px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s;text-align:center; }
+    .member-mini:hover { border-color:var(--primary);box-shadow:0 2px 8px rgba(37,99,235,0.15); }
+    .member-mini-name { font-size:11px;font-weight:700;color:var(--dark);margin-top:5px; }
+    .member-mini-cap { font-size:9px;font-weight:700;padding:1px 5px;border-radius:6px;display:inline-block;margin-top:3px; }
+    .cap-full { background:#FEE2E2;color:#991B1B; }
+    .cap-normal { background:#FEF3C7;color:#92400E; }
+    .cap-free { background:#D1FAE5;color:#065F46; }
+    .member-modal { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:16px; }
+    .member-modal.open { display:flex; }
+    .member-modal-card { background:white;border-radius:14px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);position:relative; }
+    .member-modal-header { padding:20px 44px 0 20px;display:flex;align-items:center;gap:14px; }
+    .member-modal-body { padding:16px 20px 20px; }
+    .member-modal-close { position:absolute;top:12px;right:14px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-muted);line-height:1; }
+    .member-modal-close:hover { color:var(--dark); }
+    .modal-section-label { font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);margin-bottom:6px; }
+    .clickable-avatar { cursor:pointer; }
+    .clickable-avatar:hover { opacity:0.8; }
+    @media(max-width:768px) { .member-mini-grid { grid-template-columns:repeat(4,1fr); } }
+    @media(max-width:480px) { .member-mini-grid { grid-template-columns:repeat(4,1fr); } }
     .val-input { border:none;border-bottom:1px solid var(--border);background:transparent;font-weight:700;font-size:12px;color:var(--dark);padding:0 2px;outline:none;text-align:right; }
     .val-input:focus { border-bottom-color:var(--primary); }
     .overall-action-item { display:flex;gap:8px;font-size:12px;color:#1E40AF;margin-bottom:5px;line-height:1.5; }
@@ -465,6 +486,45 @@
         </div>
       </div>
 
+      <!-- メンバー一覧（クリックでプロフィール） -->
+      <div class="member-mini-grid mb-4">
+        <div class="member-mini" onclick="openProfile('tanaka')">
+          <div class="avatar" style="background:#6366F1;font-size:13px;margin:0 auto">田</div>
+          <div class="member-mini-name">田中 慎也</div>
+          <span class="member-mini-cap cap-normal">通常稼働</span>
+        </div>
+        <div class="member-mini" onclick="openProfile('suzuki')">
+          <div class="avatar" style="background:#10B981;font-size:13px;margin:0 auto">鈴</div>
+          <div class="member-mini-name">鈴木 麻衣</div>
+          <span class="member-mini-cap cap-normal">通常稼働</span>
+        </div>
+        <div class="member-mini" onclick="openProfile('sato')">
+          <div class="avatar" style="background:#8B5CF6;font-size:13px;margin:0 auto">佐</div>
+          <div class="member-mini-name">佐藤 健二</div>
+          <span class="member-mini-cap cap-full">フル稼働</span>
+        </div>
+        <div class="member-mini" onclick="openProfile('yamada')">
+          <div class="avatar" style="background:#EF4444;font-size:13px;margin:0 auto">山</div>
+          <div class="member-mini-name">山田 拓也</div>
+          <span class="member-mini-cap cap-free">余裕あり</span>
+        </div>
+        <div class="member-mini" onclick="openProfile('nakamura')">
+          <div class="avatar" style="background:#F97316;font-size:13px;margin:0 auto">中</div>
+          <div class="member-mini-name">中村 奈々</div>
+          <span class="member-mini-cap cap-normal">通常稼働</span>
+        </div>
+        <div class="member-mini" onclick="openProfile('ito')">
+          <div class="avatar" style="background:#06B6D4;font-size:13px;margin:0 auto">伊</div>
+          <div class="member-mini-name">伊藤 翔平</div>
+          <span class="member-mini-cap cap-free">余裕あり</span>
+        </div>
+        <div class="member-mini" onclick="openProfile('kato')">
+          <div class="avatar" style="background:#84CC16;font-size:13px;margin:0 auto">加</div>
+          <div class="member-mini-name">加藤 さくら</div>
+          <span class="member-mini-cap cap-free">余裕あり</span>
+        </div>
+      </div>
+
       <!-- 重要課題 -->
       <div class="card mb-4">
         <div class="card-header">
@@ -516,7 +576,7 @@
               <div style="font-size:10px;color:var(--text-muted)">10分前</div>
               <span class="chip chip-blue" style="font-size:10px">#案件-顧客B</span>
             </div>
-            <div class="avatar" style="background:#EF4444;font-size:10px;width:24px;height:24px;flex-shrink:0">山</div>
+            <div class="avatar" style="background:#EF4444;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('yamada')">山</div>
             <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
               <strong style="color:var(--dark)">山田</strong>　Profileの継承設定で詰まってます。壁打ちできる人いますか
             </div>
@@ -527,7 +587,7 @@
               <div style="font-size:10px;color:var(--text-muted)">1時間前</div>
               <span class="chip chip-purple" style="font-size:10px">#日報</span>
             </div>
-            <div class="avatar" style="background:#8B5CF6;font-size:10px;width:24px;height:24px;flex-shrink:0">佐</div>
+            <div class="avatar" style="background:#8B5CF6;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('sato')">佐</div>
             <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
               <strong style="color:var(--dark)">佐藤</strong>　ヒアリング完了。先方からデータを使った意思決定の仕組みも欲しいと言われた。提案の幅が広がりそう
             </div>
@@ -538,7 +598,7 @@
               <div style="font-size:10px;color:var(--text-muted)">2時間前</div>
               <span class="chip chip-amber" style="font-size:10px">#案件-顧客A</span>
             </div>
-            <div class="avatar" style="background:#6366F1;font-size:10px;width:24px;height:24px;flex-shrink:0">田</div>
+            <div class="avatar" style="background:#6366F1;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('tanaka')">田</div>
             <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
               <strong style="color:var(--dark)">田中</strong>　テスト環境の構築が完了。来週から本番前検証フェーズに入ります 👍
             </div>
@@ -549,7 +609,7 @@
               <div style="font-size:10px;color:var(--text-muted)">昨日</div>
               <span class="chip chip-gray" style="font-size:10px">#general</span>
             </div>
-            <div class="avatar" style="background:#06B6D4;font-size:10px;width:24px;height:24px;flex-shrink:0">伊</div>
+            <div class="avatar" style="background:#06B6D4;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('ito')">伊</div>
             <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
               <strong style="color:var(--dark)">伊藤</strong>　BigQueryのパーティショニング設計をNotionにまとめました。他案件でも使えると思うので見てもらえると嬉しいです</div>
           </div>
@@ -2953,6 +3013,93 @@
     dept.querySelector('.intel-dept-name').focus();
   }
 
+  var memberProfiles = {
+    tanaka:   { name:'田中 慎也', role:'クラウド・インフラ',     color:'#6366F1', initial:'田',
+                tags:['クラウド設計','インフラ','PM','AWS','オンプレ移行'],
+                capacity:'normal', capLabel:'通常稼働',
+                grade:'G3 → G4', gradeNote:'案件PMリードで昇格条件クリアを目指している',
+                projects:['顧客A 基幹システム移行（フェーズ2）'],
+                slack:[{t:'2時間前',msg:'テスト環境の構築が完了。来週から本番前検証フェーズに入ります 👍'},
+                       {t:'昨日',  msg:'AWS Cost Explorerで今月のコスト分析。想定内でした。明日共有します'}],
+                intro:'インフラは任せてください。複雑な構成も図に落とすのが得意です。' },
+    suzuki:   { name:'鈴木 麻衣', role:'Salesforce・M365',      color:'#10B981', initial:'鈴',
+                tags:['Salesforce','M365','AM','顧客関係構築'],
+                capacity:'normal', capLabel:'通常稼働',
+                grade:'G3 → G4', gradeNote:'技術レビューとOJTの実績を積んでいく段階',
+                projects:['顧客A M365活用支援','顧客B Salesforce（サポート）'],
+                slack:[{t:'3時間前',msg:'顧客AのTeams活用研修、参加者満足度が高かったです！継続のリクエストも'},
+                       {t:'2日前', msg:'山田さんのSalesforce権限設計レビューしました。コメント送ります'}],
+                intro:'顧客との関係づくりが得意です。困ったことがあれば気軽に声かけてください。' },
+    sato:     { name:'佐藤 健二', role:'戦略・コンサル',         color:'#8B5CF6', initial:'佐',
+                tags:['DX戦略','提案書作成','ナレッジ標準化','業務分析'],
+                capacity:'full',   capLabel:'フル稼働',
+                grade:'G4 → G5', gradeNote:'顧客BへのDX戦略提案が今期の昇格キーアクション',
+                projects:['顧客A DX戦略立案','顧客B データ活用構想'],
+                slack:[{t:'1時間前',msg:'ヒアリング完了。先方からデータを使った意思決定の仕組みも欲しいと。提案の幅が広がりそう'},
+                       {t:'昨日',   msg:'提案書テンプレートをNotionに整理しました。みんな使ってください'}],
+                intro:'戦略から実行まで一気通貫でやります。提案書のレビューも歓迎です。' },
+    yamada:   { name:'山田 拓也', role:'Salesforce',             color:'#EF4444', initial:'山',
+                tags:['Salesforce','権限設計','フロー自動化'],
+                capacity:'free',   capLabel:'余裕あり',
+                grade:'G2 → G3', gradeNote:'異業種案件への参加が最優先アクション',
+                projects:['顧客B Salesforce導入（メイン担当）'],
+                slack:[{t:'10分前',msg:'Profileの継承設定で詰まってます。壁打ちできる人いますか'},
+                       {t:'昨日',  msg:'顧客B定例。権限設計の方向性で合意できました'}],
+                intro:'Salesforceの深堀り中です。権限設計とフロー自動化が得意分野です。' },
+    nakamura: { name:'中村 奈々', role:'トレーニング・定着',     color:'#F97316', initial:'中',
+                tags:['研修設計','定着支援','ファシリテーション','マニュアル'],
+                capacity:'normal', capLabel:'通常稼働',
+                grade:'G2 → G3', gradeNote:'ヒアリング・課題提示力の強化が今期の優先事項',
+                projects:['顧客A ITトレーニング・定着支援'],
+                slack:[{t:'昨日', msg:'研修後のフォローアップ調査を送りました。定着率が上がってきています'},
+                       {t:'3日前',msg:'新しい研修資料のフォーマットを試しています。フィードバックもらえると助かります'}],
+                intro:'使いこなしてもらうまでが仕事です。研修設計・ファシリに困ったら声をかけてください。' },
+    ito:      { name:'伊藤 翔平', role:'データ分析・BI',         color:'#06B6D4', initial:'伊',
+                tags:['データ分析','BI','BigQuery','SQL','Looker Studio'],
+                capacity:'free',   capLabel:'余裕あり',
+                grade:'G3 → G4', gradeNote:'案件PM経験と顧客AMの深化が次のステップ',
+                projects:['顧客B 営業データ可視化・BI構築'],
+                slack:[{t:'昨日', msg:'BigQueryのパーティショニング設計をNotionにまとめました。他案件でも使えると思うので'},
+                       {t:'4日前',msg:'先週のダッシュボード、顧客Bから「意思決定が速くなった」とフィードバックもらえました！'}],
+                intro:'データで意思決定を変えたいです。分析・可視化の相談はいつでもどうぞ。' },
+    kato:     { name:'加藤 さくら', role:'HR・業務改善',         color:'#84CC16', initial:'加',
+                tags:['HR','業務改善','ドキュメント整備','要件定義'],
+                capacity:'free',   capLabel:'余裕あり',
+                grade:'G2 → G3', gradeNote:'顧客B HR DX案件のリードで一気に経験を積む予定',
+                projects:['（次案件アサイン準備中）'],
+                slack:[{t:'2日前',  msg:'業務フロー整理のテンプレート作りました。よければ使ってください〜'},
+                       {t:'1週間前',msg:'採用管理の現状ヒアリングができました。デジタル化のニーズは確かにありそうです'}],
+                intro:'人と組織のDXに挑戦中です。HR関係や業務フロー整理なら力になれます。' }
+  };
+
+  function openProfile(id) {
+    var m = memberProfiles[id];
+    if (!m) return;
+    var capClass = m.capacity === 'full' ? 'cap-full' : m.capacity === 'normal' ? 'cap-normal' : 'cap-free';
+    document.getElementById('mp-avatar').style.background = m.color;
+    document.getElementById('mp-avatar').textContent = m.initial;
+    document.getElementById('mp-name').textContent = m.name;
+    document.getElementById('mp-role').textContent = m.role;
+    document.getElementById('mp-cap').className = 'member-mini-cap ' + capClass;
+    document.getElementById('mp-cap').textContent = m.capLabel;
+    document.getElementById('mp-tags').innerHTML = m.tags.map(function(t){ return '<span class="chip chip-blue" style="font-size:11px">'+t+'</span>'; }).join('');
+    document.getElementById('mp-projects').innerHTML = m.projects.map(function(p){ return '<li style="font-size:12px;color:var(--text);line-height:1.7">'+p+'</li>'; }).join('');
+    document.getElementById('mp-grade').textContent = m.grade;
+    document.getElementById('mp-grade-note').textContent = m.gradeNote;
+    document.getElementById('mp-slack').innerHTML = m.slack.map(function(s){
+      return '<div style="padding:8px 10px;background:var(--bg);border-radius:6px;margin-bottom:5px">'
+        +'<div style="font-size:10px;color:var(--text-muted);margin-bottom:2px">'+s.t+'</div>'
+        +'<div style="font-size:12px;color:var(--text);line-height:1.5">'+s.msg+'</div></div>';
+    }).join('');
+    document.getElementById('mp-intro').textContent = m.intro;
+    document.getElementById('member-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeProfile() {
+    document.getElementById('member-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
   function toggleGradeMember(id) {
     var detail = document.getElementById('gmd-' + id);
     var arrow  = document.getElementById('arr-' + id);
@@ -2979,6 +3126,48 @@
     window.scrollTo(0, 0);
   });
 </script>
+
+<!-- ═══ メンバープロフィール モーダル ═══ -->
+<div class="member-modal" id="member-modal" onclick="if(event.target===this)closeProfile()">
+  <div class="member-modal-card">
+    <button class="member-modal-close" onclick="closeProfile()">✕</button>
+    <div class="member-modal-header">
+      <div class="avatar" id="mp-avatar" style="width:48px;height:48px;font-size:18px;flex-shrink:0"></div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span id="mp-name" style="font-size:17px;font-weight:800;color:var(--dark)"></span>
+          <span id="mp-cap" class="member-mini-cap"></span>
+        </div>
+        <div id="mp-role" style="font-size:12px;color:var(--text-muted);margin-top:3px"></div>
+      </div>
+    </div>
+    <div class="member-modal-body">
+      <div style="margin-bottom:14px">
+        <div class="modal-section-label">得意なこと</div>
+        <div id="mp-tags" style="display:flex;gap:5px;flex-wrap:wrap"></div>
+      </div>
+      <div style="margin-bottom:14px">
+        <div class="modal-section-label">担当案件</div>
+        <ul id="mp-projects" style="padding-left:16px;margin:0"></ul>
+      </div>
+      <div style="margin-bottom:14px;padding:10px 12px;background:var(--primary-light);border-radius:8px;border-left:3px solid var(--primary)">
+        <div class="modal-section-label" style="color:#1D4ED8">グレード進捗</div>
+        <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+          <span id="mp-grade" style="font-size:13px;font-weight:800;color:var(--primary)"></span>
+          <span id="mp-grade-note" style="font-size:12px;color:#1E40AF;line-height:1.5"></span>
+        </div>
+      </div>
+      <div style="margin-bottom:14px">
+        <div class="modal-section-label">💬 最近のSlack発信</div>
+        <div id="mp-slack"></div>
+      </div>
+      <div style="padding:10px 12px;background:var(--bg);border-radius:8px">
+        <div class="modal-section-label">一言・仕事スタイル</div>
+        <div id="mp-intro" contenteditable="true" class="editable-text" style="font-size:13px;color:var(--text);line-height:1.6;min-height:20px"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
