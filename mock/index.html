@@ -330,6 +330,10 @@
     .req-action-mgr { background:#F5F3FF;color:#5B21B6; }
     .overall-actions-block { margin-top:14px;padding:12px;background:var(--primary-light);border-radius:8px;border:1px solid #BFDBFE; }
     .overall-actions-title { font-size:11px;font-weight:700;color:#1D4ED8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px; }
+    .priority-row { display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 10px;background:#F8FAFC;border:1px dashed var(--border);border-radius:6px;margin-bottom:12px; }
+    .priority-label { font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:0.5px;flex-shrink:0;white-space:nowrap; }
+    .priority-badge-1 { font-size:11px;font-weight:700;background:var(--primary);color:white;padding:2px 9px;border-radius:10px; }
+    .priority-badge-n { font-size:11px;font-weight:600;background:#EFF6FF;color:var(--primary);border:1px solid #BFDBFE;padding:2px 9px;border-radius:10px; }
     .overall-action-item { display:flex;gap:8px;font-size:12px;color:#1E40AF;margin-bottom:5px;line-height:1.5; }
     .overall-action-item:last-child { margin-bottom:0; }
     @media (max-width:768px) {
@@ -1025,7 +1029,7 @@
         <div style="font-size:18px;font-weight:800;color:var(--dark)">マネージャー専用ページ</div>
         <div style="font-size:13px;color:var(--text-muted);text-align:center;line-height:1.8;max-width:360px">
           メンバー成長マップはチームマネージャー（矢野さん）のみ閲覧できます。<br>
-          メンバーの評価・成長状況・スキルマトリクスが含まれます。
+          グレード別の育成計画・要件進捗・アクションが含まれます。
         </div>
         <button class="btn btn-outline" onclick="unlockGrowth()" style="margin-top:8px">
           🔓 矢野さんとしてプレビュー（MOC確認用）
@@ -1054,18 +1058,6 @@
         <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">最終更新：今日 09:15</span>
       </div>
 
-      <!-- Grade Legend -->
-      <div class="section-title">グレード定義（全社共通・仮説 — 矢野さんと合意予定）</div>
-      <div class="grade-legend mb-6">
-        <div class="grade-chip grade-g1"><span>G1</span><span>見習い実行</span></div>
-        <div class="grade-chip grade-g2"><span>G2</span><span>自律実行</span></div>
-        <div class="grade-chip grade-g3"><span>G3</span><span>多領域・支援</span></div>
-        <div class="grade-chip grade-g4"><span>G4</span><span>提案・AM</span></div>
-        <div class="grade-chip grade-g5"><span>G5</span><span>マネジメント</span></div>
-        <div class="grade-chip grade-g6"><span>G6</span><span>組織貢献</span></div>
-        <div class="grade-chip grade-gm"><span>G7+</span><span>マネージャー</span></div>
-      </div>
-
       <!-- Member Grade Accordion -->
       <div class="section-title">メンバー別グレード進捗</div>
 
@@ -1082,6 +1074,11 @@
         </div>
         <div class="gm-detail" id="gmd-tanaka">
           <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
+          <div class="priority-row">
+            <span class="priority-label">今期の取り組み順：</span>
+            <span class="priority-badge-1">① 案件PM</span>
+            <span class="priority-badge-n">② OJT・メンタリング</span>
+          </div>
           <div class="req-item">
             <div class="req-header">
               <span class="req-status-icon">✅</span>
@@ -1139,6 +1136,12 @@
         </div>
         <div class="gm-detail" id="gmd-suzuki">
           <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
+          <div class="priority-row">
+            <span class="priority-label">今期の取り組み順：</span>
+            <span class="priority-badge-1">① 技術指導・レビュー</span>
+            <span class="priority-badge-n">② OJT・メンタリング</span>
+            <span class="priority-badge-n">③ 案件PM</span>
+          </div>
           <div class="req-item">
             <div class="req-header">
               <span class="req-status-icon">✅</span>
@@ -1199,6 +1202,11 @@
         </div>
         <div class="gm-detail" id="gmd-sato">
           <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G4 → G5 要件チェックリスト</div>
+          <div class="priority-row">
+            <span class="priority-label">今期の取り組み順：</span>
+            <span class="priority-badge-1">① 新規提案・アップセル</span>
+            <span class="priority-badge-n">② 売上目標への関与</span>
+          </div>
           <div class="req-item">
             <div class="req-header">
               <span class="req-status-icon">✅</span>
@@ -1256,6 +1264,12 @@
         </div>
         <div class="gm-detail" id="gmd-yamada">
           <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
+          <div class="priority-row">
+            <span class="priority-label">今期の取り組み順：</span>
+            <span class="priority-badge-1">① 異業種・異技術の経験</span>
+            <span class="priority-badge-n">② 他案件サポート</span>
+            <span class="priority-badge-n">③ 提案書・要件定義書作成</span>
+          </div>
           <div class="req-item">
             <div class="req-header">
               <span class="req-status-icon">✅</span>
@@ -1316,6 +1330,12 @@
         </div>
         <div class="gm-detail" id="gmd-nakamura">
           <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
+          <div class="priority-row">
+            <span class="priority-label">今期の取り組み順：</span>
+            <span class="priority-badge-1">① ヒアリング・課題提示力</span>
+            <span class="priority-badge-n">② 異業種・異技術の経験</span>
+            <span class="priority-badge-n">③ 提案書・要件定義書作成</span>
+          </div>
           <div class="req-item">
             <div class="req-header">
               <span class="req-status-icon">✅</span>
@@ -1376,6 +1396,12 @@
         </div>
         <div class="gm-detail" id="gmd-ito">
           <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
+          <div class="priority-row">
+            <span class="priority-label">今期の取り組み順：</span>
+            <span class="priority-badge-1">① 案件PM</span>
+            <span class="priority-badge-n">② 顧客AM</span>
+            <span class="priority-badge-n">③ OJT・メンタリング</span>
+          </div>
           <div class="req-item">
             <div class="req-header">
               <span class="req-status-icon">✅</span>
@@ -1436,6 +1462,13 @@
         </div>
         <div class="gm-detail" id="gmd-kato">
           <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
+          <div class="priority-row">
+            <span class="priority-label">今期の取り組み順：</span>
+            <span class="priority-badge-1">① 提案書・要件定義書作成</span>
+            <span class="priority-badge-n">② ヒアリング・課題提示力</span>
+            <span class="priority-badge-n">③ 異業種・異技術の経験</span>
+            <span class="priority-badge-n">④ 他案件サポート</span>
+          </div>
           <div class="req-item">
             <div class="req-header">
               <span class="req-status-icon">🔄</span>
