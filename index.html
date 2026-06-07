@@ -330,10 +330,13 @@
     .req-action-mgr { background:#F5F3FF;color:#5B21B6; }
     .overall-actions-block { margin-top:14px;padding:12px;background:var(--primary-light);border-radius:8px;border:1px solid #BFDBFE; }
     .overall-actions-title { font-size:11px;font-weight:700;color:#1D4ED8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px; }
-    .priority-row { display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 10px;background:#F8FAFC;border:1px dashed var(--border);border-radius:6px;margin-bottom:12px; }
-    .priority-label { font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:0.5px;flex-shrink:0;white-space:nowrap; }
-    .priority-badge-1 { font-size:11px;font-weight:700;background:var(--primary);color:white;padding:2px 9px;border-radius:10px; }
-    .priority-badge-n { font-size:11px;font-weight:600;background:#EFF6FF;color:var(--primary);border:1px solid #BFDBFE;padding:2px 9px;border-radius:10px; }
+    .req-drag { color:#CBD5E1;cursor:grab;font-size:13px;flex-shrink:0;padding:0 2px;letter-spacing:-3px;user-select:none; }
+    .req-drag:hover { color:var(--text-muted); }
+    .action-input { flex:1;border:none;border-bottom:1px solid var(--border);background:transparent;font-size:12px;color:var(--text);padding:2px 4px;outline:none;min-width:0;line-height:1.5; }
+    .action-input:focus { border-bottom-color:var(--primary);background:#F8FBFF; }
+    .action-input::placeholder { color:#CBD5E1; }
+    .add-action-btn { margin-top:8px;background:none;border:1px dashed var(--border);color:var(--text-muted);font-size:11px;padding:5px 12px;border-radius:5px;cursor:pointer;width:100%;text-align:left; }
+    .add-action-btn:hover { border-color:var(--primary);color:var(--primary); }
     .overall-action-item { display:flex;gap:8px;font-size:12px;color:#1E40AF;margin-bottom:5px;line-height:1.5; }
     .overall-action-item:last-child { margin-bottom:0; }
     @media (max-width:768px) {
@@ -2744,6 +2747,82 @@
   }
 
   // MOC preview: let user see manager view
+  document.addEventListener('DOMContentLoaded', function() {
+    // ①②③ 取り組み順バッジを削除
+    document.querySelectorAll('.priority-row').forEach(function(e) { e.remove(); });
+
+    // 要件ヘッダーにドラッグハンドルを追加（順番を変えられる概念の表現）
+    document.querySelectorAll('.req-header').forEach(function(header) {
+      var handle = document.createElement('span');
+      handle.className = 'req-drag';
+      handle.title = 'ドラッグして優先順位を変更';
+      handle.textContent = '⋮⋮';
+      header.insertBefore(handle, header.firstChild);
+    });
+
+    // req-action-row のテキストを入力欄に変換
+    document.querySelectorAll('.req-action-row').forEach(function(row) {
+      var label = row.querySelector('.req-action-label');
+      var text = '';
+      row.childNodes.forEach(function(n) {
+        if (n.nodeType === Node.TEXT_NODE) text += n.textContent.trim();
+      });
+      Array.from(row.childNodes).forEach(function(n) {
+        if (n.nodeType === Node.TEXT_NODE) row.removeChild(n);
+      });
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'action-input';
+      input.value = text;
+      input.placeholder = 'アクションを入力...';
+      row.appendChild(input);
+    });
+
+    // req-actions セクションに「追加」ボタン
+    document.querySelectorAll('.req-actions').forEach(function(section) {
+      var btn = document.createElement('button');
+      btn.className = 'add-action-btn';
+      btn.textContent = '+ アクションを追加';
+      btn.onclick = function() {
+        var isManager = btn.dataset.type === 'mgr';
+        var row = document.createElement('div');
+        row.className = 'req-action-row';
+        row.innerHTML = '<span class="req-action-label ' + (isManager ? 'req-action-mgr">矢野さん' : 'req-action-member">メンバー') + '</span><input type="text" class="action-input" placeholder="アクションを入力..." autofocus>';
+        section.insertBefore(row, btn);
+        row.querySelector('input').focus();
+      };
+      section.appendChild(btn);
+    });
+
+    // 全体アクションの span テキストを入力欄に変換
+    document.querySelectorAll('.overall-action-item').forEach(function(item) {
+      var spans = item.querySelectorAll('span');
+      if (spans.length >= 2) {
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'action-input';
+        input.value = spans[1].textContent;
+        input.placeholder = 'アクションを入力...';
+        spans[1].replaceWith(input);
+      }
+    });
+
+    // 全体アクションに「追加」ボタン
+    document.querySelectorAll('.overall-actions-block').forEach(function(block) {
+      var btn = document.createElement('button');
+      btn.className = 'add-action-btn';
+      btn.textContent = '+ アクションを追加';
+      btn.onclick = function() {
+        var item = document.createElement('div');
+        item.className = 'overall-action-item';
+        item.innerHTML = '<span>▸</span><input type="text" class="action-input" placeholder="アクションを入力...">';
+        block.insertBefore(item, btn);
+        item.querySelector('input').focus();
+      };
+      block.appendChild(btn);
+    });
+  });
+
   function toggleGradeMember(id) {
     var detail = document.getElementById('gmd-' + id);
     var arrow  = document.getElementById('arr-' + id);
