@@ -2,42 +2,39 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YanoTeam Portal</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --primary: #4F46E5;
-      --primary-light: #EEF2FF;
-      --primary-dark: #3730A3;
-      --green: #059669;
-      --green-light: #ECFDF5;
-      --amber: #D97706;
-      --amber-light: #FFFBEB;
-      --red: #DC2626;
-      --red-light: #FEF2F2;
-      --purple: #7C3AED;
-      --purple-light: #F5F3FF;
-      --dark: #0F172A;
-      --text: #334155;
-      --text-muted: #94A3B8;
-      --border: #E8ECF4;
-      --border-light: #F1F5F9;
-      --bg: #F0F2F9;
-      --white: #FFFFFF;
-      --sidebar-w: 224px;
-      --shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
-      --shadow-md: 0 4px 16px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.05);
-      --shadow-lg: 0 12px 36px rgba(15,23,42,0.12), 0 4px 12px rgba(15,23,42,0.06);
-      --shadow-color-indigo: 0 6px 24px rgba(79,70,229,0.35);
-      --shadow-color-green: 0 6px 24px rgba(5,150,105,0.35);
-      --shadow-color-amber: 0 6px 24px rgba(217,119,6,0.30);
-      --shadow-color-purple: 0 6px 24px rgba(124,58,237,0.35);
+      --bg:       #06080F;
+      --surface:  #0D1117;
+      --surface2: #161B22;
+      --border:   #21262D;
+      --border2:  #30363D;
+      --text:     #C9D1D9;
+      --text-dim: #7D8590;
+      --text-hi:  #E6EDF3;
+      --gold:     #F0A500;
+      --gold-dim: rgba(240,165,0,0.12);
+      --gold-glow:rgba(240,165,0,0.25);
+      --green:    #3FB950;
+      --green-dim:rgba(63,185,80,0.12);
+      --red:      #F85149;
+      --red-dim:  rgba(248,81,73,0.12);
+      --blue:     #58A6FF;
+      --blue-dim: rgba(88,166,255,0.12);
+      --purple:   #BC8CFF;
+      --sidebar-w:220px;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
       display: flex;
@@ -49,8 +46,8 @@
     /* ── Sidebar ── */
     .sidebar {
       width: var(--sidebar-w);
-      background: #080D19;
-      color: #CBD5E1;
+      background: var(--bg);
+      border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
@@ -59,355 +56,369 @@
       overflow-y: auto;
       z-index: 100;
     }
-    .sidebar::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #4F46E5, #6366F1, #8B5CF6, #06B6D4);
-    }
     .sidebar-logo {
-      padding: 26px 20px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid var(--border);
     }
     .sidebar-logo .logo-mark {
-      font-size: 20px;
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
       font-weight: 900;
-      letter-spacing: -0.8px;
-      background: linear-gradient(135deg, #fff 30%, #818CF8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--text-hi);
+      letter-spacing: -0.5px;
     }
     .sidebar-logo .logo-sub {
-      font-size: 10px;
-      color: #2D3A4E;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--gold);
       margin-top: 4px;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       text-transform: uppercase;
     }
 
-    .nav-section { padding: 20px 0 8px; }
+    .nav-section { padding: 20px 0 6px; }
     .nav-label {
-      padding: 4px 20px 10px;
+      padding: 0 20px 8px;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 9px;
       font-weight: 700;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: #1E2A3A;
+      color: var(--border2);
     }
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 11px;
-      padding: 10px 14px;
+      gap: 10px;
+      padding: 9px 20px;
       cursor: pointer;
-      transition: all 0.15s ease;
-      color: #4A5A72;
+      transition: all 0.12s;
+      color: var(--text-dim);
       font-size: 13px;
-      font-weight: 500;
       position: relative;
-      margin: 2px 10px;
-      border-radius: 9px;
     }
-    .nav-item:hover { background: rgba(255,255,255,0.05); color: #A0AEC0; }
+    .nav-item:hover { color: var(--text-hi); background: var(--surface); }
     .nav-item.active {
-      background: linear-gradient(135deg, rgba(79,70,229,0.22), rgba(99,102,241,0.14));
-      color: #FFFFFF;
-      font-weight: 600;
-      border: 1px solid rgba(99,102,241,0.25);
+      color: var(--gold);
+      background: var(--gold-dim);
     }
-    .nav-item.active .nav-icon { filter: drop-shadow(0 0 6px rgba(99,102,241,0.6)); }
-    .nav-item .nav-icon { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--gold);
+    }
+    .nav-item .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; opacity: 0.7; }
+    .nav-item.active .nav-icon { opacity: 1; }
     .nav-badge {
       margin-left: auto;
-      background: #DC2626;
+      background: var(--red);
       color: white;
-      font-size: 9.5px;
-      padding: 1px 6px;
-      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 3px;
       font-weight: 700;
     }
 
     .sidebar-bottom {
       margin-top: auto;
       padding: 16px 20px;
-      border-top: 1px solid rgba(255,255,255,0.05);
+      border-top: 1px solid var(--border);
     }
     .user-chip { display: flex; align-items: center; gap: 10px; }
     .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: white;
       flex-shrink: 0;
     }
-    .user-chip .user-name { font-size: 12px; color: #94A3B8; font-weight: 600; }
-    .user-chip .user-role { font-size: 10px; color: #2D3A4E; margin-top: 1px; }
+    .user-chip .user-name { font-size: 12px; color: var(--text); font-weight: 600; }
+    .user-chip .user-role { font-size: 10px; color: var(--text-dim); margin-top: 1px; }
 
     /* ── Main ── */
     .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
 
     .topbar {
-      background: white;
-      border-bottom: none;
-      padding: 14px 32px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 50;
-      box-shadow: 0 1px 0 var(--border), 0 4px 20px rgba(15,23,42,0.05);
     }
-    .topbar::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #4F46E5, #6366F1, #8B5CF6, #06B6D4);
+    .topbar-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-hi);
     }
-    .topbar-title { font-size: 15px; font-weight: 700; color: var(--dark); }
-    .topbar-date { font-size: 12px; color: var(--text-muted); }
+    .topbar-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
     .topbar-right { display: flex; align-items: center; gap: 12px; }
     .btn {
-      padding: 8px 18px;
-      border-radius: 9px;
-      font-size: 12.5px;
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       border: none;
-      transition: all 0.15s;
+      transition: all 0.12s;
+      font-family: inherit;
     }
     .btn-primary {
-      background: linear-gradient(135deg, #4F46E5, #6366F1);
-      color: white;
-      box-shadow: 0 3px 10px rgba(79,70,229,0.35);
+      background: var(--gold);
+      color: #000;
+      font-weight: 700;
     }
-    .btn-primary:hover {
-      box-shadow: 0 5px 18px rgba(79,70,229,0.45);
-      transform: translateY(-1px);
-    }
+    .btn-primary:hover { background: #FFB800; box-shadow: 0 0 20px var(--gold-glow); }
     .btn-outline {
-      background: white;
-      color: var(--primary);
-      border: 1.5px solid #C7D2FE;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border2);
     }
-    .btn-outline:hover { background: var(--primary-light); }
+    .btn-outline:hover { border-color: var(--text-dim); color: var(--text-hi); }
 
     .content { padding: 28px 32px; flex: 1; }
 
     /* ── Cards ── */
     .card {
-      background: var(--white);
-      border-radius: 16px;
-      border: none;
-      padding: 22px;
-      box-shadow: var(--shadow-sm);
-      transition: box-shadow 0.2s, transform 0.2s;
+      background: var(--surface);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      transition: border-color 0.15s;
     }
-    .card:hover { box-shadow: var(--shadow-md); }
+    .card:hover { border-color: var(--border2); }
     .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-    .card-title { font-size: 14px; font-weight: 800; color: var(--dark); }
-    .card-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 3px; }
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-hi);
+      letter-spacing: 0.2px;
+    }
+    .card-sub { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
 
-    /* ── Stat Cards — COLORFUL ── */
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    /* ── Stat Cards ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
     .stat-card {
-      border-radius: 16px;
-      border: none;
-      padding: 20px 22px;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .stat-card:hover { transform: translateY(-3px); }
-    .stat-card:nth-child(1) { background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%); box-shadow: var(--shadow-color-indigo); }
-    .stat-card:nth-child(2) { background: linear-gradient(135deg, #059669 0%, #10B981 100%); box-shadow: var(--shadow-color-green); }
-    .stat-card:nth-child(3) { background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%); box-shadow: var(--shadow-color-amber); }
-    .stat-card:nth-child(4) { background: linear-gradient(135deg, #7C3AED 0%, #8B5CF6 100%); box-shadow: var(--shadow-color-purple); }
-    .stat-card::after {
-      content: "";
-      position: absolute;
-      bottom: -20px; right: -20px;
-      width: 90px; height: 90px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 50%;
-    }
-    .stat-label { font-size: 11px; color: rgba(255,255,255,0.78); font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; }
-    .stat-value { font-size: 36px; font-weight: 900; color: white; margin: 8px 0 4px; line-height: 1; letter-spacing: -1.5px; }
-    .stat-delta { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.88); }
-    .stat-delta.up { color: rgba(255,255,255,0.95); }
-    .stat-delta.down { color: rgba(255,255,255,0.88); }
-    .stat-icon { font-size: 22px; margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
-
-    /* ── Collab Cards ── */
-    .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-    .collab-card {
-      background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 60%, #DDD6FE 100%);
-      border: 1px solid rgba(99,102,241,0.2);
-      border-radius: 16px;
+      background: var(--surface);
+      border-radius: 8px;
+      border: 1px solid var(--border);
       padding: 20px;
       position: relative;
       overflow: hidden;
+      transition: border-color 0.15s;
     }
-    .collab-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #4F46E5, #8B5CF6);
+    .stat-card:hover { border-color: var(--gold); }
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
-    .collab-card::after {
-      content: "";
-      position: absolute;
-      bottom: -30px; right: -30px;
-      width: 110px; height: 110px;
-      background: radial-gradient(circle, rgba(79,70,229,0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 10px 0 4px;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+    .stat-delta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .stat-delta.up { color: var(--green); }
+    .stat-delta.down { color: var(--red); }
+    .stat-icon { font-size: 18px; margin-bottom: 10px; opacity: 0.6; }
+
+    /* ── Collab Cards ── */
+    .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+    .collab-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--gold);
+      border-radius: 8px;
+      padding: 18px;
+      position: relative;
     }
     .collab-card .collab-tag {
-      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
       font-weight: 700;
-      background: linear-gradient(135deg, #4F46E5, #6366F1);
-      color: white;
-      padding: 3px 10px;
-      border-radius: 20px;
+      color: var(--gold);
+      padding: 2px 8px;
+      border: 1px solid var(--gold);
+      border-radius: 3px;
       display: inline-block;
       margin-bottom: 10px;
-      box-shadow: 0 2px 8px rgba(79,70,229,0.3);
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
-    .collab-card .collab-title { font-size: 13px; font-weight: 800; color: #1E1B4B; margin-bottom: 6px; }
-    .collab-card .collab-body { font-size: 12px; color: #3730A3; line-height: 1.65; }
+    .collab-card .collab-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-hi);
+      margin-bottom: 6px;
+    }
+    .collab-card .collab-body { font-size: 12px; color: var(--text); line-height: 1.65; }
     .collab-card .collab-action { margin-top: 12px; }
-    .collab-card .collab-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .collab-card .collab-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
 
-    .chip { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-    .chip-blue { background: #EEF2FF; color: #3730A3; }
-    .chip-green { background: #ECFDF5; color: #065F46; }
-    .chip-amber { background: #FFFBEB; color: #78350F; }
-    .chip-red { background: #FEF2F2; color: #991B1B; }
-    .chip-purple { background: #F5F3FF; color: #4C1D95; }
-    .chip-gray { background: #F1F5F9; color: #475569; }
+    .chip { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid; }
+    .chip-blue   { background: var(--blue-dim);  color: var(--blue);   border-color: rgba(88,166,255,0.3); }
+    .chip-green  { background: var(--green-dim); color: var(--green);  border-color: rgba(63,185,80,0.3); }
+    .chip-amber  { background: var(--gold-dim);  color: var(--gold);   border-color: rgba(240,165,0,0.3); }
+    .chip-red    { background: var(--red-dim);   color: var(--red);    border-color: rgba(248,81,73,0.3); }
+    .chip-purple { background: rgba(188,140,255,0.1); color: var(--purple); border-color: rgba(188,140,255,0.3); }
+    .chip-gray   { background: var(--surface2);  color: var(--text-dim); border-color: var(--border); }
 
     /* ── Member Table ── */
     .member-table { width: 100%; border-collapse: collapse; }
     .member-table th {
       text-align: left;
-      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
       font-weight: 700;
-      color: var(--text-muted);
+      color: var(--text-dim);
       text-transform: uppercase;
-      letter-spacing: 0.7px;
-      padding: 10px 16px;
-      border-bottom: 2px solid var(--border);
-      background: var(--bg);
+      letter-spacing: 1px;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
     }
-    .member-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
+    .member-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; color: var(--text); }
     .member-table tr:last-child td { border-bottom: none; }
-    .member-table tr:hover td { background: #FAFAFF; }
+    .member-table tr:hover td { background: var(--surface2); }
 
     .member-name-cell { display: flex; align-items: center; gap: 10px; }
-    .workload-bar { width: 80px; height: 6px; border-radius: 10px; background: #E8ECF4; overflow: hidden; }
-    .workload-fill { height: 100%; border-radius: 10px; }
-    .workload-high { background: linear-gradient(90deg, #DC2626, #EF4444); }
-    .workload-mid { background: linear-gradient(90deg, #D97706, #F59E0B); }
-    .workload-low { background: linear-gradient(90deg, #059669, #10B981); }
+    .workload-bar { width: 80px; height: 3px; border-radius: 2px; background: var(--border2); overflow: hidden; }
+    .workload-fill { height: 100%; border-radius: 2px; }
+    .workload-high { background: var(--red); }
+    .workload-mid  { background: var(--gold); }
+    .workload-low  { background: var(--green); }
     .workload-label { font-size: 11px; font-weight: 600; margin-left: 6px; }
 
     /* ── Status dot ── */
-    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-    .dot-green { background: var(--green); box-shadow: 0 0 0 3px rgba(5,150,105,0.2); }
-    .dot-amber { background: var(--amber); box-shadow: 0 0 0 3px rgba(217,119,6,0.2); }
-    .dot-red { background: var(--red); box-shadow: 0 0 0 3px rgba(220,38,38,0.2); }
-    .dot-blue { background: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,0.2); }
+    .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+    .dot-green  { background: var(--green); box-shadow: 0 0 4px var(--green); }
+    .dot-amber  { background: var(--gold);  box-shadow: 0 0 4px var(--gold); }
+    .dot-red    { background: var(--red);   box-shadow: 0 0 4px var(--red); }
+    .dot-blue   { background: var(--blue);  box-shadow: 0 0 4px var(--blue); }
 
     /* ── Grid layouts ── */
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 
     /* ── Progress ── */
-    .progress-row { margin-bottom: 16px; }
-    .progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 7px; }
-    .progress-label span:first-child { font-weight: 700; color: var(--dark); }
-    .progress-label span:last-child { color: var(--text-muted); font-size: 11px; }
-    .progress-track { height: 8px; background: #E8ECF4; border-radius: 10px; overflow: hidden; }
-    .progress-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--primary), #6366F1); }
+    .progress-row { margin-bottom: 14px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+    .progress-label span:first-child { font-weight: 600; color: var(--text-hi); }
+    .progress-label span:last-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--gold);
+    }
+    .progress-track { height: 3px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 2px; background: var(--gold); }
 
     /* ── Action items ── */
-    .action-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border-light); }
+    .action-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
     .action-item:last-child { border-bottom: none; }
     .action-num {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
-      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
       flex-shrink: 0;
     }
-    .action-num-1 { background: var(--red-light); color: var(--red); }
-    .action-num-2 { background: var(--amber-light); color: #92400E; }
-    .action-num-3 { background: var(--green-light); color: var(--green); }
+    .action-num-1 { background: var(--red-dim);   color: var(--red); }
+    .action-num-2 { background: var(--gold-dim);  color: var(--gold); }
+    .action-num-3 { background: var(--green-dim); color: var(--green); }
     .action-body { flex: 1; }
-    .action-title { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
-    .action-desc { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
-    .action-meta { margin-top: 6px; display: flex; gap: 6px; }
+    .action-title { font-size: 13px; font-weight: 600; color: var(--text-hi); margin-bottom: 3px; }
+    .action-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+    .action-meta { margin-top: 5px; display: flex; gap: 6px; }
 
     /* ── Case Map ── */
     .case-map { width: 100%; border-collapse: collapse; }
     .case-map th {
-      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
       font-weight: 700;
-      color: var(--text-muted);
+      color: var(--text-dim);
       text-transform: uppercase;
-      letter-spacing: 0.6px;
-      padding: 11px 14px;
-      background: var(--bg);
+      letter-spacing: 0.8px;
+      padding: 10px 14px;
+      background: var(--surface2);
       border: 1px solid var(--border);
     }
-    .case-map td { padding: 14px; border: 1px solid var(--border); vertical-align: top; }
-    .case-map .client-header { background: #F0F4FF; font-weight: 700; font-size: 13px; color: var(--dark); text-align: center; }
-    .case-card { }
-    .case-name { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .case-map td { padding: 14px; border: 1px solid var(--border); vertical-align: top; color: var(--text); }
+    .case-map .client-header { background: var(--surface2); font-weight: 700; font-size: 13px; color: var(--text-hi); text-align: center; }
+    .case-name { font-size: 13px; font-weight: 600; color: var(--text-hi); margin-bottom: 6px; }
     .case-members { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
-    .case-activity { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
-    .status-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-    .status-ok { background: var(--green-light); color: #065F46; }
-    .status-warn { background: var(--amber-light); color: #92400E; }
-    .status-alert { background: var(--red-light); color: #991B1B; }
+    .case-activity { font-size: 11px; color: var(--text-dim); line-height: 1.5; }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+    .status-ok    { background: var(--green-dim); color: var(--green); }
+    .status-warn  { background: var(--gold-dim);  color: var(--gold); }
+    .status-alert { background: var(--red-dim);   color: var(--red); }
 
     /* ── Skill Matrix ── */
     .skill-table { width: 100%; border-collapse: collapse; }
-    .skill-table th { font-size: 11px; font-weight: 600; color: var(--text-muted); text-align: center; padding: 8px 6px; border-bottom: 2px solid var(--border); }
+    .skill-table th { font-size: 11px; font-weight: 600; color: var(--text-dim); text-align: center; padding: 8px 6px; border-bottom: 1px solid var(--border); }
     .skill-table th.left-align { text-align: left; }
     .skill-table td { padding: 10px 6px; border-bottom: 1px solid var(--border); text-align: center; font-size: 13px; }
-    .skill-table td.name-col { text-align: left; }
-    .skill-table tr:hover td { background: var(--bg); }
-    .skill-dot-full { font-size: 16px; }
-    .skill-dot-half { font-size: 16px; opacity: 0.5; }
-    .skill-dot-none { font-size: 16px; color: #E2E8F0; }
-    .level-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+    .skill-table td.name-col { text-align: left; color: var(--text); }
+    .skill-table tr:hover td { background: var(--surface2); }
+    .skill-dot-full { font-size: 14px; }
+    .skill-dot-half { font-size: 14px; opacity: 0.4; }
+    .skill-dot-none { font-size: 14px; color: var(--border2); }
+    .level-badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 700; }
 
     /* ── Growth Ladder ── */
     .ladder { display: flex; gap: 0; margin-bottom: 20px; }
-    .ladder-step { flex: 1; padding: 12px; text-align: center; border: 1px solid var(--border); position: relative; }
-    .ladder-step:not(:last-child)::after { content: "→"; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-muted); z-index: 1; }
-    .ladder-step.current { background: linear-gradient(135deg, #4F46E5, #6366F1); color: white; border-color: var(--primary); box-shadow: 0 4px 14px rgba(79,70,229,0.35); }
-    .ladder-step.reached { background: var(--green-light); border-color: #A7F3D0; }
-    .ladder-level { font-size: 10px; font-weight: 600; opacity: 0.7; text-transform: uppercase; }
+    .ladder-step { flex: 1; padding: 12px; text-align: center; border: 1px solid var(--border); position: relative; background: var(--surface); }
+    .ladder-step:not(:last-child)::after { content: '→'; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-dim); z-index: 1; }
+    .ladder-step.current { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+    .ladder-step.reached { background: var(--green-dim); border-color: rgba(63,185,80,0.4); color: var(--green); }
+    .ladder-level { font-family: 'JetBrains Mono', monospace; font-size: 9px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
     .ladder-title { font-size: 12px; font-weight: 700; margin-top: 4px; }
 
     /* ── Slack Mock ── */
-    .slack-container { background: #1A1D21; border-radius: 14px; padding: 0; overflow: hidden; }
+    .slack-container { background: #1A1D21; border-radius: 8px; padding: 0; overflow: hidden; border: 1px solid var(--border); }
     .slack-header { background: #222529; padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #383B40; }
     .slack-channel-name { color: #E8E8E8; font-size: 14px; font-weight: 700; }
     .slack-body { padding: 16px; }
@@ -415,54 +426,56 @@
     .slack-msg-content { flex: 1; }
     .slack-msg-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
     .slack-bot-name { font-size: 14px; font-weight: 700; color: #E8E8E8; }
-    .slack-app-badge { font-size: 9px; background: #4A9C6F; color: white; padding: 1px 5px; border-radius: 3px; font-weight: 600; vertical-align: middle; }
+    .slack-app-badge { font-size: 9px; background: #2BAC76; color: white; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
     .slack-time { font-size: 11px; color: #616061; }
     .slack-text { color: #D1D2D3; font-size: 13.5px; line-height: 1.6; }
     .slack-text strong { color: #E8E8E8; }
-    .slack-attachment { border-left: 4px solid var(--primary); background: #222529; padding: 10px 14px; border-radius: 0 6px 6px 0; margin-top: 8px; }
-    .slack-attachment.green-border { border-left-color: var(--green); }
-    .slack-attachment.amber-border { border-left-color: var(--amber); }
+    .slack-attachment { border-left: 3px solid var(--gold); background: #222529; padding: 10px 14px; border-radius: 0 4px 4px 0; margin-top: 8px; }
+    .slack-attachment.green-border { border-left-color: #2BAC76; }
+    .slack-attachment.amber-border { border-left-color: var(--gold); }
     .slack-attach-title { font-size: 13px; font-weight: 700; color: #E8E8E8; margin-bottom: 6px; }
     .slack-attach-body { font-size: 12px; color: #9B9C9E; line-height: 1.7; }
-    .slack-btn-row { display: flex; gap: 8px; margin-top: 10px; }
+    .slack-btn-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
     .slack-btn { padding: 6px 14px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; background: #383B40; color: #E8E8E8; border: 1px solid #4A4D52; }
-    .slack-btn.primary { background: var(--primary); color: white; border-color: transparent; }
+    .slack-btn.primary { background: #007A5A; color: white; border-color: transparent; }
     .slack-divider { border: none; border-top: 1px solid #383B40; margin: 16px 0; }
 
     /* ── Member card ── */
-    .member-card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
-    .member-card { background: white; border: none; border-radius: 16px; padding: 18px; transition: box-shadow 0.2s, transform 0.2s; box-shadow: var(--shadow-sm); }
-    .member-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .member-card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+    .member-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; transition: border-color 0.15s; }
+    .member-card:hover { border-color: var(--gold); }
     .member-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .member-card-name { font-size: 14px; font-weight: 700; color: var(--dark); }
-    .member-card-role { font-size: 11px; color: var(--text-muted); }
-    .member-next { background: var(--primary-light); border-radius: 10px; padding: 10px 12px; font-size: 11px; color: #3730A3; line-height: 1.55; border: 1px solid #C7D2FE; }
-    .member-next strong { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; color: var(--primary); }
+    .member-card-name { font-size: 13px; font-weight: 700; color: var(--text-hi); }
+    .member-card-role { font-size: 11px; color: var(--text-dim); }
+    .member-next { background: var(--gold-dim); border-radius: 4px; padding: 8px 10px; font-size: 11px; color: var(--gold); line-height: 1.5; border: 1px solid rgba(240,165,0,0.2); }
+    .member-next strong { display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; opacity: 0.7; }
 
     /* ── Misc ── */
     .section-title {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--dark);
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--text-hi);
       margin-bottom: 16px;
-      padding-left: 14px;
-      border-left: 3px solid var(--primary);
+      letter-spacing: -0.5px;
     }
     .mb-4 { margin-bottom: 16px; }
     .mb-6 { margin-bottom: 24px; }
     .mt-4 { margin-top: 16px; }
-    .text-muted { color: var(--text-muted); font-size: 12px; }
+    .text-muted { color: var(--text-dim); font-size: 12px; }
     .ai-tag {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: 10px;
-      background: var(--purple-light);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      background: rgba(188,140,255,0.12);
       color: var(--purple);
-      padding: 3px 9px;
-      border-radius: 20px;
+      padding: 2px 7px;
+      border-radius: 3px;
       font-weight: 700;
-      border: 1px solid #DDD6FE;
+      border: 1px solid rgba(188,140,255,0.25);
+      letter-spacing: 0.5px;
     }
 
     /* ── Page visibility ── */
@@ -470,18 +483,17 @@
     .page.active { display: block; }
 
     /* ── Mobile overlay ── */
-    .sidebar-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:90;backdrop-filter:blur(4px); }
+    .sidebar-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:90; }
     .sidebar-overlay.open { display:block; }
     .hamburger { display:none;background:none;border:none;cursor:pointer;padding:4px;flex-direction:column;gap:5px; }
-    .hamburger span { display:block;width:22px;height:2px;background:var(--dark);border-radius:2px; }
+    .hamburger span { display:block;width:22px;height:2px;background:var(--text);border-radius:1px; }
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); transition: transform 0.25s ease; z-index: 100; }
+      .sidebar { transform: translateX(-100%); transition: transform 0.25s ease; }
       .sidebar.open { transform: translateX(0); }
       .main { margin-left: 0; }
       .topbar { padding: 10px 16px; }
-      .topbar-title { font-size: 14px; }
       .topbar-right .btn { display: none; }
       .topbar-right span { display: none; }
       .hamburger { display: flex; }
@@ -498,11 +510,8 @@
       .stat-value { font-size: 28px; }
       .card { overflow-x: auto; }
       .member-table, .case-map, .skill-table { min-width: 600px; }
-      #page-dashboard .card [style*="border-left:4px"] { flex-wrap: wrap; }
-      #page-dashboard .card [style*="border-left:4px"] button { width: 100%; margin-top: 8px; }
       .slack-container { font-size: 12px; }
     }
-
     @media (max-width: 480px) {
       .stats-grid { grid-template-columns: 1fr; }
       .member-card-grid { grid-template-columns: 1fr; }
@@ -510,352 +519,134 @@
 
     /* ── Grade System ── */
     .grade-legend { display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px; }
-    .grade-chip { display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;border:1px solid; }
-    .grade-g1 { background:#F8FAFC;color:#64748B;border-color:#CBD5E1; }
-    .grade-g2 { background:#EEF2FF;color:#3730A3;border-color:#C7D2FE; }
-    .grade-g3 { background:#ECFDF5;color:#065F46;border-color:#A7F3D0; }
-    .grade-g4 { background:#FFFBEB;color:#78350F;border-color:#FDE68A; }
-    .grade-g5 { background:#FEF2F2;color:#991B1B;border-color:#FCA5A5; }
-    .grade-g6 { background:#F5F3FF;color:#4C1D95;border-color:#C4B5FD; }
-    .grade-gm { background:var(--dark);color:#F1F5F9;border-color:var(--dark); }
-    .gm-row { background:white;border:none;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow 0.2s,transform 0.2s; }
-    .gm-row:hover { box-shadow:var(--shadow-md);transform:translateY(-1px); }
-    .gm-header { display:flex;align-items:center;gap:10px;padding:16px 18px;cursor:pointer;user-select:none; }
-    .gm-header:hover { background:#FAFAFF; }
-    .gm-name { font-size:14px;font-weight:700;color:var(--dark); }
-    .gm-role { font-size:11px;color:var(--text-muted); }
-    .gm-arrow { margin-left:auto;font-size:12px;color:var(--text-muted);transition:transform 0.2s; }
+    .grade-chip { display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;border:1px solid;letter-spacing:0.5px; }
+    .grade-g1 { background:var(--surface2);color:var(--text-dim);border-color:var(--border); }
+    .grade-g2 { background:var(--blue-dim);color:var(--blue);border-color:rgba(88,166,255,0.3); }
+    .grade-g3 { background:var(--green-dim);color:var(--green);border-color:rgba(63,185,80,0.3); }
+    .grade-g4 { background:var(--gold-dim);color:var(--gold);border-color:rgba(240,165,0,0.3); }
+    .grade-g5 { background:var(--red-dim);color:var(--red);border-color:rgba(248,81,73,0.3); }
+    .grade-g6 { background:rgba(188,140,255,0.1);color:var(--purple);border-color:rgba(188,140,255,0.3); }
+    .grade-gm { background:var(--gold);color:#000;border-color:var(--gold); }
+    .gm-row { background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden;transition:border-color 0.15s; }
+    .gm-row:hover { border-color:var(--border2); }
+    .gm-header { display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;user-select:none; }
+    .gm-header:hover { background:var(--surface2); }
+    .gm-name { font-size:14px;font-weight:700;color:var(--text-hi); }
+    .gm-role { font-size:11px;color:var(--text-dim); }
+    .gm-arrow { margin-left:auto;font-size:11px;color:var(--text-dim);transition:transform 0.2s; }
     .gm-arrow.open { transform:rotate(180deg); }
-    .gm-progress-text { font-size:11px;color:var(--text-muted);white-space:nowrap; }
-    .gm-detail { display:none;padding:0 18px 18px; }
+    .gm-progress-text { font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap; }
+    .gm-detail { display:none;padding:0 16px 16px; }
     .gm-detail.open { display:block; }
-    .req-item { border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden; }
-    .req-header { display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg); }
-    .req-status-icon { font-size:15px;flex-shrink:0; }
-    .req-text { font-size:13px;font-weight:600;color:var(--dark);flex:1; }
+    .req-item { border:1px solid var(--border);border-radius:6px;margin-bottom:8px;overflow:hidden; }
+    .req-header { display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2); }
+    .req-status-icon { font-size:14px;flex-shrink:0; }
+    .req-text { font-size:13px;font-weight:600;color:var(--text-hi);flex:1; }
     .req-actions { padding:10px 12px;border-top:1px solid var(--border); }
     .req-action-row { display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;font-size:12px;line-height:1.5; }
     .req-action-row:last-child { margin-bottom:0; }
-    .req-action-label { font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;white-space:nowrap;flex-shrink:0;margin-top:1px; }
-    .req-action-member { background:#EEF2FF;color:#3730A3; }
-    .req-action-mgr { background:#F5F3FF;color:#4C1D95; }
-    .overall-actions-block { margin-top:14px;padding:14px;background:var(--primary-light);border-radius:10px;border:1px solid #C7D2FE; }
-    .overall-actions-title { font-size:11px;font-weight:700;color:#3730A3;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px; }
-    .req-drag { color:#CBD5E1;cursor:grab;font-size:13px;flex-shrink:0;padding:0 2px;letter-spacing:-3px;user-select:none; }
-    .req-drag:hover { color:var(--text-muted); }
+    .req-action-label { font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;white-space:nowrap;flex-shrink:0;margin-top:1px;letter-spacing:0.5px;text-transform:uppercase; }
+    .req-action-member { background:var(--blue-dim);color:var(--blue); }
+    .req-action-mgr { background:rgba(188,140,255,0.1);color:var(--purple); }
+    .overall-actions-block { margin-top:14px;padding:12px;background:var(--gold-dim);border-radius:6px;border:1px solid rgba(240,165,0,0.2); }
+    .overall-actions-title { font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px; }
+    .req-drag { color:var(--border2);cursor:grab;font-size:13px;flex-shrink:0;padding:0 2px;letter-spacing:-3px;user-select:none; }
+    .req-drag:hover { color:var(--text-dim); }
     .action-input { flex:1;border:none;border-bottom:1px solid var(--border);background:transparent;font-size:12px;color:var(--text);padding:2px 4px;outline:none;min-width:0;line-height:1.5; }
-    .action-input:focus { border-bottom-color:var(--primary);background:#F8FBFF; }
-    .action-input::placeholder { color:#CBD5E1; }
-    .add-action-btn { margin-top:8px;background:none;border:1px dashed var(--border);color:var(--text-muted);font-size:11px;padding:6px 12px;border-radius:7px;cursor:pointer;width:100%;text-align:left;transition:all 0.15s; }
-    .add-action-btn:hover { border-color:var(--primary);color:var(--primary);background:var(--primary-light); }
-    .editable-text { border-radius:3px; }
-    .editable-text:hover { outline:1px dashed rgba(79,70,229,0.3); }
-    .editable-text:focus { outline:1px solid var(--primary) !important;background:rgba(79,70,229,0.04) !important; }
+    .action-input:focus { border-bottom-color:var(--gold); }
+    .action-input::placeholder { color:var(--border2); }
+    .add-action-btn { margin-top:8px;background:none;border:1px dashed var(--border);color:var(--text-dim);font-size:11px;padding:5px 12px;border-radius:4px;cursor:pointer;width:100%;text-align:left;transition:all 0.12s; }
+    .add-action-btn:hover { border-color:var(--gold);color:var(--gold); }
+    .editable-text { border-radius:2px; }
+    .editable-text:hover { outline:1px dashed rgba(240,165,0,0.3); }
+    .editable-text:focus { outline:1px solid var(--gold) !important;background:var(--gold-dim) !important; }
 
     /* 接点マップ */
     .intel-customer { margin-bottom:24px; }
     .intel-customer-header { display:flex;align-items:center;gap:10px;margin-bottom:12px; }
-    .intel-customer-name { font-size:13px;font-weight:800;color:var(--dark); }
-    .intel-dept { margin-bottom:16px;padding:14px 16px;border:none;border-radius:12px;background:white;box-shadow:var(--shadow-sm); }
+    .intel-customer-name { font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--text-hi); }
+    .intel-dept { margin-bottom:16px;padding:12px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface); }
     .intel-dept-header { display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border); }
-    .intel-dept-name { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);flex:1; }
-    .intel-contact { background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:8px; }
+    .intel-dept-name { font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-dim);flex:1; }
+    .intel-contact { background:var(--surface2);border-radius:4px;padding:10px 12px;margin-bottom:8px; }
     .intel-contact-header { display:flex;align-items:center;gap:8px;margin-bottom:6px; }
     .intel-contact-info { flex:1;min-width:0; }
-    .intel-contact-name { font-size:13px;font-weight:700;color:var(--dark); }
-    .intel-contact-role { font-size:11px;color:var(--text-muted);margin-top:1px; }
+    .intel-contact-name { font-size:13px;font-weight:700;color:var(--text-hi); }
+    .intel-contact-role { font-size:11px;color:var(--text-dim);margin-top:1px; }
     .intel-items { display:flex;flex-direction:column;gap:5px;padding-left:36px; }
     .intel-item { display:flex;align-items:flex-start;gap:7px;font-size:12px; }
     .intel-item-text { flex:1;color:var(--text);line-height:1.5;min-width:0; }
-    .intel-date { font-size:10px;color:var(--text-muted);white-space:nowrap;margin-top:2px; }
-    .intel-add-btn { background:none;border:none;font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px 6px; }
-    .intel-add-btn:hover { color:var(--primary); }
+    .intel-date { font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);white-space:nowrap;margin-top:2px; }
+    .intel-add-btn { background:none;border:none;font-size:11px;color:var(--text-dim);cursor:pointer;padding:2px 6px; }
+    .intel-add-btn:hover { color:var(--gold); }
     @media (max-width:768px) { .intel-items { padding-left:0; } }
 
     /* メンバープロフィール */
-    .member-mini-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:22px; }
+    .member-mini-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:20px; }
     .member-mini {
-      background:white;
-      border:none;
-      border-radius:14px;
-      padding:14px 8px;
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:6px;
+      padding:12px 8px;
       cursor:pointer;
-      transition:all 0.2s ease;
+      transition:all 0.15s;
       text-align:center;
-      box-shadow:var(--shadow-sm);
     }
-    .member-mini:hover {
-      box-shadow:0 6px 20px rgba(79,70,229,0.2);
-      transform:translateY(-3px);
-    }
-    .member-mini-name { font-size:11px;font-weight:700;color:var(--dark);margin-top:7px; }
-    .member-mini-cap { font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:5px; }
-    .cap-full { background:#FEE2E2;color:#991B1B; }
-    .cap-normal { background:#FFFBEB;color:#78350F; }
-    .cap-free { background:#DCFCE7;color:#166534; }
+    .member-mini:hover { border-color:var(--gold);background:var(--gold-dim); }
+    .member-mini-name { font-size:11px;font-weight:700;color:var(--text-hi);margin-top:6px; }
+    .member-mini-cap { font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;display:inline-block;margin-top:4px; }
+    .cap-full   { background:var(--red-dim);   color:var(--red); }
+    .cap-normal { background:var(--gold-dim);  color:var(--gold); }
+    .cap-free   { background:var(--green-dim); color:var(--green); }
     .member-modal {
       display:none;
       position:fixed;
       inset:0;
-      background:rgba(8,13,25,0.7);
+      background:rgba(0,0,0,0.8);
       z-index:200;
       align-items:center;
       justify-content:center;
       padding:16px;
       backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
     }
     .member-modal.open { display:flex; }
     .member-modal-card {
-      background:white;
-      border-radius:20px;
+      background:var(--surface);
+      border:1px solid var(--border2);
+      border-radius:10px;
       width:100%;
       max-width:500px;
       max-height:90vh;
       overflow-y:auto;
-      box-shadow:0 32px 72px rgba(0,0,0,0.3);
+      box-shadow:0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px var(--border);
       position:relative;
     }
-    .member-modal-header { padding:22px 46px 0 22px;display:flex;align-items:center;gap:14px; }
-    .member-modal-body { padding:18px 22px 22px; }
+    .member-modal-header { padding:20px 44px 0 20px;display:flex;align-items:center;gap:14px; }
+    .member-modal-body { padding:16px 20px 20px; }
     .member-modal-close {
-      position:absolute;
-      top:14px;
-      right:14px;
-      background:#F0F2F9;
-      border:none;
-      font-size:14px;
-      cursor:pointer;
-      color:var(--text-muted);
-      width:30px;
-      height:30px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      transition:all 0.15s;
+      position:absolute;top:14px;right:14px;
+      background:var(--surface2);border:1px solid var(--border);
+      font-size:13px;cursor:pointer;color:var(--text-dim);
+      width:28px;height:28px;border-radius:4px;
+      display:flex;align-items:center;justify-content:center;
+      transition:all 0.12s;
     }
-    .member-modal-close:hover { color:var(--dark);background:var(--border); }
-    .modal-section-label { font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);margin-bottom:7px; }
+    .member-modal-close:hover { color:var(--text-hi);border-color:var(--border2); }
+    .modal-section-label {
+      font-family:'JetBrains Mono',monospace;
+      font-size:9px;font-weight:700;text-transform:uppercase;
+      letter-spacing:1px;color:var(--text-dim);margin-bottom:7px;
+    }
     .clickable-avatar { cursor:pointer; }
     .clickable-avatar:hover { opacity:0.8; }
     @media(max-width:768px) { .member-mini-grid { grid-template-columns:repeat(4,1fr); } }
     @media(max-width:480px) { .member-mini-grid { grid-template-columns:repeat(4,1fr); } }
-    .val-input { border:none;border-bottom:1px solid var(--border);background:transparent;font-weight:700;font-size:12px;color:var(--dark);padding:0 2px;outline:none;text-align:right; }
-    .val-input:focus { border-bottom-color:var(--primary); }
-    .overall-action-item { display:flex;gap:8px;font-size:12px;color:#3730A3;margin-bottom:5px;line-height:1.5; }
+    .val-input { border:none;border-bottom:1px solid var(--border);background:transparent;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;color:var(--gold);padding:0 2px;outline:none;text-align:right; }
+    .val-input:focus { border-bottom-color:var(--gold); }
+    .overall-action-item { display:flex;gap:8px;font-size:12px;color:var(--gold);margin-bottom:5px;line-height:1.5; }
     .overall-action-item:last-child { margin-bottom:0; }
-    @media (max-width:768px) {
-      .gm-role { display:none; }
-    }
-
-    /* ═══ Slack App Frame ═══ */
-    .sl-app {
-      display: flex;
-      height: 700px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #222529;
-      box-shadow: 0 24px 72px rgba(0,0,0,0.55);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .sl-sidebar {
-      width: 244px;
-      background: #19171D;
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      overflow-y: auto;
-      scrollbar-width: none;
-    }
-    .sl-sidebar::-webkit-scrollbar { display: none; }
-    .sl-ws-hdr {
-      padding: 16px 14px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-    }
-    .sl-ws-hdr:hover { background: rgba(255,255,255,0.04); }
-    .sl-ws-name { font-size: 15px; font-weight: 800; color: white; letter-spacing: -0.3px; }
-    .sl-ws-meta { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; display: flex; align-items: center; gap: 5px; }
-    .sl-ws-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ADE80; flex-shrink: 0; }
-    .sl-section { padding: 14px 0 4px; }
-    .sl-section-hdr {
-      font-size: 11px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.3);
-      padding: 3px 14px 7px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      user-select: none;
-    }
-    .sl-section-hdr:hover { color: rgba(255,255,255,0.55); }
-    .sl-ch-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 14px;
-      font-size: 13.5px;
-      color: rgba(255,255,255,0.5);
-      cursor: pointer;
-      border-radius: 5px;
-      margin: 1px 6px;
-      transition: all 0.1s;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .sl-ch-item:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
-    .sl-ch-item.active { background: #1164A3; color: white; font-weight: 600; }
-    .sl-ch-item.unread { color: rgba(255,255,255,0.85); font-weight: 700; }
-    .sl-hash { font-size: 16px; color: rgba(255,255,255,0.28); font-weight: 300; flex-shrink: 0; line-height: 1; }
-    .sl-ch-item.active .sl-hash { color: rgba(255,255,255,0.65); }
-    .sl-ch-item.unread .sl-hash { color: rgba(255,255,255,0.6); }
-    .sl-badge { margin-left: auto; background: #CC1016; color: white; font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 10px; flex-shrink: 0; }
-    .sl-dm-item {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 5px 14px;
-      font-size: 13.5px;
-      color: rgba(255,255,255,0.5);
-      cursor: pointer;
-      border-radius: 5px;
-      margin: 1px 6px;
-      transition: all 0.1s;
-    }
-    .sl-dm-item:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
-    .sl-dm-item.active { background: #1164A3; color: white; }
-    .sl-dm-av { width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; flex-shrink: 0; }
-    .sl-online { color: #4ADE80; font-size: 10px; margin-left: 2px; line-height: 1; }
-    /* Main */
-    .sl-main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
-    .sl-ch-hdr {
-      padding: 12px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-      background: #222529;
-    }
-    .sl-hdr-hash { font-size: 20px; color: rgba(255,255,255,0.3); font-weight: 300; line-height: 1; flex-shrink: 0; }
-    .sl-hdr-name { font-size: 15px; font-weight: 700; color: white; }
-    .sl-hdr-sep { color: rgba(255,255,255,0.18); margin: 0 6px; font-size: 13px; }
-    .sl-hdr-desc { font-size: 12px; color: rgba(255,255,255,0.3); }
-    .sl-msgs {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px 0 8px;
-      display: flex;
-      flex-direction: column;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,0.15) transparent;
-    }
-    .sl-msg {
-      display: flex;
-      gap: 10px;
-      padding: 4px 20px;
-      border-radius: 0;
-      min-width: 0;
-    }
-    .sl-msg:hover { background: rgba(255,255,255,0.04); }
-    .sl-av-bot {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #4F46E5, #6366F1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .sl-av-u {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: white;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .sl-msg-body { flex: 1; min-width: 0; }
-    .sl-msg-hdr { display: flex; align-items: baseline; gap: 8px; margin-bottom: 1px; flex-wrap: wrap; }
-    .sl-bot-name { font-size: 14px; font-weight: 700; color: white; }
-    .sl-u-name { font-size: 14px; font-weight: 700; }
-    .sl-app-tag { font-size: 9px; background: #2BAC76; color: white; padding: 1px 5px; border-radius: 3px; font-weight: 700; }
-    .sl-ts { font-size: 11px; color: rgba(255,255,255,0.28); }
-    .sl-text { font-size: 14px; color: rgba(255,255,255,0.82); line-height: 1.6; }
-    .sl-text strong { color: white; }
-    .sl-hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 14px 20px; }
-    .sl-gap { height: 12px; }
-    /* Block Kit */
-    .bk { margin-top: 6px; border-radius: 4px; overflow: hidden; max-width: 560px; }
-    .bk-sec { background: #2B2D30; border-left: 4px solid; padding: 12px 14px; }
-    .bk-sec + .bk-sec { border-top: 1px solid rgba(255,255,255,0.06); }
-    .bk-sec.c-indigo { border-color: #4F46E5; }
-    .bk-sec.c-green  { border-color: #2BAC76; }
-    .bk-sec.c-amber  { border-color: #E8A838; }
-    .bk-sec.c-red    { border-color: #CC1016; }
-    .bk-sec.c-purple { border-color: #8B5CF6; }
-    .bk-sec.c-cyan   { border-color: #06B6D4; }
-    .bk-title { font-size: 13px; font-weight: 700; color: white; margin-bottom: 6px; }
-    .bk-body { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.75; }
-    .bk-body strong { color: rgba(255,255,255,0.9); }
-    .bk-pill { display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:3px;font-size:11px;font-weight:700; }
-    .bk-pill-ok   { background:rgba(43,172,118,0.2);color:#4ADE80; }
-    .bk-pill-warn { background:rgba(232,168,56,0.2);color:#FBBF24; }
-    .bk-pill-bad  { background:rgba(204,16,22,0.2);color:#FF8080; }
-    .bk-actions { background: #2B2D30; padding: 8px 14px 12px; display: flex; gap: 8px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.06); }
-    .bk-btn { padding: 6px 14px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); transition: all 0.1s; }
-    .bk-btn:hover { background: rgba(255,255,255,0.1); }
-    .bk-btn.g { background: #007A5A; border-color: #007A5A; color: white; }
-    .bk-btn.g:hover { background: #148567; }
-    .bk-btn.r { border-color: rgba(204,16,22,0.5); color: #FF8080; }
-    .bk-btn.w { border-color: rgba(232,168,56,0.5); color: #FBBF24; }
-    .bk-ctx { background: #2B2D30; padding: 4px 14px 10px; font-size: 11.5px; color: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.05); }
-    /* Tabs above Slack frame */
-    .sl-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-    .sl-tab {
-      padding: 7px 16px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: white;
-      color: var(--text-muted);
-      transition: all 0.15s;
-      white-space: nowrap;
-    }
-    .sl-tab:hover { border-color: #4F46E5; color: #4F46E5; }
-    .sl-tab.active { background: #4F46E5; color: white; border-color: #4F46E5; box-shadow: 0 2px 8px rgba(79,70,229,0.3); }
-    .sl-scenario { flex-direction: column; }
-    /* Typing indicator */
-    .sl-typing { display: flex; align-items: center; gap: 3px; padding: 0 0 2px; }
-    .sl-typing span { width: 6px; height: 6px; background: rgba(255,255,255,0.4); border-radius: 50%; display: inline-block; animation: slBounce 1.2s infinite; }
-    .sl-typing span:nth-child(2) { animation-delay: 0.2s; }
-    .sl-typing span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes slBounce { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)} }
-    @media (max-width: 768px) {
-      .sl-sidebar { display: none; }
-      .sl-app { height: 540px; }
-      .sl-hdr-desc { display: none; }
-    }
-
-  </style>
+    @media (max-width:768px) { .gm-role { display:none; } }
+</style>
 </head>
 <body>
 
@@ -880,7 +671,7 @@
     </div>
     <div class="nav-item nav-locked" onclick="navigate('growth', this)" style="opacity:0.5;cursor:not-allowed" title="マネージャーのみ閲覧可能">
       <span class="nav-icon">🔒</span> メンバー成長
-      <span style="margin-left:auto;font-size:10px;color:#64748B">Manager only</span>
+      <span style="margin-left:auto;font-size:10px;color:var(--text-dim)">Manager only</span>
     </div>
     <div class="nav-item" onclick="navigate('todos', this)">
       <span class="nav-icon">✅</span> チームTodo
@@ -903,7 +694,7 @@
 
   <div class="sidebar-bottom">
     <div class="user-chip">
-      <div class="avatar" style="background:#6366F1">田</div>
+      <div class="avatar" style="background:#58A6FF">田</div>
       <div>
         <div class="user-name">田中 慎也</div>
         <div class="user-role">コンサルタント</div>
@@ -945,34 +736,34 @@
         <div class="stat-card" style="flex:1">
           <div class="stat-label">アクティブ案件</div>
           <div class="stat-value">5</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:2px">顧客A × 2 ／ 顧客B × 2 ／ 検討中 × 1</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">顧客A × 2 ／ 顧客B × 2 ／ 検討中 × 1</div>
         </div>
         <div class="stat-card" style="flex:1">
           <div class="stat-label">チームメンバー</div>
           <div class="stat-value">8</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:2px">稼働中 6名 ／ アサイン待ち 1名 ／ Manager 1名</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">稼働中 6名 ／ アサイン待ち 1名 ／ Manager 1名</div>
         </div>
       </div>
 
       <!-- メンバー一覧（クリックでプロフィール） -->
       <div class="member-mini-grid mb-4">
         <div class="member-mini" onclick="openProfile('tanaka')">
-          <div class="avatar" style="background:#6366F1;font-size:13px;margin:0 auto">田</div>
+          <div class="avatar" style="background:#58A6FF;font-size:13px;margin:0 auto">田</div>
           <div class="member-mini-name">田中 慎也</div>
           <span class="member-mini-cap cap-normal">通常稼働</span>
         </div>
         <div class="member-mini" onclick="openProfile('suzuki')">
-          <div class="avatar" style="background:#10B981;font-size:13px;margin:0 auto">鈴</div>
+          <div class="avatar" style="background:var(--green);font-size:13px;margin:0 auto">鈴</div>
           <div class="member-mini-name">鈴木 麻衣</div>
           <span class="member-mini-cap cap-normal">通常稼働</span>
         </div>
         <div class="member-mini" onclick="openProfile('sato')">
-          <div class="avatar" style="background:#8B5CF6;font-size:13px;margin:0 auto">佐</div>
+          <div class="avatar" style="background:#BC8CFF;font-size:13px;margin:0 auto">佐</div>
           <div class="member-mini-name">佐藤 健二</div>
           <span class="member-mini-cap cap-full">フル稼働</span>
         </div>
         <div class="member-mini" onclick="openProfile('yamada')">
-          <div class="avatar" style="background:#EF4444;font-size:13px;margin:0 auto">山</div>
+          <div class="avatar" style="background:var(--red);font-size:13px;margin:0 auto">山</div>
           <div class="member-mini-name">山田 拓也</div>
           <span class="member-mini-cap cap-free">余裕あり</span>
         </div>
@@ -1001,29 +792,29 @@
         </div>
         <div style="display:flex;flex-direction:column;gap:8px">
 
-          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--red-light);border-radius:8px;border-left:4px solid var(--red)">
+          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--red-dim);border-radius:8px;border-left:3px solid var(--red)">
             <span style="font-size:20px;flex-shrink:0">🔴</span>
             <div style="flex:1">
-              <div style="font-size:13px;font-weight:700;color:#991B1B">顧客B Salesforce — 権限設計で詰まり、M2が遅延見込み</div>
-              <div style="font-size:12px;color:#991B1B;margin-top:2px">山田さんが行き詰まっています。鈴木さんに経験があります。</div>
+              <div style="font-size:13px;font-weight:700;color:var(--red)">顧客B Salesforce — 権限設計で詰まり、M2が遅延見込み</div>
+              <div style="font-size:12px;color:var(--red);margin-top:2px">山田さんが行き詰まっています。鈴木さんに経験があります。</div>
             </div>
             <button class="btn btn-primary" style="font-size:12px;padding:6px 14px;flex-shrink:0">鈴木さんに繋ぐ</button>
           </div>
 
-          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--amber-light);border-radius:8px;border-left:4px solid var(--amber)">
+          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--gold-dim);border-radius:8px;border-left:3px solid var(--gold)">
             <span style="font-size:20px;flex-shrink:0">🟡</span>
             <div style="flex:1">
-              <div style="font-size:13px;font-weight:700;color:#92400E">顧客B — 営業部長が今期末に異動。後任次第で案件影響あり</div>
-              <div style="font-size:12px;color:#92400E;margin-top:2px">山田さんの飲み会情報より。早めに後任との関係構築を検討。</div>
+              <div style="font-size:13px;font-weight:700;color:var(--gold)">顧客B — 営業部長が今期末に異動。後任次第で案件影響あり</div>
+              <div style="font-size:12px;color:var(--gold);margin-top:2px">山田さんの飲み会情報より。早めに後任との関係構築を検討。</div>
             </div>
-            <button class="btn btn-outline" style="font-size:12px;padding:6px 14px;flex-shrink:0;border-color:var(--amber);color:var(--amber)">矢野さんに相談</button>
+            <button class="btn btn-outline" style="font-size:12px;padding:6px 14px;flex-shrink:0;border-color:var(--gold);color:var(--gold)">矢野さんに相談</button>
           </div>
 
-          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--primary-light);border-radius:8px;border-left:4px solid var(--primary)">
+          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--blue-dim);border-radius:8px;border-left:3px solid var(--gold)">
             <span style="font-size:20px;flex-shrink:0">💡</span>
             <div style="flex:1">
-              <div style="font-size:13px;font-weight:700;color:#1D4ED8">顧客A DX戦略 — データ活用ニーズが浮上。提案に加えると案件拡大の可能性</div>
-              <div style="font-size:12px;color:#1D4ED8;margin-top:2px">佐藤さんの日報より。伊藤さんのスキルを活用できます。</div>
+              <div style="font-size:13px;font-weight:700;color:var(--blue)">顧客A DX戦略 — データ活用ニーズが浮上。提案に加えると案件拡大の可能性</div>
+              <div style="font-size:12px;color:var(--blue);margin-top:2px">佐藤さんの日報より。伊藤さんのスキルを活用できます。</div>
             </div>
             <button class="btn btn-primary" style="font-size:12px;padding:6px 14px;flex-shrink:0">伊藤さんに声をかける</button>
           </div>
@@ -1041,10 +832,10 @@
 
           <div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);align-items:flex-start">
             <div style="min-width:70px;text-align:right">
-              <div style="font-size:10px;color:var(--text-muted)">10分前</div>
+              <div style="font-size:10px;color:var(--text-dim)">10分前</div>
               <span class="chip chip-blue" style="font-size:10px">#案件-顧客B</span>
             </div>
-            <div class="avatar" style="background:#EF4444;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('yamada')">山</div>
+            <div class="avatar" style="background:var(--red);font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('yamada')">山</div>
             <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
               <strong style="color:var(--dark)">山田</strong>　Profileの継承設定で詰まってます。壁打ちできる人いますか
             </div>
@@ -1052,10 +843,10 @@
 
           <div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);align-items:flex-start">
             <div style="min-width:70px;text-align:right">
-              <div style="font-size:10px;color:var(--text-muted)">1時間前</div>
+              <div style="font-size:10px;color:var(--text-dim)">1時間前</div>
               <span class="chip chip-purple" style="font-size:10px">#日報</span>
             </div>
-            <div class="avatar" style="background:#8B5CF6;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('sato')">佐</div>
+            <div class="avatar" style="background:#BC8CFF;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('sato')">佐</div>
             <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
               <strong style="color:var(--dark)">佐藤</strong>　ヒアリング完了。先方からデータを使った意思決定の仕組みも欲しいと言われた。提案の幅が広がりそう
             </div>
@@ -1063,10 +854,10 @@
 
           <div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);align-items:flex-start">
             <div style="min-width:70px;text-align:right">
-              <div style="font-size:10px;color:var(--text-muted)">2時間前</div>
+              <div style="font-size:10px;color:var(--text-dim)">2時間前</div>
               <span class="chip chip-amber" style="font-size:10px">#案件-顧客A</span>
             </div>
-            <div class="avatar" style="background:#6366F1;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('tanaka')">田</div>
+            <div class="avatar" style="background:#58A6FF;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('tanaka')">田</div>
             <div style="font-size:12px;color:var(--text);line-height:1.6;flex:1">
               <strong style="color:var(--dark)">田中</strong>　テスト環境の構築が完了。来週から本番前検証フェーズに入ります 👍
             </div>
@@ -1074,7 +865,7 @@
 
           <div style="display:flex;gap:12px;padding:11px 0;align-items:flex-start">
             <div style="min-width:70px;text-align:right">
-              <div style="font-size:10px;color:var(--text-muted)">昨日</div>
+              <div style="font-size:10px;color:var(--text-dim)">昨日</div>
               <span class="chip chip-gray" style="font-size:10px">#general</span>
             </div>
             <div class="avatar" style="background:#06B6D4;font-size:10px;width:24px;height:24px;flex-shrink:0;cursor:pointer" onclick="openProfile('ito')">伊</div>
@@ -1105,7 +896,7 @@
           </thead>
           <tbody>
             <tr>
-              <td class="client-header" rowspan="2">顧客A<br><span style="font-size:11px;font-weight:400;color:#64748B">IT企業 / 約500名</span></td>
+              <td class="client-header" rowspan="2">顧客A<br><span style="font-size:11px;font-weight:400;color:var(--text-dim)">IT企業 / 約500名</span></td>
               <td>
                 <div class="case-name">基幹システム移行プロジェクト</div>
                 <div class="text-muted">オンプレ→クラウド移行、フェーズ1(インフラ)完了・フェーズ2(アプリ)進行中</div>
@@ -1135,7 +926,7 @@
               <td class="text-muted" style="font-size:12px">ヒアリング完了。提案書ドラフト作成中。データ活用の観点を補強できると提案の厚みが増す。</td>
             </tr>
             <tr>
-              <td class="client-header" rowspan="3">顧客B<br><span style="font-size:11px;font-weight:400;color:#64748B">製造業 / 約1,200名</span></td>
+              <td class="client-header" rowspan="3">顧客B<br><span style="font-size:11px;font-weight:400;color:var(--text-dim)">製造業 / 約1,200名</span></td>
               <td>
                 <div class="case-name">Salesforce導入・定着支援</div>
                 <div class="text-muted">SFA導入。ユーザー設定・権限設計・トレーニング</div>
@@ -1157,7 +948,7 @@
               </td>
               <td>
                 <div class="case-members">
-                  <span class="chip chip-blue" style="background:#CFFAFE;color:#0E7490">伊藤</span>
+                  <span class="chip chip-blue" style="background:var(--blue-dim);color:var(--blue)">伊藤</span>
                 </div>
                 <div class="text-muted" style="font-size:11px">チーム: 1名</div>
               </td>
@@ -1165,8 +956,8 @@
               <td class="text-muted" style="font-size:12px">パイプライン設計完了。来週からBI実装フェーズへ。来月末リリース予定。</td>
             </tr>
             <tr>
-              <td style="background:#F8FAFC">
-                <div class="case-name" style="color:var(--text-muted)">次期案件（候補）</div>
+              <td style="background:var(--surface2)">
+                <div class="case-name" style="color:var(--text-dim)">次期案件（候補）</div>
                 <div class="text-muted">顧客Bの人事部からHR DXの相談あり。提案フェーズに入れるか検討中</div>
               </td>
               <td>
@@ -1174,7 +965,7 @@
                   <span class="chip chip-gray">加藤（候補）</span>
                 </div>
               </td>
-              <td><span class="status-badge" style="background:#F1F5F9;color:#64748B">🔵 検討中</span></td>
+              <td><span class="status-badge" style="background:var(--surface2);color:var(--text-dim)">🔵 検討中</span></td>
               <td class="text-muted" style="font-size:12px">矢野さんが顧客と初回面談済み。加藤さんをアサインできると経験拡大の機会になる。</td>
             </tr>
           </tbody>
@@ -1191,7 +982,7 @@
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
           <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-              <div class="avatar" style="background:#6366F1;font-size:11px;width:30px;height:30px">田</div>
+              <div class="avatar" style="background:#58A6FF;font-size:11px;width:30px;height:30px">田</div>
               <div style="font-size:13px;font-weight:700;color:var(--dark)">田中 慎也</div>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
@@ -1199,12 +990,12 @@
               <span class="chip chip-blue">インフラ設計</span>
               <span class="chip chip-gray">PM進行</span>
             </div>
-            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「AWS/Azureへの移行」「サーバー設計」「プロジェクト進行管理」で頼れます</div>
+            <div style="font-size:11px;color:var(--text-dim);line-height:1.5;margin-bottom:8px">「AWS/Azureへの移行」「サーバー設計」「プロジェクト進行管理」で頼れます</div>
             <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
           </div>
           <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-              <div class="avatar" style="background:#10B981;font-size:11px;width:30px;height:30px">鈴</div>
+              <div class="avatar" style="background:var(--green);font-size:11px;width:30px;height:30px">鈴</div>
               <div style="font-size:13px;font-weight:700;color:var(--dark)">鈴木 麻衣</div>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
@@ -1212,12 +1003,12 @@
               <span class="chip chip-green">M365 / Teams</span>
               <span class="chip chip-gray">権限設計</span>
             </div>
-            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「SFの設定・権限」「TeamsやSharePointの構成」で詰まったら声をかけて</div>
+            <div style="font-size:11px;color:var(--text-dim);line-height:1.5;margin-bottom:8px">「SFの設定・権限」「TeamsやSharePointの構成」で詰まったら声をかけて</div>
             <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
           </div>
           <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-              <div class="avatar" style="background:#8B5CF6;font-size:11px;width:30px;height:30px">佐</div>
+              <div class="avatar" style="background:#BC8CFF;font-size:11px;width:30px;height:30px">佐</div>
               <div style="font-size:13px;font-weight:700;color:var(--dark)">佐藤 健二</div>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
@@ -1225,19 +1016,19 @@
               <span class="chip chip-purple">提案書作成</span>
               <span class="chip chip-gray">ヒアリング設計</span>
             </div>
-            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「提案書の構成」「DXロードマップの描き方」「顧客ヒアリングの設計」はお任せを</div>
+            <div style="font-size:11px;color:var(--text-dim);line-height:1.5;margin-bottom:8px">「提案書の構成」「DXロードマップの描き方」「顧客ヒアリングの設計」はお任せを</div>
             <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
           </div>
           <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-              <div class="avatar" style="background:#EF4444;font-size:11px;width:30px;height:30px">山</div>
+              <div class="avatar" style="background:var(--red);font-size:11px;width:30px;height:30px">山</div>
               <div style="font-size:13px;font-weight:700;color:var(--dark)">山田 拓也</div>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
               <span class="chip chip-red">Salesforce設定</span>
               <span class="chip chip-gray">SFA運用設計</span>
             </div>
-            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「SalesforceのSFA設定」「営業部門向けの運用フロー設計」を担当中</div>
+            <div style="font-size:11px;color:var(--text-dim);line-height:1.5;margin-bottom:8px">「SalesforceのSFA設定」「営業部門向けの運用フロー設計」を担当中</div>
             <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
           </div>
           <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
@@ -1250,7 +1041,7 @@
               <span class="chip chip-amber">マニュアル作成</span>
               <span class="chip chip-gray">定着支援</span>
             </div>
-            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「ユーザー研修の設計・実施」「操作マニュアル作成」「システム定着の仕掛け」はここへ</div>
+            <div style="font-size:11px;color:var(--text-dim);line-height:1.5;margin-bottom:8px">「ユーザー研修の設計・実施」「操作マニュアル作成」「システム定着の仕掛け」はここへ</div>
             <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
           </div>
           <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
@@ -1263,7 +1054,7 @@
               <span class="chip chip-blue">BI構築</span>
               <span class="chip chip-gray">BigQuery / SQL</span>
             </div>
-            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「データパイプライン」「ダッシュボード構築」「SQLで何か見たい」ときはぜひ</div>
+            <div style="font-size:11px;color:var(--text-dim);line-height:1.5;margin-bottom:8px">「データパイプライン」「ダッシュボード構築」「SQLで何か見たい」ときはぜひ</div>
             <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
           </div>
           <div style="padding:12px;border:1px solid var(--border);border-radius:8px">
@@ -1275,12 +1066,12 @@
               <span class="chip chip-green">HR業務設計</span>
               <span class="chip chip-gray">業務改善</span>
             </div>
-            <div style="font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:8px">「人事・採用まわりの業務整理」「業務フロー改善」に詳しい。次案件で経験拡大中</div>
+            <div style="font-size:11px;color:var(--text-dim);line-height:1.5;margin-bottom:8px">「人事・採用まわりの業務整理」「業務フロー改善」に詳しい。次案件で経験拡大中</div>
             <button class="btn btn-outline" style="width:100%;font-size:11px;padding:5px">💬 Slackで聞く</button>
           </div>
-          <div style="padding:12px;border:1px solid #FDE68A;border-radius:8px;background:var(--amber-light)">
+          <div style="padding:12px;border:1px solid var(--gold-dim);border-radius:8px;background:var(--gold-dim)">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-              <div class="avatar" style="background:#F59E0B;font-size:11px;width:30px;height:30px">矢</div>
+              <div class="avatar" style="background:var(--gold);font-size:11px;width:30px;height:30px">矢</div>
               <div style="font-size:13px;font-weight:700;color:var(--dark)">矢野 (Manager)</div>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
@@ -1288,8 +1079,8 @@
               <span class="chip chip-amber">アカウント管理</span>
               <span class="chip chip-gray">チーム運営</span>
             </div>
-            <div style="font-size:11px;color:#92400E;line-height:1.5;margin-bottom:8px">顧客との関係構築・エスカレーション・チームの方向性判断はまず相談を</div>
-            <button class="btn" style="width:100%;font-size:11px;padding:5px;background:#F59E0B;color:white;border:none">💬 Slackで相談</button>
+            <div style="font-size:11px;color:var(--gold);line-height:1.5;margin-bottom:8px">顧客との関係構築・エスカレーション・チームの方向性判断はまず相談を</div>
+            <button class="btn" style="width:100%;font-size:11px;padding:5px;background:var(--gold);color:white;border:none">💬 Slackで相談</button>
           </div>
         </div>
       </div>
@@ -1312,14 +1103,14 @@
               <span class="chip chip-purple" style="font-size:10px;flex-shrink:0">意思決定</span>
               <div style="flex:1">
                 <div style="font-size:12px;color:var(--text);line-height:1.6">IT部長が来期から予算権限を部門に委譲する方向で社内調整中らしい。意思決定スピードが上がるかも。</div>
-                <div style="font-size:10px;color:var(--text-muted);margin-top:3px">田中さん ・ 6月5日の飲み会 ・ #案件-顧客A に投稿</div>
+                <div style="font-size:10px;color:var(--text-dim);margin-top:3px">田中さん ・ 6月5日の飲み会 ・ #案件-顧客A に投稿</div>
               </div>
             </div>
             <div style="display:flex;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;align-items:flex-start">
               <span class="chip chip-green" style="font-size:10px;flex-shrink:0">追加提案</span>
               <div style="flex:1">
                 <div style="font-size:12px;color:var(--text);line-height:1.6">経営企画部の担当者が「セキュリティ対策も強化したい」と話していた。DX戦略の提案に絡めて提案できそう。</div>
-                <div style="font-size:10px;color:var(--text-muted);margin-top:3px">佐藤さん ・ 6月4日の1on1後のSlack ・ #日報 に投稿</div>
+                <div style="font-size:10px;color:var(--text-dim);margin-top:3px">佐藤さん ・ 6月4日の1on1後のSlack ・ #日報 に投稿</div>
               </div>
             </div>
           </div>
@@ -1333,27 +1124,27 @@
               <span class="chip chip-red" style="font-size:10px;flex-shrink:0">リスク</span>
               <div style="flex:1">
                 <div style="font-size:12px;color:var(--text);line-height:1.6">営業部長が今期末で異動になるらしい。後任が誰になるか次第でSalesforce導入の優先度が変わるかもしれない。</div>
-                <div style="font-size:10px;color:var(--text-muted);margin-top:3px">山田さん ・ 6月3日の飲み会帰りのSlack ・ #案件-顧客B に投稿</div>
+                <div style="font-size:10px;color:var(--text-dim);margin-top:3px">山田さん ・ 6月3日の飲み会帰りのSlack ・ #案件-顧客B に投稿</div>
               </div>
             </div>
             <div style="display:flex;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;align-items:flex-start">
               <span class="chip chip-amber" style="font-size:10px;flex-shrink:0">競合</span>
               <div style="flex:1">
                 <div style="font-size:12px;color:var(--text);line-height:1.6">マーケ部のデータ分析、他社コンサルも提案を出しているみたい。スピードと提案の独自性が鍵になりそう。</div>
-                <div style="font-size:10px;color:var(--text-muted);margin-top:3px">伊藤さん ・ 6月6日のランチ後 ・ #general に投稿</div>
+                <div style="font-size:10px;color:var(--text-dim);margin-top:3px">伊藤さん ・ 6月6日のランチ後 ・ #general に投稿</div>
               </div>
             </div>
             <div style="display:flex;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;align-items:flex-start">
               <span class="chip chip-blue" style="font-size:10px;flex-shrink:0">追加提案</span>
               <div style="flex:1">
                 <div style="font-size:12px;color:var(--text);line-height:1.6">人事部長から「来年度に向けて採用管理も効率化したい」と話を振られた。HR DXの入り口になりそう。</div>
-                <div style="font-size:10px;color:var(--text-muted);margin-top:3px">矢野さん ・ 6月2日の顧客訪問後のSlack ・ #general に投稿</div>
+                <div style="font-size:10px;color:var(--text-dim);margin-top:3px">矢野さん ・ 6月2日の顧客訪問後のSlack ・ #general に投稿</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div style="margin-top:14px;padding:10px 12px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--text-muted);line-height:1.7">
+        <div style="margin-top:14px;padding:10px 12px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--text-dim);line-height:1.7">
           💡 投稿方法：Slackのどのチャンネルでも「飲み会で〜」「雑談で〜」「ランチで聞いたんですが」などの投稿を自動検知してここに集約します。特別なタグや形式は不要です。
         </div>
       </div>
@@ -1373,73 +1164,73 @@
         </div>
 
         <!-- Goal -->
-        <div style="padding:12px;background:var(--primary-light);border-radius:8px;margin-bottom:16px">
-          <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">🎯 目指す状態（完了定義）</div>
-          <div style="font-size:13px;color:#1E3A5F;line-height:1.7">営業部の全ユーザー（42名）がSalesforceを日常的に使用し、週次の商談更新率が80%以上になっている状態。運用マニュアルが整備され、顧客自身で追加設定・トラブル対応ができる自走状態を目指す。</div>
+        <div style="padding:12px;background:var(--blue-dim);border-radius:8px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">🎯 目指す状態（完了定義）</div>
+          <div style="font-size:13px;color:var(--blue-dim);line-height:1.7">営業部の全ユーザー（42名）がSalesforceを日常的に使用し、週次の商談更新率が80%以上になっている状態。運用マニュアルが整備され、顧客自身で追加設定・トラブル対応ができる自走状態を目指す。</div>
         </div>
 
         <!-- Milestones -->
         <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:10px">📍 マイルストン</div>
         <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
-          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--green-light);border-radius:6px">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--green-dim);border-radius:6px">
             <span style="font-size:16px">✅</span>
             <div style="flex:1">
-              <div style="font-size:12px;font-weight:700;color:#065F46">M1：要件定義・設計完了</div>
-              <div style="font-size:11px;color:#065F46">5月16日完了 ｜ ユーザー要件を確定、オブジェクト・項目設計書を承認済み</div>
+              <div style="font-size:12px;font-weight:700;color:var(--green)">M1：要件定義・設計完了</div>
+              <div style="font-size:11px;color:var(--green)">5月16日完了 ｜ ユーザー要件を確定、オブジェクト・項目設計書を承認済み</div>
             </div>
-            <span style="font-size:11px;color:#065F46;font-weight:600">完了</span>
+            <span style="font-size:11px;color:var(--green);font-weight:600">完了</span>
           </div>
-          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--red-light);border-radius:6px;border:1px solid #FECACA">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--red-dim);border-radius:6px;border:1px solid var(--red-dim)">
             <span style="font-size:16px">⚠️</span>
             <div style="flex:1">
-              <div style="font-size:12px;font-weight:700;color:#991B1B">M2：権限設計・初期設定完了</div>
-              <div style="font-size:11px;color:#991B1B">予定：6月13日 ｜ Profile/Permission Set設計で課題発生中。3日遅延の見込み</div>
+              <div style="font-size:12px;font-weight:700;color:var(--red)">M2：権限設計・初期設定完了</div>
+              <div style="font-size:11px;color:var(--red)">予定：6月13日 ｜ Profile/Permission Set設計で課題発生中。3日遅延の見込み</div>
             </div>
-            <span style="font-size:11px;color:#991B1B;font-weight:700">遅延⚡</span>
+            <span style="font-size:11px;color:var(--red);font-weight:700">遅延⚡</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
             <span style="font-size:16px">⬜</span>
             <div style="flex:1">
-              <div style="font-size:12px;font-weight:700;color:var(--text-muted)">M3：ユーザーテスト・フィードバック反映</div>
-              <div style="font-size:11px;color:var(--text-muted)">予定：6月27日 ｜ M2の遅延により調整中</div>
+              <div style="font-size:12px;font-weight:700;color:var(--text-dim)">M3：ユーザーテスト・フィードバック反映</div>
+              <div style="font-size:11px;color:var(--text-dim)">予定：6月27日 ｜ M2の遅延により調整中</div>
             </div>
-            <span style="font-size:11px;color:var(--text-muted);font-weight:600">未着手</span>
+            <span style="font-size:11px;color:var(--text-dim);font-weight:600">未着手</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
             <span style="font-size:16px">⬜</span>
             <div style="flex:1">
-              <div style="font-size:12px;font-weight:700;color:var(--text-muted)">M4：全社展開・トレーニング完了</div>
-              <div style="font-size:11px;color:var(--text-muted)">予定：7月18日 ｜ 42名へのトレーニング実施</div>
+              <div style="font-size:12px;font-weight:700;color:var(--text-dim)">M4：全社展開・トレーニング完了</div>
+              <div style="font-size:11px;color:var(--text-dim)">予定：7月18日 ｜ 42名へのトレーニング実施</div>
             </div>
-            <span style="font-size:11px;color:var(--text-muted);font-weight:600">未着手</span>
+            <span style="font-size:11px;color:var(--text-dim);font-weight:600">未着手</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
             <span style="font-size:16px">🏁</span>
             <div style="flex:1">
-              <div style="font-size:12px;font-weight:700;color:var(--text-muted)">M5：本番リリース・定着支援開始</div>
-              <div style="font-size:11px;color:var(--text-muted)">予定：8月1日 ｜ 自走状態の確認まで伴走</div>
+              <div style="font-size:12px;font-weight:700;color:var(--text-dim)">M5：本番リリース・定着支援開始</div>
+              <div style="font-size:11px;color:var(--text-dim)">予定：8月1日 ｜ 自走状態の確認まで伴走</div>
             </div>
-            <span style="font-size:11px;color:var(--text-muted);font-weight:600">未着手</span>
+            <span style="font-size:11px;color:var(--text-dim);font-weight:600">未着手</span>
           </div>
         </div>
 
         <!-- Issues -->
         <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:10px">🔥 現在の課題</div>
         <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="padding:10px 12px;background:var(--red-light);border-radius:6px;border-left:3px solid var(--red)">
+          <div style="padding:10px 12px;background:var(--red-dim);border-radius:6px;border-left:3px solid var(--red)">
             <div style="display:flex;justify-content:space-between;align-items:flex-start">
-              <div style="font-size:12px;font-weight:700;color:#991B1B">Profile継承とPermission Setの優先度整理が複雑</div>
+              <div style="font-size:12px;font-weight:700;color:var(--red)">Profile継承とPermission Setの優先度整理が複雑</div>
               <span class="chip chip-red" style="font-size:10px">未解決</span>
             </div>
-            <div style="font-size:11px;color:#991B1B;margin-top:4px;line-height:1.6">顧客の部門構造が複雑でロールモデルの設計に時間がかかっている。鈴木さんのサポートで今週中の解決を目指す。</div>
-            <div style="font-size:10px;color:#B91C1C;margin-top:4px">最終更新：山田さんの今日のSlack投稿から自動反映</div>
+            <div style="font-size:11px;color:var(--red);margin-top:4px;line-height:1.6">顧客の部門構造が複雑でロールモデルの設計に時間がかかっている。鈴木さんのサポートで今週中の解決を目指す。</div>
+            <div style="font-size:10px;color:var(--red);margin-top:4px">最終更新：山田さんの今日のSlack投稿から自動反映</div>
           </div>
-          <div style="padding:10px 12px;background:var(--amber-light);border-radius:6px;border-left:3px solid var(--amber)">
+          <div style="padding:10px 12px;background:var(--gold-dim);border-radius:6px;border-left:3px solid var(--gold)">
             <div style="display:flex;justify-content:space-between;align-items:flex-start">
-              <div style="font-size:12px;font-weight:700;color:#92400E">顧客側の意思決定者が不在がちでレビューが遅れる</div>
+              <div style="font-size:12px;font-weight:700;color:var(--gold)">顧客側の意思決定者が不在がちでレビューが遅れる</div>
               <span class="chip chip-amber" style="font-size:10px">監視中</span>
             </div>
-            <div style="font-size:11px;color:#92400E;margin-top:4px;line-height:1.6">IT部長が出張中のため承認が滞りがち。矢野さんに顧客上位層へのエスカレーションを要検討。</div>
+            <div style="font-size:11px;color:var(--gold);margin-top:4px;line-height:1.6">IT部長が出張中のため承認が滞りがち。矢野さんに顧客上位層へのエスカレーションを要検討。</div>
             <div style="font-size:10px;color:#B45309;margin-top:4px">最終更新：先週の中村さんの日報から自動反映</div>
           </div>
         </div>
@@ -1454,18 +1245,18 @@
           </div>
           <div style="display:flex;align-items:center;gap:8px">
             <span class="status-badge status-ok">🟢 順調</span>
-            <span style="color:var(--text-muted);font-size:12px">▼ 展開</span>
+            <span style="color:var(--text-dim);font-size:12px">▼ 展開</span>
           </div>
         </div>
         <div style="display:none;margin-top:16px">
-          <div style="padding:10px;background:var(--primary-light);border-radius:8px;margin-bottom:12px;font-size:12px;color:#1E3A5F;line-height:1.7">
+          <div style="padding:10px;background:var(--blue-dim);border-radius:8px;margin-bottom:12px;font-size:12px;color:var(--blue-dim);line-height:1.7">
             🎯 <strong>目指す状態：</strong>経営企画部が自律的にDX推進を進められるロードマップと体制が整備された状態。初年度の優先施策3つが特定され、実行予算が確保されている。
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <span style="padding:6px 12px;background:var(--green-light);border-radius:6px;font-size:12px;color:#065F46">✅ M1 現状調査・ヒアリング完了</span>
-            <span style="padding:6px 12px;background:#FEF3C7;border-radius:6px;font-size:12px;color:#92400E">🔄 M2 戦略ドラフト作成中（6/20予定）</span>
-            <span style="padding:6px 12px;background:var(--bg);border-radius:6px;font-size:12px;color:var(--text-muted)">⬜ M3 経営会議プレゼン（7/10予定）</span>
-            <span style="padding:6px 12px;background:var(--bg);border-radius:6px;font-size:12px;color:var(--text-muted)">⬜ M4 ロードマップ確定（7/31予定）</span>
+            <span style="padding:6px 12px;background:var(--green-dim);border-radius:6px;font-size:12px;color:var(--green)">✅ M1 現状調査・ヒアリング完了</span>
+            <span style="padding:6px 12px;background:#FEF3C7;border-radius:6px;font-size:12px;color:var(--gold)">🔄 M2 戦略ドラフト作成中（6/20予定）</span>
+            <span style="padding:6px 12px;background:var(--bg);border-radius:6px;font-size:12px;color:var(--text-dim)">⬜ M3 経営会議プレゼン（7/10予定）</span>
+            <span style="padding:6px 12px;background:var(--bg);border-radius:6px;font-size:12px;color:var(--text-dim)">⬜ M4 ロードマップ確定（7/31予定）</span>
           </div>
         </div>
       </div>
@@ -1486,12 +1277,12 @@
           </div>
           <!-- Big gauge -->
           <div style="text-align:center;margin:12px 0">
-            <div style="font-size:48px;font-weight:800;color:var(--amber)">78%</div>
-            <div style="font-size:14px;color:var(--text-muted)">¥2,800万 / ¥3,600万</div>
+            <div style="font-size:48px;font-weight:800;color:var(--gold)">78%</div>
+            <div style="font-size:14px;color:var(--text-dim)">¥2,800万 / ¥3,600万</div>
             <div style="font-size:12px;color:var(--red);margin-top:4px;font-weight:600">残り ¥800万 (月末まで18日)</div>
           </div>
           <div class="progress-track" style="height:12px;margin-bottom:16px">
-            <div class="progress-fill" style="width:78%;background:var(--amber)"></div>
+            <div class="progress-fill" style="width:78%;background:var(--gold)"></div>
           </div>
           <div class="progress-row">
             <div class="progress-label"><span>顧客A (目標 ¥2,000万)</span><span>¥1,650万 / 83%</span></div>
@@ -1499,7 +1290,7 @@
           </div>
           <div class="progress-row">
             <div class="progress-label"><span>顧客B (目標 ¥1,600万)</span><span>¥1,150万 / 72%</span></div>
-            <div class="progress-track"><div class="progress-fill" style="width:72%;background:var(--amber)"></div></div>
+            <div class="progress-track"><div class="progress-fill" style="width:72%;background:var(--gold)"></div></div>
           </div>
         </div>
 
@@ -1511,17 +1302,17 @@
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px">
-            <div style="padding:12px;background:var(--green-light);border-radius:8px;border-left:4px solid var(--green)">
-              <div style="font-size:12px;font-weight:700;color:#065F46;margin-bottom:4px">✅ 顧客A：計画通り</div>
-              <div style="font-size:12px;color:#065F46">システム移行フェーズ2が予定通り進行中。DX戦略も次フェーズへ繋がる可能性あり。</div>
+            <div style="padding:12px;background:var(--green-dim);border-radius:8px;border-left:3px solid var(--green)">
+              <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px">✅ 顧客A：計画通り</div>
+              <div style="font-size:12px;color:var(--green)">システム移行フェーズ2が予定通り進行中。DX戦略も次フェーズへ繋がる可能性あり。</div>
             </div>
-            <div style="padding:12px;background:var(--amber-light);border-radius:8px;border-left:4px solid var(--amber)">
-              <div style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:4px">⚠ 顧客B：追加提案の機会</div>
-              <div style="font-size:12px;color:#92400E">Salesforce導入後のレポーティング強化が未検討。データ分析基盤と組み合わせた提案が刺さる可能性あり。</div>
+            <div style="padding:12px;background:var(--gold-dim);border-radius:8px;border-left:3px solid var(--gold)">
+              <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:4px">⚠ 顧客B：追加提案の機会</div>
+              <div style="font-size:12px;color:var(--gold)">Salesforce導入後のレポーティング強化が未検討。データ分析基盤と組み合わせた提案が刺さる可能性あり。</div>
             </div>
-            <div style="padding:12px;background:var(--primary-light);border-radius:8px;border-left:4px solid var(--primary)">
-              <div style="font-size:12px;font-weight:700;color:#1D4ED8;margin-bottom:4px">💡 新規案件候補</div>
-              <div style="font-size:12px;color:#1D4ED8">顧客B人事部からHR DXの相談あり。Q3の売上目標達成に貢献できる規模感。</div>
+            <div style="padding:12px;background:var(--blue-dim);border-radius:8px;border-left:3px solid var(--gold)">
+              <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:4px">💡 新規案件候補</div>
+              <div style="font-size:12px;color:var(--blue)">顧客B人事部からHR DXの相談あり。Q3の売上目標達成に貢献できる規模感。</div>
             </div>
           </div>
         </div>
@@ -1626,7 +1417,7 @@
             </div>
             <div class="intel-contact">
               <div class="intel-contact-header">
-                <div class="avatar" style="background:#8B5CF6;font-size:11px;flex-shrink:0">鈴</div>
+                <div class="avatar" style="background:#BC8CFF;font-size:11px;flex-shrink:0">鈴</div>
                 <div class="intel-contact-info">
                   <div class="intel-contact-name editable-text" contenteditable="true">鈴木 主任</div>
                   <div class="intel-contact-role editable-text" contenteditable="true">DX推進部 ／ 現場担当・窓口</div>
@@ -1653,7 +1444,7 @@
             </div>
             <div class="intel-contact">
               <div class="intel-contact-header">
-                <div class="avatar" style="background:#10B981;font-size:11px;flex-shrink:0">田</div>
+                <div class="avatar" style="background:var(--green);font-size:11px;flex-shrink:0">田</div>
                 <div class="intel-contact-info">
                   <div class="intel-contact-name editable-text" contenteditable="true">田村 マネージャー</div>
                   <div class="intel-contact-role editable-text" contenteditable="true">経営企画部 ／ 予算・ROI管理</div>
@@ -1693,7 +1484,7 @@
             </div>
             <div class="intel-contact">
               <div class="intel-contact-header">
-                <div class="avatar" style="background:#EF4444;font-size:11px;flex-shrink:0">木</div>
+                <div class="avatar" style="background:var(--red);font-size:11px;flex-shrink:0">木</div>
                 <div class="intel-contact-info">
                   <div class="intel-contact-name editable-text" contenteditable="true">木村 営業部長</div>
                   <div class="intel-contact-role editable-text" contenteditable="true">営業部長 ／ Salesforce導入オーナー</div>
@@ -1759,7 +1550,7 @@
       <div id="growth-locked" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:16px">
         <div style="font-size:56px">🔒</div>
         <div style="font-size:18px;font-weight:800;color:var(--dark)">マネージャー専用ページ</div>
-        <div style="font-size:13px;color:var(--text-muted);text-align:center;line-height:1.8;max-width:360px">
+        <div style="font-size:13px;color:var(--text-dim);text-align:center;line-height:1.8;max-width:360px">
           メンバー成長マップはチームマネージャー（矢野さん）のみ閲覧できます。<br>
           グレード別の育成計画・要件進捗・アクションが含まれます。
         </div>
@@ -1773,9 +1564,9 @@
 
       <!-- Manager nav tabs -->
       <div style="display:flex;gap:0;margin-bottom:24px;border-bottom:2px solid var(--border)">
-        <div class="mgr-tab active" onclick="switchTab('growth-member',this)" style="padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid var(--primary);margin-bottom:-2px;color:var(--primary)">👤 メンバー成長</div>
-        <div class="mgr-tab" onclick="switchTab('growth-quality',this)" style="padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--text-muted)">✅ 品質管理計画</div>
-        <div class="mgr-tab" onclick="switchTab('growth-expand',this)" style="padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--text-muted)">📈 チーム拡大計画</div>
+        <div class="mgr-tab active" onclick="switchTab('growth-member',this)" style="padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid var(--gold);margin-bottom:-2px;color:var(--gold)">👤 メンバー成長</div>
+        <div class="mgr-tab" onclick="switchTab('growth-quality',this)" style="padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--text-dim)">✅ 品質管理計画</div>
+        <div class="mgr-tab" onclick="switchTab('growth-expand',this)" style="padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--text-dim)">📈 チーム拡大計画</div>
       </div>
 
       <!-- ─── TAB: メンバー成長 ─── -->
@@ -1783,11 +1574,11 @@
 
       <!-- Data source banner -->
       <div style="display:flex;gap:10px;margin-bottom:20px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;align-items:center;flex-wrap:wrap">
-        <span style="font-size:12px;color:var(--text-muted);font-weight:600">データ源：</span>
+        <span style="font-size:12px;color:var(--text-dim);font-weight:600">データ源：</span>
         <span class="chip chip-blue">💬 Slack発言・活動</span>
         <span class="chip chip-purple">🎙 1on1音声記録（AI解析）</span>
         <span class="chip chip-green">📋 案件の担当実績</span>
-        <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">最終更新：今日 09:15</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text-dim)">最終更新：今日 09:15</span>
       </div>
 
       <!-- Member Grade Accordion -->
@@ -1796,16 +1587,16 @@
       <!-- ── 田中 慎也 ── -->
       <div class="gm-row">
         <div class="gm-header" onclick="toggleGradeMember('tanaka')">
-          <div class="avatar" style="background:#6366F1;font-size:11px">田</div>
+          <div class="avatar" style="background:#58A6FF;font-size:11px">田</div>
           <div><div class="gm-name">田中 慎也</div><div class="gm-role">クラウド・インフラ</div></div>
           <span class="grade-chip grade-g3" style="margin-left:12px">G3</span>
-          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span style="font-size:12px;color:var(--text-dim);margin:0 4px">→</span>
           <span class="grade-chip grade-g4">G4</span>
           <span class="gm-progress-text" style="margin-left:8px">2 / 4 達成</span>
           <span class="gm-arrow" id="arr-tanaka">▼</span>
         </div>
         <div class="gm-detail" id="gmd-tanaka">
-          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
           <div class="priority-row">
             <span class="priority-label">今期の取り組み順：</span>
             <span class="priority-badge-1">① 案件PM</span>
@@ -1858,16 +1649,16 @@
       <!-- ── 鈴木 麻衣 ── -->
       <div class="gm-row">
         <div class="gm-header" onclick="toggleGradeMember('suzuki')">
-          <div class="avatar" style="background:#10B981;font-size:11px">鈴</div>
+          <div class="avatar" style="background:var(--green);font-size:11px">鈴</div>
           <div><div class="gm-name">鈴木 麻衣</div><div class="gm-role">Salesforce・M365</div></div>
           <span class="grade-chip grade-g3" style="margin-left:12px">G3</span>
-          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span style="font-size:12px;color:var(--text-dim);margin:0 4px">→</span>
           <span class="grade-chip grade-g4">G4</span>
           <span class="gm-progress-text" style="margin-left:8px">1 / 4 達成</span>
           <span class="gm-arrow" id="arr-suzuki">▼</span>
         </div>
         <div class="gm-detail" id="gmd-suzuki">
-          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
           <div class="priority-row">
             <span class="priority-label">今期の取り組み順：</span>
             <span class="priority-badge-1">① 技術指導・レビュー</span>
@@ -1924,16 +1715,16 @@
       <!-- ── 佐藤 健二 ── -->
       <div class="gm-row">
         <div class="gm-header" onclick="toggleGradeMember('sato')">
-          <div class="avatar" style="background:#8B5CF6;font-size:11px">佐</div>
+          <div class="avatar" style="background:#BC8CFF;font-size:11px">佐</div>
           <div><div class="gm-name">佐藤 健二</div><div class="gm-role">戦略・コンサル</div></div>
           <span class="grade-chip grade-g4" style="margin-left:12px">G4</span>
-          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span style="font-size:12px;color:var(--text-dim);margin:0 4px">→</span>
           <span class="grade-chip grade-g5">G5</span>
           <span class="gm-progress-text" style="margin-left:8px">2 / 4 達成</span>
           <span class="gm-arrow" id="arr-sato">▼</span>
         </div>
         <div class="gm-detail" id="gmd-sato">
-          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G4 → G5 要件チェックリスト</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G4 → G5 要件チェックリスト</div>
           <div class="priority-row">
             <span class="priority-label">今期の取り組み順：</span>
             <span class="priority-badge-1">① 新規提案・アップセル</span>
@@ -1986,16 +1777,16 @@
       <!-- ── 山田 拓也 ── -->
       <div class="gm-row">
         <div class="gm-header" onclick="toggleGradeMember('yamada')">
-          <div class="avatar" style="background:#EF4444;font-size:11px">山</div>
+          <div class="avatar" style="background:var(--red);font-size:11px">山</div>
           <div><div class="gm-name">山田 拓也</div><div class="gm-role">Salesforce</div></div>
           <span class="grade-chip grade-g2" style="margin-left:12px">G2</span>
-          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span style="font-size:12px;color:var(--text-dim);margin:0 4px">→</span>
           <span class="grade-chip grade-g3">G3</span>
           <span class="gm-progress-text" style="margin-left:8px">1 / 4 達成</span>
           <span class="gm-arrow" id="arr-yamada">▼</span>
         </div>
         <div class="gm-detail" id="gmd-yamada">
-          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
           <div class="priority-row">
             <span class="priority-label">今期の取り組み順：</span>
             <span class="priority-badge-1">① 異業種・異技術の経験</span>
@@ -2055,13 +1846,13 @@
           <div class="avatar" style="background:#F97316;font-size:11px">中</div>
           <div><div class="gm-name">中村 奈々</div><div class="gm-role">トレーニング・定着</div></div>
           <span class="grade-chip grade-g2" style="margin-left:12px">G2</span>
-          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span style="font-size:12px;color:var(--text-dim);margin:0 4px">→</span>
           <span class="grade-chip grade-g3">G3</span>
           <span class="gm-progress-text" style="margin-left:8px">1 / 4 達成</span>
           <span class="gm-arrow" id="arr-nakamura">▼</span>
         </div>
         <div class="gm-detail" id="gmd-nakamura">
-          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
           <div class="priority-row">
             <span class="priority-label">今期の取り組み順：</span>
             <span class="priority-badge-1">① ヒアリング・課題提示力</span>
@@ -2121,13 +1912,13 @@
           <div class="avatar" style="background:#06B6D4;font-size:11px">伊</div>
           <div><div class="gm-name">伊藤 翔平</div><div class="gm-role">データ分析・BI</div></div>
           <span class="grade-chip grade-g3" style="margin-left:12px">G3</span>
-          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span style="font-size:12px;color:var(--text-dim);margin:0 4px">→</span>
           <span class="grade-chip grade-g4">G4</span>
           <span class="gm-progress-text" style="margin-left:8px">1 / 4 達成</span>
           <span class="gm-arrow" id="arr-ito">▼</span>
         </div>
         <div class="gm-detail" id="gmd-ito">
-          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G3 → G4 要件チェックリスト</div>
           <div class="priority-row">
             <span class="priority-label">今期の取り組み順：</span>
             <span class="priority-badge-1">① 案件PM</span>
@@ -2187,13 +1978,13 @@
           <div class="avatar" style="background:#84CC16;font-size:11px">加</div>
           <div><div class="gm-name">加藤 さくら</div><div class="gm-role">HR・業務改善</div></div>
           <span class="grade-chip grade-g2" style="margin-left:12px">G2</span>
-          <span style="font-size:12px;color:var(--text-muted);margin:0 4px">→</span>
+          <span style="font-size:12px;color:var(--text-dim);margin:0 4px">→</span>
           <span class="grade-chip grade-g3">G3</span>
           <span class="gm-progress-text" style="margin-left:8px">0 / 4 達成</span>
           <span class="gm-arrow" id="arr-kato">▼</span>
         </div>
         <div class="gm-detail" id="gmd-kato">
-          <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">G2 → G3 要件チェックリスト</div>
           <div class="priority-row">
             <span class="priority-label">今期の取り組み順：</span>
             <span class="priority-badge-1">① 提案書・要件定義書作成</span>
@@ -2259,7 +2050,7 @@
       <!-- ─── TAB: 品質管理計画 ─── -->
       <div id="growth-quality" style="display:none">
         <div style="display:flex;gap:10px;margin-bottom:20px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;align-items:center">
-          <span style="font-size:12px;color:var(--text-muted);font-weight:600">データ源：</span>
+          <span style="font-size:12px;color:var(--text-dim);font-weight:600">データ源：</span>
           <span class="chip chip-blue">📋 案件レビュー記録</span>
           <span class="chip chip-green">🤝 顧客フィードバック</span>
           <span class="chip chip-purple">🎙 1on1・振り返り音声</span>
@@ -2278,23 +2069,23 @@
             </div>
             <div class="progress-row">
               <div class="progress-label"><span>納期遵守率</span><span>72%</span></div>
-              <div class="progress-track"><div class="progress-fill" style="width:72%;background:var(--amber)"></div></div>
+              <div class="progress-track"><div class="progress-fill" style="width:72%;background:var(--gold)"></div></div>
             </div>
             <div class="progress-row">
               <div class="progress-label"><span>再作業・手戻り件数（今月）</span><span>2件</span></div>
-              <div class="progress-track"><div class="progress-fill" style="width:30%;background:var(--amber)"></div></div>
+              <div class="progress-track"><div class="progress-fill" style="width:30%;background:var(--gold)"></div></div>
             </div>
           </div>
           <div class="card">
             <div class="card-title mb-4">品質リスク</div>
             <div style="display:flex;flex-direction:column;gap:8px">
-              <div style="padding:10px;background:var(--red-light);border-radius:6px;border-left:3px solid var(--red);font-size:12px;color:#991B1B;line-height:1.6">
+              <div style="padding:10px;background:var(--red-dim);border-radius:6px;border-left:3px solid var(--red);font-size:12px;color:var(--red);line-height:1.6">
                 <strong>納期遵守率が低下中</strong><br>Salesforce案件の遅延が影響。M2完了後に挽回計画を立てる。
               </div>
-              <div style="padding:10px;background:var(--amber-light);border-radius:6px;border-left:3px solid var(--amber);font-size:12px;color:#92400E;line-height:1.6">
+              <div style="padding:10px;background:var(--gold-dim);border-radius:6px;border-left:3px solid var(--gold);font-size:12px;color:var(--gold);line-height:1.6">
                 <strong>1名アサイン案件のレビュー体制が薄い</strong><br>佐藤・伊藤の単独案件はピアレビューを設定する。
               </div>
-              <div style="padding:10px;background:var(--green-light);border-radius:6px;border-left:3px solid var(--green);font-size:12px;color:#065F46;line-height:1.6">
+              <div style="padding:10px;background:var(--green-dim);border-radius:6px;border-left:3px solid var(--green);font-size:12px;color:var(--green);line-height:1.6">
                 <strong>顧客満足度は維持</strong><br>4.1は前四半期比+0.2。コラボ増加で更なる向上を狙う。
               </div>
             </div>
@@ -2333,7 +2124,7 @@
       <!-- ─── TAB: チーム拡大計画 ─── -->
       <div id="growth-expand" style="display:none">
         <div style="display:flex;gap:10px;margin-bottom:20px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;align-items:center">
-          <span style="font-size:12px;color:var(--text-muted);font-weight:600">データ源：</span>
+          <span style="font-size:12px;color:var(--text-dim);font-weight:600">データ源：</span>
           <span class="chip chip-amber">💴 売上・稼働データ（Kintone）</span>
           <span class="chip chip-blue">📄 チームプラン（SharePoint）</span>
         </div>
@@ -2343,12 +2134,12 @@
             <div class="stat-icon">👥</div>
             <div class="stat-label">現在の人数</div>
             <div class="stat-value">8</div>
-            <div class="stat-delta" style="color:var(--text-muted)">矢野1 + メンバー7</div>
+            <div class="stat-delta" style="color:var(--text-dim)">矢野1 + メンバー7</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">🎯</div>
             <div class="stat-label">目標人数（Q4）</div>
-            <div class="stat-value" style="color:var(--primary)">12</div>
+            <div class="stat-value" style="color:var(--gold)">12</div>
             <div class="stat-delta up">+4名の採用計画</div>
           </div>
           <div class="stat-card">
@@ -2360,8 +2151,8 @@
           <div class="stat-card">
             <div class="stat-icon">🏆</div>
             <div class="stat-label">マネージャー候補</div>
-            <div class="stat-value" style="color:var(--amber)">2</div>
-            <div class="stat-delta" style="color:var(--amber)">佐藤・田中（仮）</div>
+            <div class="stat-value" style="color:var(--gold)">2</div>
+            <div class="stat-delta" style="color:var(--gold)">佐藤・田中（仮）</div>
           </div>
         </div>
 
@@ -2369,26 +2160,26 @@
           <div class="card">
             <div class="card-title mb-4">採用計画タイムライン</div>
             <div style="display:flex;flex-direction:column;gap:10px">
-              <div style="padding:10px 12px;background:var(--amber-light);border-radius:6px;border-left:3px solid var(--amber)">
-                <div style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:4px">Q3（7〜9月） +2名採用</div>
-                <div style="font-size:12px;color:#92400E;line-height:1.6">インフラ・クラウド経験者 1名<br>コンサルタント（中途）1名<br>→ 顧客Bの拡大に対応</div>
+              <div style="padding:10px 12px;background:var(--gold-dim);border-radius:6px;border-left:3px solid var(--gold)">
+                <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:4px">Q3（7〜9月） +2名採用</div>
+                <div style="font-size:12px;color:var(--gold);line-height:1.6">インフラ・クラウド経験者 1名<br>コンサルタント（中途）1名<br>→ 顧客Bの拡大に対応</div>
               </div>
               <div style="padding:10px 12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--border)">
                 <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q4（10〜12月） +2名採用</div>
-                <div style="font-size:12px;color:var(--text-muted);line-height:1.6">データ分析・BI経験者 1名<br>新規顧客開拓用コンサルタント 1名</div>
+                <div style="font-size:12px;color:var(--text-dim);line-height:1.6">データ分析・BI経験者 1名<br>新規顧客開拓用コンサルタント 1名</div>
               </div>
             </div>
           </div>
           <div class="card">
             <div class="card-title mb-4">内部登用・昇格計画</div>
             <div style="display:flex;flex-direction:column;gap:10px">
-              <div style="padding:10px 12px;background:var(--primary-light);border-radius:6px;border-left:3px solid var(--primary)">
-                <div style="font-size:12px;font-weight:700;color:#1D4ED8;margin-bottom:4px">佐藤 健二 → サブマネージャー候補</div>
-                <div style="font-size:12px;color:#1D4ED8;line-height:1.6">DX戦略案件の提案成功が条件。加藤さんのメンタリング実績を確認後、Q4での登用を検討。</div>
+              <div style="padding:10px 12px;background:var(--blue-dim);border-radius:6px;border-left:3px solid var(--gold)">
+                <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:4px">佐藤 健二 → サブマネージャー候補</div>
+                <div style="font-size:12px;color:var(--blue);line-height:1.6">DX戦略案件の提案成功が条件。加藤さんのメンタリング実績を確認後、Q4での登用を検討。</div>
               </div>
               <div style="padding:10px 12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--border)">
                 <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">田中 慎也 → テックリード候補</div>
-                <div style="font-size:12px;color:var(--text-muted);line-height:1.6">インフラ・クラウドの深い知見を活かしたロール。チーム拡大後の技術品質を担う役割。来年Q1目安。</div>
+                <div style="font-size:12px;color:var(--text-dim);line-height:1.6">インフラ・クラウドの深い知見を活かしたロール。チーム拡大後の技術品質を担う役割。来年Q1目安。</div>
               </div>
             </div>
           </div>
@@ -2400,15 +2191,15 @@
             <div class="card-sub">現メンバーの成長が採用後のオンボーディング品質に直結する</div>
           </div>
           <div style="display:flex;gap:14px;flex-wrap:wrap">
-            <div style="flex:1;min-width:200px;padding:12px;background:var(--green-light);border-radius:8px;font-size:12px;color:#065F46;line-height:1.7">
+            <div style="flex:1;min-width:200px;padding:12px;background:var(--green-dim);border-radius:8px;font-size:12px;color:var(--green);line-height:1.7">
               <strong>✅ 今やっていること</strong><br>
               案件横断コラボの仕組みを作ることで、将来の新人OJTの基盤を整えている
             </div>
-            <div style="flex:1;min-width:200px;padding:12px;background:var(--amber-light);border-radius:8px;font-size:12px;color:#92400E;line-height:1.7">
+            <div style="flex:1;min-width:200px;padding:12px;background:var(--gold-dim);border-radius:8px;font-size:12px;color:var(--gold);line-height:1.7">
               <strong>⚠ 課題</strong><br>
               佐藤・田中が将来のサブマネに育たないと、12名体制を矢野さん一人で見ることになる
             </div>
-            <div style="flex:1;min-width:200px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:12px;color:#1D4ED8;line-height:1.7">
+            <div style="flex:1;min-width:200px;padding:12px;background:var(--blue-dim);border-radius:8px;font-size:12px;color:var(--blue);line-height:1.7">
               <strong>💡 このシステムの役割</strong><br>
               採用後に「誰が何を教えられるか」が即わかる状態を今のうちに作っておく
             </div>
@@ -2434,7 +2225,7 @@
 
       <!-- Filters -->
       <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap">
-        <button onclick="filterTodos('all',this)" class="todo-filter active-filter" style="padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--primary);background:var(--primary);color:white;cursor:pointer">すべて</button>
+        <button onclick="filterTodos('all',this)" class="todo-filter active-filter" style="padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--gold);background:var(--gold);color:white;cursor:pointer">すべて</button>
         <button onclick="filterTodos('mine',this)" class="todo-filter" style="padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border);background:white;color:var(--text);cursor:pointer">自分のTodo</button>
         <button onclick="filterTodos('urgent',this)" class="todo-filter" style="padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border);background:white;color:var(--text);cursor:pointer">期限間近</button>
         <button onclick="filterTodos('done',this)" class="todo-filter" style="padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border);background:white;color:var(--text);cursor:pointer">完了済み</button>
@@ -2486,7 +2277,7 @@
             <div style="flex:1;min-width:0">
               <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
                 <span style="font-size:13px;font-weight:700;color:var(--dark)">顧客B追加提案（Salesforce + データ分析連携）の打ち合わせを設定</span>
-                <span class="chip chip-gray" style="font-size:10px;background:#F1F5F9;color:#475569">未着手</span>
+                <span class="chip chip-gray" style="font-size:10px;background:var(--surface2);color:var(--text-dim)">未着手</span>
               </div>
               <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
                 <span class="chip chip-red" style="font-size:10px">🔴 高</span>
@@ -2504,7 +2295,7 @@
             <div style="flex:1;min-width:0">
               <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
                 <span style="font-size:13px;font-weight:700;color:var(--dark)">顧客AフェーズNEXT提案書のドラフト作成（田中・鈴木）</span>
-                <span class="chip chip-gray" style="font-size:10px;background:#F1F5F9;color:#475569">未着手</span>
+                <span class="chip chip-gray" style="font-size:10px;background:var(--surface2);color:var(--text-dim)">未着手</span>
               </div>
               <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
                 <span class="chip chip-amber" style="font-size:10px">🟡 中</span>
@@ -2522,12 +2313,12 @@
             <div style="flex:1;min-width:0">
               <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
                 <span style="font-size:13px;font-weight:700;color:var(--dark)">加藤さんのHR DX案件キックオフ資料を準備（加藤 + 矢野さんレビュー）</span>
-                <span class="chip chip-gray" style="font-size:10px;background:#F1F5F9;color:#475569">未着手</span>
+                <span class="chip chip-gray" style="font-size:10px;background:var(--surface2);color:var(--text-dim)">未着手</span>
               </div>
               <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
                 <span class="chip chip-amber" style="font-size:10px">🟡 中</span>
                 <span class="chip chip-gray" style="font-size:10px">📅 6/27</span>
-                <span class="chip chip-green" style="font-size:10px;background:#D1FAE5;color:#065F46">👤 加藤</span>
+                <span class="chip chip-green" style="font-size:10px;background:#D1FAE5;color:var(--green)">👤 加藤</span>
                 <span class="chip chip-gray" style="font-size:10px">🔗 顧客B / HR DX</span>
               </div>
             </div>
@@ -2552,13 +2343,13 @@
 
         </div>
 
-        <div style="padding:12px 0 4px;font-size:11px;color:var(--text-muted)">
+        <div style="padding:12px 0 4px;font-size:11px;color:var(--text-dim)">
           完了済みを表示するには「完了済み」フィルターを選択してください
         </div>
       </div>
 
       <!-- Slack hint -->
-      <div style="margin-top:14px;padding:12px 16px;background:var(--primary-light);border-radius:8px;font-size:12px;color:#1D4ED8;line-height:1.8">
+      <div style="margin-top:14px;padding:12px 16px;background:var(--blue-dim);border-radius:8px;font-size:12px;color:var(--blue);line-height:1.8">
         💬 <strong>Slackから操作できます</strong><br>
         「〇〇をTodoに追加して、担当：田中、期限：6/20」とSlackに投稿 → 自動で追加されます<br>
         Botからのリマインドに返信して「完了しました」「明日に延ばします」と書くとステータスが更新されます
@@ -2622,15 +2413,15 @@
           <div class="sl-section">
             <div class="sl-section-hdr">ダイレクトメッセージ <span style="font-size:14px;font-weight:400">+</span></div>
             <div class="sl-dm-item" id="sl-dm-yano" onclick="slackScene(4)">
-              <div class="sl-dm-av" style="background:#F59E0B">矢</div>
+              <div class="sl-dm-av" style="background:var(--gold)">矢</div>
               矢野 <span class="sl-online">●</span>
             </div>
             <div class="sl-dm-item">
-              <div class="sl-dm-av" style="background:#4F46E5">田</div>
+              <div class="sl-dm-av" style="background:var(--gold)">田</div>
               田中 慎也
             </div>
             <div class="sl-dm-item">
-              <div class="sl-dm-av" style="background:#10B981">鈴</div>
+              <div class="sl-dm-av" style="background:var(--green)">鈴</div>
               鈴木 麻衣
             </div>
             <div class="sl-dm-item" style="color:rgba(255,255,255,0.3)">
@@ -2741,7 +2532,7 @@
             </div>
             <div class="sl-hr"></div>
             <div class="sl-msg">
-              <div class="sl-av-u" style="background:#10B981">鈴</div>
+              <div class="sl-av-u" style="background:var(--green)">鈴</div>
               <div class="sl-msg-body">
                 <div class="sl-msg-hdr">
                   <span class="sl-u-name" style="color:#4ADE80">鈴木 麻衣</span>
@@ -2804,7 +2595,7 @@
             </div>
             <div class="sl-hr"></div>
             <div class="sl-msg">
-              <div class="sl-av-u" style="background:#EF4444">山</div>
+              <div class="sl-av-u" style="background:var(--red)">山</div>
               <div class="sl-msg-body">
                 <div class="sl-msg-hdr">
                   <span class="sl-u-name" style="color:#FC8181">山田 拓也</span>
@@ -2843,10 +2634,10 @@
           <div class="sl-msgs sl-scenario" style="display:none">
             <div class="sl-gap"></div>
             <div class="sl-msg">
-              <div class="sl-av-u" style="background:#F59E0B">矢</div>
+              <div class="sl-av-u" style="background:var(--gold)">矢</div>
               <div class="sl-msg-body">
                 <div class="sl-msg-hdr">
-                  <span class="sl-u-name" style="color:#FCD34D">矢野</span>
+                  <span class="sl-u-name" style="color:var(--gold)">矢野</span>
                   <span class="sl-ts">今日 11:30</span>
                 </div>
                 <div class="sl-text">@YanoTeam Bot　今週のチームサマリーを見せて</div>
@@ -2888,10 +2679,10 @@
             </div>
             <div class="sl-gap"></div>
             <div class="sl-msg">
-              <div class="sl-av-u" style="background:#F59E0B">矢</div>
+              <div class="sl-av-u" style="background:var(--gold)">矢</div>
               <div class="sl-msg-body">
                 <div class="sl-msg-hdr">
-                  <span class="sl-u-name" style="color:#FCD34D">矢野</span>
+                  <span class="sl-u-name" style="color:var(--gold)">矢野</span>
                   <span class="sl-ts">今日 11:32</span>
                 </div>
                 <div class="sl-text">@YanoTeam Bot　顧客B追加提案の打ち合わせ設定、担当は自分で期限今週金曜でTodoに入れておいて</div>
@@ -2970,24 +2761,24 @@
 
       <!-- Value explanation -->
       <div class="grid-3" style="gap:14px">
-        <div class="card" style="border-left:3px solid #4F46E5">
+        <div class="card" style="border-left:3px solid var(--gold)">
           <div style="font-size:18px;margin-bottom:8px">🔄</div>
           <div class="card-title" style="margin-bottom:6px">双方向連携</div>
-          <div style="font-size:12px;color:var(--text-muted);line-height:1.65">
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.65">
             Slackへの投稿がポータルに自動集約。ポータルの変化がSlack通知に変換。管理簿に入力する手間が不要になります。
           </div>
         </div>
         <div class="card" style="border-left:3px solid #059669">
           <div style="font-size:18px;margin-bottom:8px">💬</div>
           <div class="card-title" style="margin-bottom:6px">会話が記録になる</div>
-          <div style="font-size:12px;color:var(--text-muted);line-height:1.65">
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.65">
             「ボタンを押す」「返信する」だけでポータルが更新されます。メンバーは普段のSlack操作を変えずに情報が蓄積されます。
           </div>
         </div>
         <div class="card" style="border-left:3px solid #7C3AED">
           <div style="font-size:18px;margin-bottom:8px">🤖</div>
           <div class="card-title" style="margin-bottom:6px">AIがシグナルを検知</div>
-          <div style="font-size:12px;color:var(--text-muted);line-height:1.65">
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.65">
             日報・案件チャンネルをAIが読み、「詰まっている」「案件拡大チャンス」などのシグナルを自動検知して提案します。
           </div>
         </div>
@@ -3007,20 +2798,20 @@
       <div class="card mb-4">
         <div class="card-title mb-4">📐 このポータルでできること</div>
         <div class="grid-3" style="gap:12px">
-          <div style="padding:14px;background:var(--primary-light);border-radius:8px">
+          <div style="padding:14px;background:var(--blue-dim);border-radius:8px">
             <div style="font-size:20px;margin-bottom:6px">🤝</div>
             <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px">コラボ機会を自動検知</div>
-            <div style="font-size:12px;color:#1D4ED8;line-height:1.6">Slack/Teamsの発言を分析し、「この人のスキルがあの案件に使える」を自動で提案します。</div>
+            <div style="font-size:12px;color:var(--blue);line-height:1.6">Slack/Teamsの発言を分析し、「この人のスキルがあの案件に使える」を自動で提案します。</div>
           </div>
-          <div style="padding:14px;background:var(--green-light);border-radius:8px">
+          <div style="padding:14px;background:var(--green-dim);border-radius:8px">
             <div style="font-size:20px;margin-bottom:6px">📊</div>
             <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px">案件の状態を一元管理</div>
-            <div style="font-size:12px;color:#065F46;line-height:1.6">マイルストン・課題・進捗をSlackへの返信から自動更新。入力フォームは不要です。</div>
+            <div style="font-size:12px;color:var(--green);line-height:1.6">マイルストン・課題・進捗をSlackへの返信から自動更新。入力フォームは不要です。</div>
           </div>
-          <div style="padding:14px;background:var(--amber-light);border-radius:8px">
+          <div style="padding:14px;background:var(--gold-dim);border-radius:8px">
             <div style="font-size:20px;margin-bottom:6px">📈</div>
             <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px">売上とアクションを繋げる</div>
-            <div style="font-size:12px;color:#92400E;line-height:1.6">KintoneとアカウントプランをAIが分析し、今週チームが集中すべきことを提案します。</div>
+            <div style="font-size:12px;color:var(--gold);line-height:1.6">KintoneとアカウントプランをAIが分析し、今週チームが集中すべきことを提案します。</div>
           </div>
         </div>
       </div>
@@ -3034,35 +2825,35 @@
               <span style="font-size:14px">🏠</span>
               <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">チームダッシュボード</span>
             </div>
-            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">チーム全体の状況を毎日確認するトップページ。Slackの日報・案件ch・#generalの投稿が自動集約されます。コラボ提案カードが表示されたら、積極的に動いてみてください。<br><span style="color:var(--primary);font-weight:600">👥 全員が利用</span></div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">チーム全体の状況を毎日確認するトップページ。Slackの日報・案件ch・#generalの投稿が自動集約されます。コラボ提案カードが表示されたら、積極的に動いてみてください。<br><span style="color:var(--gold);font-weight:600">👥 全員が利用</span></div>
           </div>
           <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
             <div style="width:160px;flex-shrink:0">
               <span style="font-size:14px">📋</span>
               <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">案件マップ</span>
             </div>
-            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">担当中の全案件のマイルストン・課題・目指す状態を確認できます。内容の更新は<strong style="color:var(--dark)">Slackのリマインドに返信するだけ</strong>で自動反映されます。Teamsでの顧客とのやりとりも取り込まれます。<br><span style="color:var(--primary);font-weight:600">👥 全員が利用</span></div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">担当中の全案件のマイルストン・課題・目指す状態を確認できます。内容の更新は<strong style="color:var(--dark)">Slackのリマインドに返信するだけ</strong>で自動反映されます。Teamsでの顧客とのやりとりも取り込まれます。<br><span style="color:var(--gold);font-weight:600">👥 全員が利用</span></div>
           </div>
           <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
             <div style="width:160px;flex-shrink:0">
               <span style="font-size:14px">📈</span>
               <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">売上・アクション</span>
             </div>
-            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">Kintoneの売上データとアカウントプランをもとに今週のアクション提案が表示されます。主に矢野さんが意思決定に活用しますが、メンバーも自分の貢献度の確認に使えます。<br><span style="color:var(--primary);font-weight:600">👥 全員が利用</span></div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">Kintoneの売上データとアカウントプランをもとに今週のアクション提案が表示されます。主に矢野さんが意思決定に活用しますが、メンバーも自分の貢献度の確認に使えます。<br><span style="color:var(--gold);font-weight:600">👥 全員が利用</span></div>
           </div>
           <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
             <div style="width:160px;flex-shrink:0">
               <span style="font-size:14px">🔒</span>
               <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">メンバー成長</span>
             </div>
-            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">スキルマップ・1on1サマリー・品質管理計画・チーム拡大計画が確認できます。1on1の音声記録からAIがキーワードとアクションを自動抽出します。<br><span style="color:var(--red);font-weight:600">🔒 矢野さん（マネージャー）専用</span></div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">スキルマップ・1on1サマリー・品質管理計画・チーム拡大計画が確認できます。1on1の音声記録からAIがキーワードとアクションを自動抽出します。<br><span style="color:var(--red);font-weight:600">🔒 矢野さん（マネージャー）専用</span></div>
           </div>
           <div style="display:flex;gap:14px;padding:14px 0">
             <div style="width:160px;flex-shrink:0">
               <span style="font-size:14px">💬</span>
               <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">Slack連携イメージ</span>
             </div>
-            <div style="font-size:12px;color:var(--text-muted);line-height:1.7">ポータルと連動してSlackに自動送信されるメッセージのサンプルです。朝のダイジェスト・コラボ提案・マイルストンリマインド・週次サマリーが含まれます。<br><span style="color:var(--primary);font-weight:600">📖 MOC確認用</span></div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">ポータルと連動してSlackに自動送信されるメッセージのサンプルです。朝のダイジェスト・コラボ提案・マイルストンリマインド・週次サマリーが含まれます。<br><span style="color:var(--gold);font-weight:600">📖 MOC確認用</span></div>
           </div>
         </div>
       </div>
@@ -3072,19 +2863,19 @@
         <div class="card-title mb-4">💬 Slackとの連携の仕組み</div>
         <div style="display:flex;flex-direction:column;gap:12px">
           <div style="display:flex;gap:12px;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
             <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>日報・案件チャンネルへの投稿</strong><br>いつも通りSlackに投稿するだけでOK。Botが自動で読み取ってポータルに反映します。特別なフォーマットは不要です。</div>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
             <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>Botからのリマインドに返信</strong><br>月曜朝にBotからマイルストンの進捗確認が届きます。自然な文章で返信するとポータルが更新されます。ボタンで簡単回答もできます。</div>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
             <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>コラボ提案を受け取る</strong><br>#yanoteam-collabにコラボ提案が届いたら「協力します」ボタンを押すか、メンションで返信してください。それだけでコラボ実績として記録されます。</div>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</div>
             <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>Teams（顧客環境）の発言も連携</strong><br>顧客とのTeamsチャットでの合意事項・決定事項も自動で取り込まれ、案件の課題・進捗に反映されます。</div>
           </div>
         </div>
@@ -3096,19 +2887,19 @@
         <div style="display:flex;flex-direction:column;gap:10px">
           <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
             <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. 日報をどのチャンネルに書けばいいですか？</div>
-            <div style="font-size:12px;color:var(--text-muted)">A. 今まで通りの場所でOKです。案件チャンネル・#日報・#generalのいずれも自動で読み取ります。</div>
+            <div style="font-size:12px;color:var(--text-dim)">A. 今まで通りの場所でOKです。案件チャンネル・#日報・#generalのいずれも自動で読み取ります。</div>
           </div>
           <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
             <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. 自分のSlack発言が全部見られますか？</div>
-            <div style="font-size:12px;color:var(--text-muted)">A. DMと非公開チャンネルは読み取りません。チームの案件ch・日報ch・#generalのみが対象です。</div>
+            <div style="font-size:12px;color:var(--text-dim)">A. DMと非公開チャンネルは読み取りません。チームの案件ch・日報ch・#generalのみが対象です。</div>
           </div>
           <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
             <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. コラボ提案を断りたい場合は？</div>
-            <div style="font-size:12px;color:var(--text-muted)">A. 「スルーする」ボタンを押すか、返信しなければ大丈夫です。プレッシャーをかけるためのものではありません。</div>
+            <div style="font-size:12px;color:var(--text-dim)">A. 「スルーする」ボタンを押すか、返信しなければ大丈夫です。プレッシャーをかけるためのものではありません。</div>
           </div>
           <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
             <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. ポータルの情報が実態と違う場合は？</div>
-            <div style="font-size:12px;color:var(--text-muted)">A. 該当のSlackチャンネルに正しい情報を投稿してください。Botが読み取って更新します。直接編集する機能は今後追加予定です。</div>
+            <div style="font-size:12px;color:var(--text-dim)">A. 該当のSlackチャンネルに正しい情報を投稿してください。Botが読み取って更新します。直接編集する機能は今後追加予定です。</div>
           </div>
         </div>
       </div>
@@ -3120,7 +2911,7 @@
     <div class="page" id="page-changelog">
 
       <div class="section-title">変更履歴</div>
-      <div class="text-muted mb-6">ポータルの機能追加・変更・修正の記録です。公開URL：<a href="https://yanoteam.vercel.app/" target="_blank" style="color:var(--primary);font-weight:600">https://yanoteam.vercel.app/</a></div>
+      <div class="text-muted mb-6">ポータルの機能追加・変更・修正の記録です。公開URL：<a href="https://yanoteam.vercel.app/" target="_blank" style="color:var(--gold);font-weight:600">https://yanoteam.vercel.app/</a></div>
 
       <div class="card">
         <div style="display:flex;flex-direction:column;gap:0">
@@ -3129,7 +2920,7 @@
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
               <span style="font-size:12px;font-weight:800;color:var(--dark)">v0.3</span>
               <span class="chip chip-green" style="font-size:10px">最新</span>
-              <span style="font-size:11px;color:var(--text-muted)">2026年6月6日</span>
+              <span style="font-size:11px;color:var(--text-dim)">2026年6月6日</span>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px">
               <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;使い方ガイド・変更履歴ページを追加</div>
@@ -3143,7 +2934,7 @@
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
               <span style="font-size:12px;font-weight:800;color:var(--dark)">v0.2</span>
               <span class="chip chip-blue" style="font-size:10px">MOC</span>
-              <span style="font-size:11px;color:var(--text-muted)">2026年6月6日</span>
+              <span style="font-size:11px;color:var(--text-dim)">2026年6月6日</span>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px">
               <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;案件マップにマイルストン・課題・目指す状態を追加</div>
@@ -3158,7 +2949,7 @@
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
               <span style="font-size:12px;font-weight:800;color:var(--dark)">v0.1</span>
               <span class="chip chip-gray" style="font-size:10px">初版</span>
-              <span style="font-size:11px;color:var(--text-muted)">2026年6月6日</span>
+              <span style="font-size:11px;color:var(--text-dim)">2026年6月6日</span>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px">
               <div style="font-size:12px;color:var(--text);line-height:1.6">✅ &nbsp;チームダッシュボード（コラボ提案カード・メンバー活動テーブル）</div>
@@ -3171,16 +2962,16 @@
 
           <div style="padding:16px 0">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-              <span style="font-size:12px;font-weight:800;color:var(--text-muted)">予定</span>
+              <span style="font-size:12px;font-weight:800;color:var(--text-dim)">予定</span>
               <span class="chip chip-purple" style="font-size:10px">Backlog</span>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px">
-              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;実データ連携（Slack API・Kintone API・SharePoint API）</div>
-              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;Teams（顧客環境）からの情報取り込み</div>
-              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;1on1音声記録のアップロード・AI解析機能</div>
-              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;Slack Botの実装・自動送信</div>
-              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;ポータル情報の直接編集機能</div>
-              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">⬜ &nbsp;ログイン・権限管理（矢野さん用/メンバー用ビューの切り替え）</div>
+              <div style="font-size:12px;color:var(--text-dim);line-height:1.6">⬜ &nbsp;実データ連携（Slack API・Kintone API・SharePoint API）</div>
+              <div style="font-size:12px;color:var(--text-dim);line-height:1.6">⬜ &nbsp;Teams（顧客環境）からの情報取り込み</div>
+              <div style="font-size:12px;color:var(--text-dim);line-height:1.6">⬜ &nbsp;1on1音声記録のアップロード・AI解析機能</div>
+              <div style="font-size:12px;color:var(--text-dim);line-height:1.6">⬜ &nbsp;Slack Botの実装・自動送信</div>
+              <div style="font-size:12px;color:var(--text-dim);line-height:1.6">⬜ &nbsp;ポータル情報の直接編集機能</div>
+              <div style="font-size:12px;color:var(--text-dim);line-height:1.6">⬜ &nbsp;ログイン・権限管理（矢野さん用/メンバー用ビューの切り替え）</div>
             </div>
           </div>
 
@@ -3210,7 +3001,7 @@
     document.querySelectorAll('.todo-filter').forEach(b => {
       b.style.background = 'white'; b.style.color = 'var(--text)'; b.style.borderColor = 'var(--border)';
     });
-    btn.style.background = 'var(--primary)'; btn.style.color = 'white'; btn.style.borderColor = 'var(--primary)';
+    btn.style.background = 'var(--gold)'; btn.style.color = 'white'; btn.style.borderColor = 'var(--gold)';
 
     document.querySelectorAll('.todo-item').forEach(item => {
       const status = item.dataset.status;
@@ -3255,11 +3046,11 @@
     });
     document.querySelectorAll('.mgr-tab').forEach(t => {
       t.style.borderBottomColor = 'transparent';
-      t.style.color = 'var(--text-muted)';
+      t.style.color = 'var(--text-dim)';
     });
     document.getElementById(tabId).style.display = 'block';
-    el.style.borderBottomColor = 'var(--primary)';
-    el.style.color = 'var(--primary)';
+    el.style.borderBottomColor = 'var(--gold)';
+    el.style.color = 'var(--gold)';
   }
 
   // MOC preview: let user see manager view
@@ -3378,7 +3169,7 @@
         progCard.appendChild(mkAddBtn('+ 品質指標を追加', function() {
           var row = document.createElement('div');
           row.className = 'progress-row';
-          row.innerHTML = '<div class="progress-label"><span contenteditable="true" class="editable-text">指標名</span><input class="val-input" style="width:64px" value="0%"></div><div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--primary)"></div></div>';
+          row.innerHTML = '<div class="progress-label"><span contenteditable="true" class="editable-text">指標名</span><input class="val-input" style="width:64px" value="0%"></div><div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--gold)"></div></div>';
           row.querySelector('input').oninput = function() {
             var p = parseInt(this.value); if (!isNaN(p)) row.querySelector('.progress-fill').style.width = Math.min(100,Math.max(0,p))+'%';
           };
@@ -3428,10 +3219,10 @@
 
       // タイムライン・昇格・取り組みカードを編集可能に
       exTab.querySelectorAll('[style*="border-left:3px"]').forEach(mkEditable);
-      exTab.querySelectorAll('[style*="border-radius:8px"][style*="background:var(--green-light)"], [style*="border-radius:8px"][style*="background:var(--amber-light)"], [style*="border-radius:8px"][style*="background:var(--primary-light)"]').forEach(mkEditable);
+      exTab.querySelectorAll('[style*="border-radius:8px"][style*="background:var(--green-dim)"], [style*="border-radius:8px"][style*="background:var(--gold-dim)"], [style*="border-radius:8px"][style*="background:var(--blue-dim)"]').forEach(mkEditable);
 
       // 採用タイムライン追加ボタン
-      var tlList = exTab.querySelector('[style*="border-left:3px solid var(--amber)"]') && exTab.querySelector('[style*="border-left:3px solid var(--amber)"]').parentElement;
+      var tlList = exTab.querySelector('[style*="border-left:3px solid var(--gold)"]') && exTab.querySelector('[style*="border-left:3px solid var(--gold)"]').parentElement;
       if (tlList) {
         tlList.appendChild(mkAddBtn('+ 採用フェーズを追加', function() {
           var d = document.createElement('div');
@@ -3445,7 +3236,7 @@
       }
 
       // 登用候補追加ボタン
-      var promoList = exTab.querySelector('[style*="border-left:3px solid var(--primary)"]') && exTab.querySelector('[style*="border-left:3px solid var(--primary)"]').parentElement;
+      var promoList = exTab.querySelector('[style*="border-left:3px solid var(--gold)"]') && exTab.querySelector('[style*="border-left:3px solid var(--gold)"]').parentElement;
       if (promoList) {
         promoList.appendChild(mkAddBtn('+ 登用候補を追加', function() {
           var d = document.createElement('div');
@@ -3507,7 +3298,7 @@
   }
 
   var memberProfiles = {
-    tanaka:   { name:'田中 慎也', role:'クラウド・インフラ',     color:'#6366F1', initial:'田',
+    tanaka:   { name:'田中 慎也', role:'クラウド・インフラ',     color:'#58A6FF', initial:'田',
                 tags:['クラウド設計','インフラ','PM','AWS','オンプレ移行'],
                 capacity:'normal', capLabel:'通常稼働',
                 grade:'G3 → G4', gradeNote:'案件PMリードで昇格条件クリアを目指している',
@@ -3515,7 +3306,7 @@
                 slack:[{t:'2時間前',msg:'テスト環境の構築が完了。来週から本番前検証フェーズに入ります 👍'},
                        {t:'昨日',  msg:'AWS Cost Explorerで今月のコスト分析。想定内でした。明日共有します'}],
                 intro:'インフラは任せてください。複雑な構成も図に落とすのが得意です。' },
-    suzuki:   { name:'鈴木 麻衣', role:'Salesforce・M365',      color:'#10B981', initial:'鈴',
+    suzuki:   { name:'鈴木 麻衣', role:'Salesforce・M365',      color:'var(--green)', initial:'鈴',
                 tags:['Salesforce','M365','AM','顧客関係構築'],
                 capacity:'normal', capLabel:'通常稼働',
                 grade:'G3 → G4', gradeNote:'技術レビューとOJTの実績を積んでいく段階',
@@ -3523,7 +3314,7 @@
                 slack:[{t:'3時間前',msg:'顧客AのTeams活用研修、参加者満足度が高かったです！継続のリクエストも'},
                        {t:'2日前', msg:'山田さんのSalesforce権限設計レビューしました。コメント送ります'}],
                 intro:'顧客との関係づくりが得意です。困ったことがあれば気軽に声かけてください。' },
-    sato:     { name:'佐藤 健二', role:'戦略・コンサル',         color:'#8B5CF6', initial:'佐',
+    sato:     { name:'佐藤 健二', role:'戦略・コンサル',         color:'#BC8CFF', initial:'佐',
                 tags:['DX戦略','提案書作成','ナレッジ標準化','業務分析'],
                 capacity:'full',   capLabel:'フル稼働',
                 grade:'G4 → G5', gradeNote:'顧客BへのDX戦略提案が今期の昇格キーアクション',
@@ -3531,7 +3322,7 @@
                 slack:[{t:'1時間前',msg:'ヒアリング完了。先方からデータを使った意思決定の仕組みも欲しいと。提案の幅が広がりそう'},
                        {t:'昨日',   msg:'提案書テンプレートをNotionに整理しました。みんな使ってください'}],
                 intro:'戦略から実行まで一気通貫でやります。提案書のレビューも歓迎です。' },
-    yamada:   { name:'山田 拓也', role:'Salesforce',             color:'#EF4444', initial:'山',
+    yamada:   { name:'山田 拓也', role:'Salesforce',             color:'var(--red)', initial:'山',
                 tags:['Salesforce','権限設計','フロー自動化'],
                 capacity:'free',   capLabel:'余裕あり',
                 grade:'G2 → G3', gradeNote:'異業種案件への参加が最優先アクション',
@@ -3581,7 +3372,7 @@
     document.getElementById('mp-grade-note').textContent = m.gradeNote;
     document.getElementById('mp-slack').innerHTML = m.slack.map(function(s){
       return '<div style="padding:8px 10px;background:var(--bg);border-radius:6px;margin-bottom:5px">'
-        +'<div style="font-size:10px;color:var(--text-muted);margin-bottom:2px">'+s.t+'</div>'
+        +'<div style="font-size:10px;color:var(--text-dim);margin-bottom:2px">'+s.t+'</div>'
         +'<div style="font-size:12px;color:var(--text);line-height:1.5">'+s.msg+'</div></div>';
     }).join('');
     document.getElementById('mp-intro').textContent = m.intro;
@@ -3655,7 +3446,7 @@
           <span id="mp-name" style="font-size:17px;font-weight:800;color:var(--dark)"></span>
           <span id="mp-cap" class="member-mini-cap"></span>
         </div>
-        <div id="mp-role" style="font-size:12px;color:var(--text-muted);margin-top:3px"></div>
+        <div id="mp-role" style="font-size:12px;color:var(--text-dim);margin-top:3px"></div>
       </div>
     </div>
     <div class="member-modal-body">
@@ -3667,10 +3458,10 @@
         <div class="modal-section-label">担当案件</div>
         <ul id="mp-projects" style="padding-left:16px;margin:0"></ul>
       </div>
-      <div style="margin-bottom:14px;padding:10px 12px;background:var(--primary-light);border-radius:8px;border-left:3px solid var(--primary)">
-        <div class="modal-section-label" style="color:#1D4ED8">グレード進捗</div>
+      <div style="margin-bottom:14px;padding:10px 12px;background:var(--blue-dim);border-radius:8px;border-left:3px solid var(--gold)">
+        <div class="modal-section-label" style="color:var(--blue)">グレード進捗</div>
         <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
-          <span id="mp-grade" style="font-size:13px;font-weight:800;color:var(--primary)"></span>
+          <span id="mp-grade" style="font-size:13px;font-weight:800;color:var(--gold)"></span>
           <span id="mp-grade-note" style="font-size:12px;color:#1E40AF;line-height:1.5"></span>
         </div>
       </div>
