@@ -648,7 +648,214 @@
     @media (max-width:768px) {
       .gm-role { display:none; }
     }
-</style>
+
+    /* ═══ Slack App Frame ═══ */
+    .sl-app {
+      display: flex;
+      height: 700px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #222529;
+      box-shadow: 0 24px 72px rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .sl-sidebar {
+      width: 244px;
+      background: #19171D;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .sl-sidebar::-webkit-scrollbar { display: none; }
+    .sl-ws-hdr {
+      padding: 16px 14px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .sl-ws-hdr:hover { background: rgba(255,255,255,0.04); }
+    .sl-ws-name { font-size: 15px; font-weight: 800; color: white; letter-spacing: -0.3px; }
+    .sl-ws-meta { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; display: flex; align-items: center; gap: 5px; }
+    .sl-ws-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ADE80; flex-shrink: 0; }
+    .sl-section { padding: 14px 0 4px; }
+    .sl-section-hdr {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.3);
+      padding: 3px 14px 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    .sl-section-hdr:hover { color: rgba(255,255,255,0.55); }
+    .sl-ch-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 1px 6px;
+      transition: all 0.1s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sl-ch-item:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
+    .sl-ch-item.active { background: #1164A3; color: white; font-weight: 600; }
+    .sl-ch-item.unread { color: rgba(255,255,255,0.85); font-weight: 700; }
+    .sl-hash { font-size: 16px; color: rgba(255,255,255,0.28); font-weight: 300; flex-shrink: 0; line-height: 1; }
+    .sl-ch-item.active .sl-hash { color: rgba(255,255,255,0.65); }
+    .sl-ch-item.unread .sl-hash { color: rgba(255,255,255,0.6); }
+    .sl-badge { margin-left: auto; background: #CC1016; color: white; font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 10px; flex-shrink: 0; }
+    .sl-dm-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 14px;
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 1px 6px;
+      transition: all 0.1s;
+    }
+    .sl-dm-item:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
+    .sl-dm-item.active { background: #1164A3; color: white; }
+    .sl-dm-av { width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; flex-shrink: 0; }
+    .sl-online { color: #4ADE80; font-size: 10px; margin-left: 2px; line-height: 1; }
+    /* Main */
+    .sl-main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+    .sl-ch-hdr {
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      background: #222529;
+    }
+    .sl-hdr-hash { font-size: 20px; color: rgba(255,255,255,0.3); font-weight: 300; line-height: 1; flex-shrink: 0; }
+    .sl-hdr-name { font-size: 15px; font-weight: 700; color: white; }
+    .sl-hdr-sep { color: rgba(255,255,255,0.18); margin: 0 6px; font-size: 13px; }
+    .sl-hdr-desc { font-size: 12px; color: rgba(255,255,255,0.3); }
+    .sl-msgs {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 0 8px;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.15) transparent;
+    }
+    .sl-msg {
+      display: flex;
+      gap: 10px;
+      padding: 4px 20px;
+      border-radius: 0;
+      min-width: 0;
+    }
+    .sl-msg:hover { background: rgba(255,255,255,0.04); }
+    .sl-av-bot {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4F46E5, #6366F1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .sl-av-u {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .sl-msg-body { flex: 1; min-width: 0; }
+    .sl-msg-hdr { display: flex; align-items: baseline; gap: 8px; margin-bottom: 1px; flex-wrap: wrap; }
+    .sl-bot-name { font-size: 14px; font-weight: 700; color: white; }
+    .sl-u-name { font-size: 14px; font-weight: 700; }
+    .sl-app-tag { font-size: 9px; background: #2BAC76; color: white; padding: 1px 5px; border-radius: 3px; font-weight: 700; }
+    .sl-ts { font-size: 11px; color: rgba(255,255,255,0.28); }
+    .sl-text { font-size: 14px; color: rgba(255,255,255,0.82); line-height: 1.6; }
+    .sl-text strong { color: white; }
+    .sl-hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 14px 20px; }
+    .sl-gap { height: 12px; }
+    /* Block Kit */
+    .bk { margin-top: 6px; border-radius: 4px; overflow: hidden; max-width: 560px; }
+    .bk-sec { background: #2B2D30; border-left: 4px solid; padding: 12px 14px; }
+    .bk-sec + .bk-sec { border-top: 1px solid rgba(255,255,255,0.06); }
+    .bk-sec.c-indigo { border-color: #4F46E5; }
+    .bk-sec.c-green  { border-color: #2BAC76; }
+    .bk-sec.c-amber  { border-color: #E8A838; }
+    .bk-sec.c-red    { border-color: #CC1016; }
+    .bk-sec.c-purple { border-color: #8B5CF6; }
+    .bk-sec.c-cyan   { border-color: #06B6D4; }
+    .bk-title { font-size: 13px; font-weight: 700; color: white; margin-bottom: 6px; }
+    .bk-body { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.75; }
+    .bk-body strong { color: rgba(255,255,255,0.9); }
+    .bk-pill { display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:3px;font-size:11px;font-weight:700; }
+    .bk-pill-ok   { background:rgba(43,172,118,0.2);color:#4ADE80; }
+    .bk-pill-warn { background:rgba(232,168,56,0.2);color:#FBBF24; }
+    .bk-pill-bad  { background:rgba(204,16,22,0.2);color:#FF8080; }
+    .bk-actions { background: #2B2D30; padding: 8px 14px 12px; display: flex; gap: 8px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.06); }
+    .bk-btn { padding: 6px 14px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); transition: all 0.1s; }
+    .bk-btn:hover { background: rgba(255,255,255,0.1); }
+    .bk-btn.g { background: #007A5A; border-color: #007A5A; color: white; }
+    .bk-btn.g:hover { background: #148567; }
+    .bk-btn.r { border-color: rgba(204,16,22,0.5); color: #FF8080; }
+    .bk-btn.w { border-color: rgba(232,168,56,0.5); color: #FBBF24; }
+    .bk-ctx { background: #2B2D30; padding: 4px 14px 10px; font-size: 11.5px; color: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.05); }
+    /* Tabs above Slack frame */
+    .sl-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .sl-tab {
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text-muted);
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .sl-tab:hover { border-color: #4F46E5; color: #4F46E5; }
+    .sl-tab.active { background: #4F46E5; color: white; border-color: #4F46E5; box-shadow: 0 2px 8px rgba(79,70,229,0.3); }
+    .sl-scenario { flex-direction: column; }
+    /* Typing indicator */
+    .sl-typing { display: flex; align-items: center; gap: 3px; padding: 0 0 2px; }
+    .sl-typing span { width: 6px; height: 6px; background: rgba(255,255,255,0.4); border-radius: 50%; display: inline-block; animation: slBounce 1.2s infinite; }
+    .sl-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .sl-typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes slBounce { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)} }
+    @media (max-width: 768px) {
+      .sl-sidebar { display: none; }
+      .sl-app { height: 540px; }
+      .sl-hdr-desc { display: none; }
+    }
+
+  </style>
 </head>
 <body>
 
@@ -2364,405 +2571,430 @@
     <div class="page" id="page-slack">
 
       <div class="section-title">Slack連携のイメージ</div>
-      <div class="text-muted mb-6">これらはポータルに連動してSlack上で自動送信されるメッセージのイメージです。</div>
-
-      <!-- Daily Digest -->
-      <div class="card mb-6">
-        <div class="card-title mb-4">① 朝の日次ダイジェスト（#yanoteam-digest チャンネル）</div>
-        <div class="slack-container">
-          <div class="slack-header">
-            <span style="color:#5C9EAD;font-size:16px">#</span>
-            <span class="slack-channel-name">yanoteam-digest</span>
-          </div>
-          <div class="slack-body">
-            <div class="slack-msg">
-              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name">YanoTeam Bot</span>
-                  <span class="slack-app-badge">APP</span>
-                  <span class="slack-time">今日 09:00</span>
-                </div>
-                <div class="slack-text">
-                  おはようございます！ <strong>6月10日（水）のチームダイジェスト</strong>です 🌤
-                </div>
-                <div class="slack-attachment">
-                  <div class="slack-attach-title">📊 今日のポイント</div>
-                  <div class="slack-attach-body">
-                    • 今月売上進捗：<strong style="color:#F59E0B">78%（¥2,800万 / ¥3,600万）</strong> 残り18日<br>
-                    • アクティブ案件：5件 ｜ 支援必要案件：1件（顧客B営業部）<br>
-                    • 今日のコラボ提案：2件あります 👇
-                  </div>
-                </div>
-                <div class="slack-attachment green-border">
-                  <div class="slack-attach-title">🤝 コラボ提案</div>
-                  <div class="slack-attach-body">
-                    <strong style="color:#E8E8E8">鈴木さん</strong> — 山田さんのSalesforce権限設計を30分サポートできますか？
-                    先月の案件での経験が直接活かせます。<br><br>
-                    <strong style="color:#E8E8E8">伊藤さん</strong> — 佐藤さんのDX提案にデータ活用の視点を追加してみませんか？
-                  </div>
-                  <div class="slack-btn-row">
-                    <button class="slack-btn primary">✋ 協力します</button>
-                    <button class="slack-btn">詳細を見る</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="text-muted mb-4" style="font-size:12px;line-height:1.7">
+        ポータルはSlackと双方向に連携します。チャンネルへの投稿がポータルに自動集約され、ポータルの変化がSlack通知に変わります。以下のシナリオをクリックして確認してください。
       </div>
 
-      <!-- Collaboration Alert -->
-      <div class="card mb-6">
-        <div class="card-title mb-4">② リアルタイム コラボ提案（#yanoteam-collab チャンネル）</div>
-        <div class="slack-container">
-          <div class="slack-header">
-            <span style="color:#5C9EAD;font-size:16px">#</span>
-            <span class="slack-channel-name">yanoteam-collab</span>
-          </div>
-          <div class="slack-body">
-            <div class="slack-msg">
-              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name">YanoTeam Bot</span>
-                  <span class="slack-app-badge">APP</span>
-                  <span class="slack-time">今日 11:42</span>
-                </div>
-                <div class="slack-text">
-                  🔴 <strong>山田さんの日報で「詰まっている」シグナルを検知しました</strong>
-                </div>
-                <div class="slack-attachment" style="border-left-color:var(--red)">
-                  <div class="slack-attach-title">検知内容</div>
-                  <div class="slack-attach-body">
-                    案件：顧客B / Salesforce権限設計<br>
-                    日報より：「Profile/Permission Setの組み合わせが複雑で設計が進まない」<br>
-                    <br>
-                    <strong style="color:#E8E8E8">🎯 鈴木さんが2月に同様の課題を解決した経験があります</strong>
-                  </div>
-                  <div class="slack-btn-row">
-                    <button class="slack-btn primary">鈴木さんと山田さんを繋ぐ</button>
-                    <button class="slack-btn">スルーする</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr class="slack-divider">
-            <div class="slack-msg">
-              <div class="avatar" style="background:#10B981;width:36px;height:36px;font-size:12px;border-radius:50%">鈴</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name" style="color:#4ADE80">鈴木 麻衣</span>
-                  <span class="slack-time">今日 11:45</span>
-                </div>
-                <div class="slack-text">
-                  了解です！山田さん、今日の14時以降空いてますよー 😊 一緒に見ましょう
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Scenario Tabs -->
+      <div class="sl-tabs">
+        <button class="sl-tab active" onclick="slackScene(0)">① 朝のダイジェスト</button>
+        <button class="sl-tab" onclick="slackScene(1)">② リアルタイムコラボ検知</button>
+        <button class="sl-tab" onclick="slackScene(2)">③ 案件進捗確認</button>
+        <button class="sl-tab" onclick="slackScene(3)">④ 自然言語コマンド</button>
+        <button class="sl-tab" onclick="slackScene(4)">⑤ マネージャーDM</button>
       </div>
 
-      <!-- Weekly Summary -->
-      <div class="card">
-        <div class="card-title mb-4">③ 週次サマリー（毎週金曜 17:00）</div>
-        <div class="slack-container">
-          <div class="slack-header">
-            <span style="color:#5C9EAD;font-size:16px">#</span>
-            <span class="slack-channel-name">yanoteam-digest</span>
+      <!-- Slack App Frame -->
+      <div class="sl-app mb-6">
+
+        <!-- Left sidebar -->
+        <div class="sl-sidebar">
+          <div class="sl-ws-hdr">
+            <div>
+              <div class="sl-ws-name">矢野チーム</div>
+              <div class="sl-ws-meta"><span class="sl-ws-dot"></span> オンライン</div>
+            </div>
+            <span style="color:rgba(255,255,255,0.3);font-size:18px">✏️</span>
           </div>
-          <div class="slack-body">
-            <div class="slack-msg">
-              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name">YanoTeam Bot</span>
-                  <span class="slack-app-badge">APP</span>
-                  <span class="slack-time">金曜日 17:00</span>
-                </div>
-                <div class="slack-text">
-                  お疲れ様でした！<strong>今週のチームサマリー</strong>です 🎉
-                </div>
-                <div class="slack-attachment green-border">
-                  <div class="slack-attach-title">✅ 今週の成果</div>
-                  <div class="slack-attach-body">
-                    • 鈴木さんが山田さんの案件をサポート → 権限設計が完了 <strong style="color:#4ADE80">🎉 初のクロス案件コラボ達成！</strong><br>
-                    • 伊藤さんが佐藤さんのDX提案にデータ分析視点を追加<br>
-                    • 今週の新規経験獲得：鈴木（Salesforceコラボ）、伊藤（戦略提案参加）
-                  </div>
-                </div>
-                <div class="slack-attachment amber-border">
-                  <div class="slack-attach-title">📌 来週のフォーカス</div>
-                  <div class="slack-attach-body">
-                    • 顧客B追加提案打ち合わせ（矢野さん + 山田・伊藤）<br>
-                    • 加藤さんのHR DX案件キックオフ準備<br>
-                    • 売上残り¥800万：今月中にフェーズ3提案を提出
-                  </div>
-                </div>
-              </div>
+
+          <div class="sl-section">
+            <div class="sl-section-hdr">チャンネル <span style="font-size:14px;font-weight:400">+</span></div>
+            <div class="sl-ch-item active unread" id="sl-ch-digest" onclick="slackScene(0)">
+              <span class="sl-hash">#</span> yanoteam-digest <span class="sl-badge">3</span>
+            </div>
+            <div class="sl-ch-item unread" id="sl-ch-collab" onclick="slackScene(1)">
+              <span class="sl-hash">#</span> yanoteam-collab <span class="sl-badge">1</span>
+            </div>
+            <div class="sl-ch-item" id="sl-ch-caseb" onclick="slackScene(2)">
+              <span class="sl-hash">#</span> 案件-顧客B-sf
+            </div>
+            <div class="sl-ch-item" id="sl-ch-general" onclick="slackScene(3)">
+              <span class="sl-hash">#</span> general
+            </div>
+            <div class="sl-ch-item" style="color:rgba(255,255,255,0.3)">
+              <span class="sl-hash">#</span> 案件-顧客A
+            </div>
+            <div class="sl-ch-item" style="color:rgba(255,255,255,0.3)">
+              <span class="sl-hash">#</span> 日報
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Milestone Reminder -->
-      <div class="card mb-6">
-        <div class="card-title mb-4">⑤ マイルストン・課題のSlackリマインド → 返信で自動更新</div>
-        <div class="text-muted mb-4" style="font-size:12px">管理簿に入力するのではなく、Slackへの返信が自動でポータルに反映されます。担当者は会話するだけ。</div>
-        <div class="slack-container">
-          <div class="slack-header">
-            <span style="color:#5C9EAD;font-size:16px">#</span>
-            <span class="slack-channel-name">案件-顧客B-salesforce</span>
-          </div>
-          <div class="slack-body">
-
-            <!-- Bot reminder -->
-            <div class="slack-msg">
-              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name">YanoTeam Bot</span>
-                  <span class="slack-app-badge">APP</span>
-                  <span class="slack-time">月曜日 09:00</span>
-                </div>
-                <div class="slack-text">
-                  山田さん、おはようございます！<br>
-                  今週の確認です 📋
-                </div>
-                <div class="slack-attachment" style="border-left-color:var(--amber)">
-                  <div class="slack-attach-title">📍 M2：権限設計・初期設定（期限：6月13日）</div>
-                  <div class="slack-attach-body">
-                    先週時点：Profile/Permission Set設計で課題発生中<br>
-                    <br>
-                    今週の進捗はどうですか？<br>
-                    <strong style="color:#E8E8E8">① 順調に進んでいる　② 詰まっている　③ 遅延しそう</strong>
-                  </div>
-                  <div class="slack-btn-row">
-                    <button class="slack-btn primary">① 順調</button>
-                    <button class="slack-btn" style="border-color:#F59E0B;color:#F59E0B">② 詰まってる</button>
-                    <button class="slack-btn" style="border-color:#EF4444;color:#EF4444">③ 遅延しそう</button>
-                  </div>
-                </div>
-              </div>
+          <div class="sl-section">
+            <div class="sl-section-hdr">ダイレクトメッセージ <span style="font-size:14px;font-weight:400">+</span></div>
+            <div class="sl-dm-item" id="sl-dm-yano" onclick="slackScene(4)">
+              <div class="sl-dm-av" style="background:#F59E0B">矢</div>
+              矢野 <span class="sl-online">●</span>
             </div>
-
-            <hr class="slack-divider">
-
-            <!-- Member reply -->
-            <div class="slack-msg">
-              <div class="avatar" style="background:#EF4444;width:36px;height:36px;font-size:12px;border-radius:50%">山</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name" style="color:#FC8181">山田 拓也</span>
-                  <span class="slack-time">月曜日 09:15</span>
-                </div>
-                <div class="slack-text">
-                  ② 詰まってる感じです。Profile継承の設計がまだ固まらなくて。<br>
-                  鈴木さんに今日か明日ちょっと見てもらえると助かります。<br>
-                  今週中には権限設計を終わらせて、来週から設定作業に入りたいです。
-                </div>
-              </div>
+            <div class="sl-dm-item">
+              <div class="sl-dm-av" style="background:#4F46E5">田</div>
+              田中 慎也
             </div>
-
-            <hr class="slack-divider">
-
-            <!-- Bot processes reply -->
-            <div class="slack-msg">
-              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name">YanoTeam Bot</span>
-                  <span class="slack-app-badge">APP</span>
-                  <span class="slack-time">月曜日 09:15</span>
-                </div>
-                <div class="slack-text">ありがとうございます！ポータルを更新しました ✅</div>
-                <div class="slack-attachment green-border">
-                  <div class="slack-attach-title">📝 ポータル更新内容</div>
-                  <div class="slack-attach-body">
-                    • M2ステータス：<strong style="color:#FBBF24">詰まり気味</strong><br>
-                    • 課題：Profile継承設計が未完了<br>
-                    • 目標：今週中に権限設計完了、来週から設定作業開始<br>
-                    • 鈴木さんへのサポート依頼を<strong style="color:#E8E8E8">#yanoteam-collab に通知しました</strong>
-                  </div>
-                </div>
-                <div style="margin-top:8px;font-size:12px;color:#9B9C9E">
-                  矢野さんにも週次レポートとして共有されます
-                </div>
-              </div>
+            <div class="sl-dm-item">
+              <div class="sl-dm-av" style="background:#10B981">鈴</div>
+              鈴木 麻衣
             </div>
-
-          </div>
-        </div>
-        <div style="margin-top:14px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:12px;color:#1D4ED8;line-height:1.7">
-          💡 <strong>Teams版も同様</strong>：顧客環境のTeamsチャンネルでのやりとり（顧客との合意事項・決定事項）も同じ仕組みで自動取り込みし、ポータルの課題・進捗に反映できます。
-        </div>
-      </div>
-
-      <!-- Todo Slack integration -->
-      <div class="card mb-6">
-        <div class="card-title mb-4">⑥ チームTodoのリマインド・ステータス更新 / 自然言語で追加</div>
-        <div class="text-muted mb-4" style="font-size:12px">期限前にBotが担当者へリマインド。返信するだけでステータスが更新されます。Slackから自然な文章でTodoを追加することもできます。</div>
-        <div class="slack-container">
-          <div class="slack-header">
-            <span style="color:#5C9EAD;font-size:16px">#</span>
-            <span class="slack-channel-name">yanoteam-todos</span>
-          </div>
-          <div class="slack-body">
-
-            <!-- Bot reminder -->
-            <div class="slack-msg">
-              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name">YanoTeam Bot</span>
-                  <span class="slack-app-badge">APP</span>
-                  <span class="slack-time">今日 09:00</span>
-                </div>
-                <div class="slack-text">田中さん、今日が期限のTodoがあります ⏰</div>
-                <div class="slack-attachment" style="border-left-color:var(--amber)">
-                  <div class="slack-attach-title">✅ 鈴木さんと山田さんのSalesforce壁打ちセッションを設定</div>
-                  <div class="slack-attach-body">期限：今日（6/10）｜ 担当：田中 ｜ 優先度：高</div>
-                  <div class="slack-btn-row">
-                    <button class="slack-btn primary">完了しました</button>
-                    <button class="slack-btn">明日に延ばす</button>
-                    <button class="slack-btn">コメントする</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <hr class="slack-divider">
-
-            <!-- Member replies "done" -->
-            <div class="slack-msg">
-              <div class="avatar" style="background:#6366F1;width:36px;height:36px;font-size:12px;border-radius:50%">田</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name" style="color:#A5B4FC">田中 慎也</span>
-                  <span class="slack-time">今日 09:20</span>
-                </div>
-                <div class="slack-text">完了しました！今日14時でセッション設定できました 👍</div>
-              </div>
-            </div>
-
-            <hr class="slack-divider">
-
-            <!-- Bot confirms update -->
-            <div class="slack-msg">
-              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name">YanoTeam Bot</span>
-                  <span class="slack-app-badge">APP</span>
-                  <span class="slack-time">今日 09:20</span>
-                </div>
-                <div class="slack-text">ステータスを「完了」に更新しました ✅</div>
-              </div>
-            </div>
-
-            <hr class="slack-divider">
-
-            <!-- Natural language todo creation -->
-            <div class="slack-msg">
-              <div class="avatar" style="background:#F59E0B;width:36px;height:36px;font-size:12px;border-radius:50%">矢</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name" style="color:#FCD34D">矢野</span>
-                  <span class="slack-time">今日 11:30</span>
-                </div>
-                <div class="slack-text">
-                  @YanoTeam Bot　顧客B追加提案の打ち合わせ設定、担当は自分で、期限今週金曜でTodoに入れておいて
-                </div>
-              </div>
-            </div>
-
-            <hr class="slack-divider">
-
-            <div class="slack-msg">
-              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name">YanoTeam Bot</span>
-                  <span class="slack-app-badge">APP</span>
-                  <span class="slack-time">今日 11:30</span>
-                </div>
-                <div class="slack-text">Todoを追加しました 📝</div>
-                <div class="slack-attachment green-border">
-                  <div class="slack-attach-title">追加内容</div>
-                  <div class="slack-attach-body">
-                    タイトル：顧客B追加提案の打ち合わせ設定<br>
-                    担当：矢野さん ｜ 期限：6/13（金）｜ 優先度：高（自動判定）<br>
-                    関連案件：顧客B（自動紐付け）
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- Channel Aggregation -->
-      <div class="card">
-        <div class="card-title mb-4">④ チャンネル発信の自動集約（ポータルへのフィード）</div>
-        <div class="text-muted mb-4" style="font-size:12px">案件ch・日報ch・#generalなど複数チャンネルへの投稿をAIが要約・分類してポータルとBotに集約します</div>
-        <div class="slack-container">
-          <div class="slack-header">
-            <span style="color:#5C9EAD;font-size:16px">#</span>
-            <span class="slack-channel-name">yanoteam-digest</span>
-          </div>
-          <div class="slack-body">
-            <div class="slack-msg">
-              <div class="avatar" style="background:#2563EB;width:36px;height:36px;font-size:14px;border-radius:8px">🤖</div>
-              <div class="slack-msg-content">
-                <div class="slack-msg-header">
-                  <span class="slack-bot-name">YanoTeam Bot</span>
-                  <span class="slack-app-badge">APP</span>
-                  <span class="slack-time">今日 18:00</span>
-                </div>
-                <div class="slack-text">
-                  📡 <strong>今日のチャンネル発信まとめ</strong>（自動集約）
-                </div>
-                <div class="slack-attachment" style="border-left-color:#EF4444">
-                  <div class="slack-attach-title">🔴 #案件-顧客B より — 山田さん</div>
-                  <div class="slack-attach-body">
-                    「Salesforce権限設計で詰まっています。壁打ちしたい」<br>
-                    → <strong style="color:#E8E8E8">🤝 鈴木さんに繋ぎましょうか？</strong>
-                  </div>
-                  <div class="slack-btn-row">
-                    <button class="slack-btn primary">繋ぐ</button>
-                    <button class="slack-btn">スルー</button>
-                  </div>
-                </div>
-                <div class="slack-attachment green-border" style="margin-top:8px">
-                  <div class="slack-attach-title">🟢 #日報 より — 佐藤さん</div>
-                  <div class="slack-attach-body">
-                    「顧客からデータ活用の追加ニーズが出てきた」<br>
-                    → <strong style="color:#E8E8E8">💡 案件拡大のチャンス。伊藤さんのスキルが活きそう</strong>
-                  </div>
-                </div>
-                <div class="slack-attachment" style="border-left-color:#8B5CF6;margin-top:8px">
-                  <div class="slack-attach-title">📚 #general より — 伊藤さん</div>
-                  <div class="slack-attach-body">
-                    「BigQueryのパーティショニング設計をNotionにまとめました」<br>
-                    → <strong style="color:#E8E8E8">📌 ナレッジ共有あり。田中さん・佐藤さんに関連</strong>
-                  </div>
-                  <div class="slack-btn-row">
-                    <button class="slack-btn">Notionを見る</button>
-                    <button class="slack-btn primary">関係者に通知する</button>
-                  </div>
-                </div>
-              </div>
+            <div class="sl-dm-item" style="color:rgba(255,255,255,0.3)">
+              <div class="sl-dm-av" style="background:#6B7280;font-size:8px">🤖</div>
+              YanoTeam Bot
             </div>
           </div>
         </div>
-        <div style="margin-top:14px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:12px;color:#1D4ED8;line-height:1.7">
-          💡 <strong>集約の仕組み</strong>：各チャンネルへの投稿をAIが読み取り、①コラボ機会、②案件進捗シグナル、③ナレッジ共有 の3種類に分類してBotとポータルに表示します。全チャンネルを読まなくても「チームに何が起きているか」が一目でわかります。
+
+        <!-- Main message area -->
+        <div class="sl-main">
+          <!-- Channel header -->
+          <div class="sl-ch-hdr">
+            <span class="sl-hdr-hash">#</span>
+            <span class="sl-hdr-name" id="sl-hdr-name">yanoteam-digest</span>
+            <span class="sl-hdr-sep">|</span>
+            <span class="sl-hdr-desc" id="sl-hdr-desc">チームの日次・週次ダイジェスト</span>
+          </div>
+
+          <!-- ① Daily Digest -->
+          <div class="sl-msgs sl-scenario" style="display:flex">
+            <div class="sl-gap"></div>
+            <div class="sl-msg">
+              <div class="sl-av-bot">🤖</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-bot-name">YanoTeam Bot</span>
+                  <span class="sl-app-tag">APP</span>
+                  <span class="sl-ts">今日 09:00</span>
+                </div>
+                <div class="sl-text">おはようございます！ <strong>6月10日（水）のチームダイジェスト</strong>です 🌤</div>
+                <div class="bk">
+                  <div class="bk-sec c-indigo">
+                    <div class="bk-title">📊 今日のチームサマリー</div>
+                    <div class="bk-body">
+                      売上進捗：<strong>¥2,800万 / ¥3,600万（78%）</strong> <span class="bk-pill bk-pill-warn">残り18日</span><br>
+                      アクティブ案件：<strong>5件</strong>　フォロー必要：<strong>1件</strong>（顧客B営業部）<br>
+                      コラボ提案：<strong>2件</strong> 👇
+                    </div>
+                  </div>
+                  <div class="bk-sec c-green">
+                    <div class="bk-title">🤝 今日のコラボ提案</div>
+                    <div class="bk-body">
+                      <strong>鈴木さん →</strong> 山田さんのSalesforce権限設計を30分サポートできますか？先月の経験が活きます<br>
+                      <strong>伊藤さん →</strong> 佐藤さんのDX提案にデータ活用の視点を追加してみませんか？
+                    </div>
+                  </div>
+                  <div class="bk-actions">
+                    <button class="bk-btn g">✋ 協力します</button>
+                    <button class="bk-btn">詳細を見る</button>
+                    <button class="bk-btn">今日はパス</button>
+                  </div>
+                  <div class="bk-ctx">💡 ポータルで詳細確認 → yanoteam.vercel.app</div>
+                </div>
+              </div>
+            </div>
+            <div class="sl-gap"></div>
+            <div class="sl-msg">
+              <div class="sl-av-bot">🤖</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-bot-name">YanoTeam Bot</span>
+                  <span class="sl-app-tag">APP</span>
+                  <span class="sl-ts">今日 09:01</span>
+                </div>
+                <div class="bk">
+                  <div class="bk-sec c-amber">
+                    <div class="bk-title">📌 今日のフォーカス（矢野さんより）</div>
+                    <div class="bk-body">
+                      顧客B追加提案の打ち合わせ設定（期限：今週金曜）<br>
+                      加藤さんのHR DX案件キックオフ準備（来週月曜）
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ② Collab Detection -->
+          <div class="sl-msgs sl-scenario" style="display:none">
+            <div class="sl-gap"></div>
+            <div class="sl-msg">
+              <div class="sl-av-bot">🤖</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-bot-name">YanoTeam Bot</span>
+                  <span class="sl-app-tag">APP</span>
+                  <span class="sl-ts">今日 11:42</span>
+                </div>
+                <div class="sl-text">🔴 <strong>山田さんの日報でシグナルを検知しました</strong></div>
+                <div class="bk">
+                  <div class="bk-sec c-red">
+                    <div class="bk-title">検知内容 — #日報 より</div>
+                    <div class="bk-body">
+                      案件：顧客B / Salesforce権限設計<br>
+                      <strong>「Profile/Permission Setの組み合わせが複雑で設計が進まない」</strong><br><br>
+                      🎯 <strong>鈴木さんが2月に同様の課題を解決した経験があります</strong><br>
+                      <span style="color:rgba(255,255,255,0.4);font-size:12px">類似度スコア: 87% / 推定サポート時間: 30〜60分</span>
+                    </div>
+                  </div>
+                  <div class="bk-actions">
+                    <button class="bk-btn g">鈴木さんと山田さんを繋ぐ</button>
+                    <button class="bk-btn">山田さんに確認する</button>
+                    <button class="bk-btn r">スルーする</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sl-hr"></div>
+            <div class="sl-msg">
+              <div class="sl-av-u" style="background:#10B981">鈴</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-u-name" style="color:#4ADE80">鈴木 麻衣</span>
+                  <span class="sl-ts">今日 11:45</span>
+                </div>
+                <div class="sl-text">了解です！山田さん、今日の14時以降空いてますよー 😊 一緒に見ましょう</div>
+              </div>
+            </div>
+            <div class="sl-hr"></div>
+            <div class="sl-msg">
+              <div class="sl-av-bot">🤖</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-bot-name">YanoTeam Bot</span>
+                  <span class="sl-app-tag">APP</span>
+                  <span class="sl-ts">今日 11:45</span>
+                </div>
+                <div class="sl-text">✅ コラボ成立！ポータルに記録しました</div>
+                <div class="bk">
+                  <div class="bk-sec c-green">
+                    <div class="bk-title">記録内容</div>
+                    <div class="bk-body">
+                      鈴木さん → 山田さん：Salesforce権限設計サポート（今日14時〜）<br>
+                      <span class="bk-pill bk-pill-ok">経験獲得: 鈴木 / クロス案件コラボ</span>
+                    </div>
+                  </div>
+                  <div class="bk-ctx">矢野さんの週次レポートにも反映されます</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ③ Milestone check -->
+          <div class="sl-msgs sl-scenario" style="display:none">
+            <div class="sl-gap"></div>
+            <div class="sl-msg">
+              <div class="sl-av-bot">🤖</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-bot-name">YanoTeam Bot</span>
+                  <span class="sl-app-tag">APP</span>
+                  <span class="sl-ts">月曜日 09:00</span>
+                </div>
+                <div class="sl-text">山田さん、おはようございます！今週のマイルストン確認です 📋</div>
+                <div class="bk">
+                  <div class="bk-sec c-amber">
+                    <div class="bk-title">📍 M2：権限設計・初期設定（期限：6月13日）</div>
+                    <div class="bk-body">
+                      先週時点：Profile/Permission Set設計で課題が発生中<br><br>
+                      今週の進捗はどうですか？
+                    </div>
+                  </div>
+                  <div class="bk-actions">
+                    <button class="bk-btn g">① 順調に進んでいる</button>
+                    <button class="bk-btn w">② 詰まっている</button>
+                    <button class="bk-btn r">③ 遅延しそう</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sl-hr"></div>
+            <div class="sl-msg">
+              <div class="sl-av-u" style="background:#EF4444">山</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-u-name" style="color:#FC8181">山田 拓也</span>
+                  <span class="sl-ts">月曜日 09:14</span>
+                </div>
+                <div class="sl-text">② 詰まってる感じです。Profile継承の設計がまだ固まらなくて。鈴木さんに今日か明日ちょっと見てもらえると助かります。今週中には権限設計を終わらせたいです。</div>
+              </div>
+            </div>
+            <div class="sl-hr"></div>
+            <div class="sl-msg">
+              <div class="sl-av-bot">🤖</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-bot-name">YanoTeam Bot</span>
+                  <span class="sl-app-tag">APP</span>
+                  <span class="sl-ts">月曜日 09:14</span>
+                </div>
+                <div class="sl-text">ありがとうございます！ポータルを更新しました ✅</div>
+                <div class="bk">
+                  <div class="bk-sec c-green">
+                    <div class="bk-title">📝 更新内容</div>
+                    <div class="bk-body">
+                      M2ステータス：<span class="bk-pill bk-pill-warn">詰まり気味</span><br>
+                      課題：Profile継承設計が未完了<br>
+                      目標：今週中に権限設計完了→来週から設定作業<br>
+                      → <strong>鈴木さんへのサポート依頼を #yanoteam-collab に通知しました</strong>
+                    </div>
+                  </div>
+                  <div class="bk-ctx">矢野さんにも週次レポートとして共有されます</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ④ Natural language command -->
+          <div class="sl-msgs sl-scenario" style="display:none">
+            <div class="sl-gap"></div>
+            <div class="sl-msg">
+              <div class="sl-av-u" style="background:#F59E0B">矢</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-u-name" style="color:#FCD34D">矢野</span>
+                  <span class="sl-ts">今日 11:30</span>
+                </div>
+                <div class="sl-text">@YanoTeam Bot　今週のチームサマリーを見せて</div>
+              </div>
+            </div>
+            <div class="sl-hr"></div>
+            <div class="sl-msg">
+              <div class="sl-av-bot">🤖</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-bot-name">YanoTeam Bot</span>
+                  <span class="sl-app-tag">APP</span>
+                  <span class="sl-ts">今日 11:30</span>
+                </div>
+                <div class="sl-text">はい！今週（6/3〜6/7）のチームサマリーです 📊</div>
+                <div class="bk">
+                  <div class="bk-sec c-indigo">
+                    <div class="bk-title">✅ 今週の成果</div>
+                    <div class="bk-body">
+                      • 鈴木さん → 山田さん Salesforce権限設計サポート完了 <strong>🎉</strong><br>
+                      • 伊藤さん → 佐藤さんのDX提案にデータ視点を追加<br>
+                      • 新規コラボ：2件　獲得経験：3名分
+                    </div>
+                  </div>
+                  <div class="bk-sec c-amber">
+                    <div class="bk-title">📌 来週のフォーカス</div>
+                    <div class="bk-body">
+                      • 顧客B追加提案打ち合わせ（矢野さん + 山田・伊藤）<br>
+                      • 加藤さんのHR DX案件キックオフ<br>
+                      • 売上残り ¥800万 → 今月中にフェーズ3提案を提出
+                    </div>
+                  </div>
+                  <div class="bk-actions">
+                    <button class="bk-btn g">ポータルで詳細を見る</button>
+                    <button class="bk-btn">来週分のアクションを確認</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sl-gap"></div>
+            <div class="sl-msg">
+              <div class="sl-av-u" style="background:#F59E0B">矢</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-u-name" style="color:#FCD34D">矢野</span>
+                  <span class="sl-ts">今日 11:32</span>
+                </div>
+                <div class="sl-text">@YanoTeam Bot　顧客B追加提案の打ち合わせ設定、担当は自分で期限今週金曜でTodoに入れておいて</div>
+              </div>
+            </div>
+            <div class="sl-hr"></div>
+            <div class="sl-msg">
+              <div class="sl-av-bot">🤖</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-bot-name">YanoTeam Bot</span>
+                  <span class="sl-app-tag">APP</span>
+                  <span class="sl-ts">今日 11:32</span>
+                </div>
+                <div class="sl-text">Todoを追加しました 📝</div>
+                <div class="bk">
+                  <div class="bk-sec c-green">
+                    <div class="bk-body">
+                      タイトル：<strong>顧客B追加提案の打ち合わせ設定</strong><br>
+                      担当：矢野さん　期限：6/13（金）　優先度：<span class="bk-pill bk-pill-warn">高（自動判定）</span><br>
+                      関連案件：顧客B（自動紐付け）
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ⑤ Manager DM -->
+          <div class="sl-msgs sl-scenario" style="display:none">
+            <div class="sl-gap"></div>
+            <div class="sl-msg">
+              <div class="sl-av-bot">🤖</div>
+              <div class="sl-msg-body">
+                <div class="sl-msg-hdr">
+                  <span class="sl-bot-name">YanoTeam Bot</span>
+                  <span class="sl-app-tag">APP</span>
+                  <span class="sl-ts">今日 08:55</span>
+                </div>
+                <div class="sl-text">矢野さん、おはようございます！今日のマネージャーブリーフィングです 📋</div>
+                <div class="bk">
+                  <div class="bk-sec c-indigo">
+                    <div class="bk-title">👥 チーム稼働状況</div>
+                    <div class="bk-body">
+                      フル稼働：佐藤（1名）　通常：田中・鈴木・中村（3名）　余裕あり：山田・伊藤・加藤（3名）<br>
+                      → <strong>伊藤さんに新規案件を割り当てられます</strong>
+                    </div>
+                  </div>
+                  <div class="bk-sec c-red">
+                    <div class="bk-title">⚠️ 要注目</div>
+                    <div class="bk-body">
+                      <strong>佐藤さん</strong>：今週3件のMTGが重複しています。過負荷になる前にフォローを<br>
+                      <strong>山田さん</strong>：Salesforce案件で詰まりシグナルあり（昨日検知・鈴木さんが対応中）
+                    </div>
+                  </div>
+                  <div class="bk-sec c-green">
+                    <div class="bk-title">🎯 今日のおすすめアクション</div>
+                    <div class="bk-body">
+                      1. 顧客B追加提案の打ち合わせ日程を確定（今週中）<br>
+                      2. 伊藤さんを加藤さんのHR DX案件にアサイン検討<br>
+                      3. 今月の売上残り¥800万 → フェーズ3提案を来週提出
+                    </div>
+                  </div>
+                  <div class="bk-actions">
+                    <button class="bk-btn g">ポータルで詳細を確認</button>
+                    <button class="bk-btn">稼働状況を見る</button>
+                  </div>
+                  <div class="bk-ctx">グレード進捗：山田(G2→G3) あと1経験　伊藤(G3→G4) あと2経験</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /sl-main -->
+      </div><!-- /sl-app -->
+
+      <!-- Value explanation -->
+      <div class="grid-3" style="gap:14px">
+        <div class="card" style="border-left:3px solid #4F46E5">
+          <div style="font-size:18px;margin-bottom:8px">🔄</div>
+          <div class="card-title" style="margin-bottom:6px">双方向連携</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.65">
+            Slackへの投稿がポータルに自動集約。ポータルの変化がSlack通知に変換。管理簿に入力する手間が不要になります。
+          </div>
+        </div>
+        <div class="card" style="border-left:3px solid #059669">
+          <div style="font-size:18px;margin-bottom:8px">💬</div>
+          <div class="card-title" style="margin-bottom:6px">会話が記録になる</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.65">
+            「ボタンを押す」「返信する」だけでポータルが更新されます。メンバーは普段のSlack操作を変えずに情報が蓄積されます。
+          </div>
+        </div>
+        <div class="card" style="border-left:3px solid #7C3AED">
+          <div style="font-size:18px;margin-bottom:8px">🤖</div>
+          <div class="card-title" style="margin-bottom:6px">AIがシグナルを検知</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.65">
+            日報・案件チャンネルをAIが読み、「詰まっている」「案件拡大チャンス」などのシグナルを自動検知して提案します。
+          </div>
         </div>
       </div>
 
     </div><!-- /page-slack -->
+
 
 
     <!-- ════════════════ PAGE: GUIDE ════════════════ -->
@@ -3359,6 +3591,30 @@
   function closeProfile() {
     document.getElementById('member-modal').classList.remove('open');
     document.body.style.overflow = '';
+  }
+
+
+  function slackScene(n) {
+    var scenarios = document.querySelectorAll('.sl-scenario');
+    var tabs = document.querySelectorAll('.sl-tab');
+    var channels = ['sl-ch-digest','sl-ch-collab','sl-ch-caseb','sl-ch-general','sl-dm-yano'];
+    var headers = [
+      ['yanoteam-digest', 'チームの日次・週次ダイジェスト'],
+      ['yanoteam-collab', 'AIが検知したコラボ機会をリアルタイム通知'],
+      ['案件-顧客B-salesforce', 'Salesforce導入案件 / 担当: 山田・鈴木'],
+      ['general', 'チーム全体の共有・雑談'],
+      ['矢野 ← YanoTeam Bot', 'マネージャー向け朝のブリーフィング（DM）']
+    ];
+    scenarios.forEach(function(s,i){ s.style.display = i===n ? 'flex' : 'none'; });
+    tabs.forEach(function(t,i){ t.classList.toggle('active', i===n); });
+    document.querySelectorAll('.sl-ch-item,.sl-dm-item').forEach(function(c){ c.classList.remove('active'); });
+    var el = document.getElementById(channels[n]);
+    if(el) el.classList.add('active');
+    document.getElementById('sl-hdr-name').textContent = headers[n][0];
+    document.getElementById('sl-hdr-desc').textContent = headers[n][1];
+    /* scroll messages to top */
+    var msgs = document.querySelector('.sl-msgs');
+    if(msgs) msgs.scrollTop = 0;
   }
 
   function toggleGradeMember(id) {
