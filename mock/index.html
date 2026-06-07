@@ -337,6 +337,11 @@
     .action-input::placeholder { color:#CBD5E1; }
     .add-action-btn { margin-top:8px;background:none;border:1px dashed var(--border);color:var(--text-muted);font-size:11px;padding:5px 12px;border-radius:5px;cursor:pointer;width:100%;text-align:left; }
     .add-action-btn:hover { border-color:var(--primary);color:var(--primary); }
+    .editable-text { border-radius:3px; }
+    .editable-text:hover { outline:1px dashed rgba(37,99,235,0.3); }
+    .editable-text:focus { outline:1px solid var(--primary) !important;background:rgba(37,99,235,0.04) !important; }
+    .val-input { border:none;border-bottom:1px solid var(--border);background:transparent;font-weight:700;font-size:12px;color:var(--dark);padding:0 2px;outline:none;text-align:right; }
+    .val-input:focus { border-bottom-color:var(--primary); }
     .overall-action-item { display:flex;gap:8px;font-size:12px;color:#1E40AF;margin-bottom:5px;line-height:1.5; }
     .overall-action-item:last-child { margin-bottom:0; }
     @media (max-width:768px) {
@@ -2583,6 +2588,127 @@
       };
       block.appendChild(btn);
     });
+
+    // ── ヘルパー ──
+    function mkAddBtn(label, fn) {
+      var b = document.createElement('button');
+      b.className = 'add-action-btn';
+      b.textContent = label;
+      b.onclick = fn;
+      return b;
+    }
+    function mkEditable(el) {
+      el.contentEditable = 'true';
+      el.classList.add('editable-text');
+    }
+
+    // ── 品質管理計画タブ ──
+    var qTab = document.getElementById('growth-quality');
+    if (qTab) {
+      // プログレスバーの指標名・数値を編集可能に
+      qTab.querySelectorAll('.progress-row').forEach(function(row) {
+        var lbl = row.querySelector('.progress-label span:first-child');
+        var val = row.querySelector('.progress-label span:last-child');
+        var fill = row.querySelector('.progress-fill');
+        if (lbl) mkEditable(lbl);
+        if (val && fill) {
+          var inp = document.createElement('input');
+          inp.className = 'val-input';
+          inp.style.width = '64px';
+          inp.value = val.textContent;
+          inp.oninput = function() {
+            var pct = parseInt(this.value);
+            if (!isNaN(pct)) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+          };
+          val.replaceWith(inp);
+        }
+      });
+      // 指標追加ボタン
+      var progCard = qTab.querySelector('.progress-row') && qTab.querySelector('.progress-row').closest('.card');
+      if (progCard) {
+        progCard.appendChild(mkAddBtn('+ 品質指標を追加', function() {
+          var row = document.createElement('div');
+          row.className = 'progress-row';
+          row.innerHTML = '<div class="progress-label"><span contenteditable="true" class="editable-text">指標名</span><input class="val-input" style="width:64px" value="0%"></div><div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--primary)"></div></div>';
+          row.querySelector('input').oninput = function() {
+            var p = parseInt(this.value); if (!isNaN(p)) row.querySelector('.progress-fill').style.width = Math.min(100,Math.max(0,p))+'%';
+          };
+          progCard.insertBefore(row, progCard.querySelector('.add-action-btn'));
+          row.querySelector('[contenteditable]').focus();
+        }));
+      }
+
+      // リスクカード・アクション本文を編集可能に
+      qTab.querySelectorAll('[style*="border-left:3px"]').forEach(mkEditable);
+      qTab.querySelectorAll('.action-title, .action-desc').forEach(mkEditable);
+
+      // リスク追加ボタン
+      var riskList = qTab.querySelector('[style*="border-left:3px"]') && qTab.querySelector('[style*="border-left:3px"]').parentElement;
+      if (riskList) {
+        riskList.appendChild(mkAddBtn('+ リスク・気づきを追加', function() {
+          var d = document.createElement('div');
+          d.contentEditable = 'true';
+          d.className = 'editable-text';
+          d.style.cssText = 'padding:10px;background:var(--bg);border-radius:6px;border-left:3px solid var(--border);font-size:12px;color:var(--text);line-height:1.6;';
+          d.textContent = 'リスク・気づきを入力';
+          riskList.insertBefore(d, riskList.querySelector('.add-action-btn'));
+          d.focus();
+        }));
+      }
+
+      // アクション追加ボタン
+      var actCard = qTab.querySelectorAll('.card')[2];
+      if (actCard) {
+        actCard.appendChild(mkAddBtn('+ アクションを追加', function() {
+          var n = actCard.querySelectorAll('.action-item').length + 1;
+          var cls = n <= 1 ? 'action-num-1' : n === 2 ? 'action-num-2' : 'action-num-3';
+          var item = document.createElement('div');
+          item.className = 'action-item';
+          item.innerHTML = '<div class="action-num ' + cls + '">' + n + '</div><div class="action-body"><div class="action-title editable-text" contenteditable="true">アクションタイトル</div><div class="action-desc editable-text" contenteditable="true" style="margin-top:2px">詳細を入力...</div><div class="action-meta"></div></div>';
+          actCard.insertBefore(item, actCard.querySelector('.add-action-btn'));
+          item.querySelector('.action-title').focus();
+        }));
+      }
+    }
+
+    // ── チーム拡大計画タブ ──
+    var exTab = document.getElementById('growth-expand');
+    if (exTab) {
+      // サマリー数値を編集可能に
+      exTab.querySelectorAll('.stat-value, .stat-delta').forEach(mkEditable);
+
+      // タイムライン・昇格・取り組みカードを編集可能に
+      exTab.querySelectorAll('[style*="border-left:3px"]').forEach(mkEditable);
+      exTab.querySelectorAll('[style*="border-radius:8px"][style*="background:var(--green-light)"], [style*="border-radius:8px"][style*="background:var(--amber-light)"], [style*="border-radius:8px"][style*="background:var(--primary-light)"]').forEach(mkEditable);
+
+      // 採用タイムライン追加ボタン
+      var tlList = exTab.querySelector('[style*="border-left:3px solid var(--amber)"]') && exTab.querySelector('[style*="border-left:3px solid var(--amber)"]').parentElement;
+      if (tlList) {
+        tlList.appendChild(mkAddBtn('+ 採用フェーズを追加', function() {
+          var d = document.createElement('div');
+          d.contentEditable = 'true';
+          d.className = 'editable-text';
+          d.style.cssText = 'padding:10px 12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--border);font-size:12px;color:var(--text);line-height:1.6;';
+          d.textContent = '時期・採用内容を入力';
+          tlList.insertBefore(d, tlList.querySelector('.add-action-btn'));
+          d.focus();
+        }));
+      }
+
+      // 登用候補追加ボタン
+      var promoList = exTab.querySelector('[style*="border-left:3px solid var(--primary)"]') && exTab.querySelector('[style*="border-left:3px solid var(--primary)"]').parentElement;
+      if (promoList) {
+        promoList.appendChild(mkAddBtn('+ 登用候補を追加', function() {
+          var d = document.createElement('div');
+          d.contentEditable = 'true';
+          d.className = 'editable-text';
+          d.style.cssText = 'padding:10px 12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--border);font-size:12px;color:var(--text);line-height:1.6;';
+          d.textContent = '氏名 → 役割候補を入力';
+          promoList.insertBefore(d, promoList.querySelector('.add-action-btn'));
+          d.focus();
+        }));
+      }
+    }
   });
 
   function toggleGradeMember(id) {
