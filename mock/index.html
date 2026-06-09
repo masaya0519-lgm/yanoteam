@@ -3460,6 +3460,12 @@
                   <td style="color:var(--text-dim)">各自のレジュメをSharePoint所定フォルダに格納。AIで解析してwikiに反映。TMが最終確認・編集</td>
                 </tr>
                 <tr>
+                  <td><strong>FFS（因子タイプ）</strong></td>
+                  <td><span class="data-src-badge src-kaonavi">カオナビ</span></td>
+                  <td>—</td>
+                  <td style="color:var(--text-dim)">カオナビのFFS結果を参照してTMが手入力。変化は少ないため初回登録が主</td>
+                </tr>
+                <tr>
                   <td><strong>キャリア志向</strong></td>
                   <td><span class="data-src-badge src-portal">Portal（TM入力）</span></td>
                   <td>
@@ -3715,6 +3721,20 @@
               <div class="wiki-field-label">本人の志向・なりたい姿</div>
               <textarea id="wiki-career" class="wiki-textarea" rows="4"
                 placeholder="例: PMリードとして複数案件を横断管理し、技術とマネジメントを両立したい"></textarea>
+            </div>
+
+            <div class="card mb-4">
+              <div class="card-title mb-4">FFS（ファイブファクター）</div>
+              <div class="wiki-field-label">主因子タイプ</div>
+              <select id="wiki-ffs" class="assign-input" style="width:100%;margin-bottom:6px">
+                <option value="">— 未設定 —</option>
+                <option value="拡散性">拡散性 — 好奇心旺盛、変化・新規を好む</option>
+                <option value="保全性">保全性 — 慎重・安定志向、丁寧さが強み</option>
+                <option value="弁別性">弁別性 — 論理・分析型、課題解決志向</option>
+                <option value="受容性">受容性 — 共感力高い、調和・関係重視</option>
+                <option value="凝集性">凝集性 — リーダー型、目標・結果志向</option>
+              </select>
+              <div style="font-size:11px;color:var(--text-dim)">※ カオナビのFFS結果を転記してください</div>
             </div>
 
             <div class="card mb-4">
@@ -4519,7 +4539,7 @@
                 certs:["AWS SAA", "PMP"],
                 workStyle:{"remote": true, "resident": true},
                 skillDetail:[{"name": "AWS", "level": 3}, {"name": "インフラ設計", "level": 3}, {"name": "PM", "level": 2}, {"name": "Salesforce", "level": 1}],
-                schedule:[{"project": "顧客A 基幹システム移行", "end": "2026-08", "ratio": 80}] },
+                schedule:[{"project": "顧客A 基幹システム移行", "end": "2026-08", "ratio": 80}], ffs:"弁別性" },
     suzuki:   { name:'鈴木 麻衣', role:'Salesforce・M365',      color:'var(--green)', initial:'鈴',
                 tags:['Salesforce','M365','AM','顧客関係構築'],
                 capacity:'normal', capLabel:'通常稼働',
@@ -4533,7 +4553,7 @@
                 certs:["Salesforce AD", "M365 MS-900"],
                 workStyle:{"remote": true, "resident": true},
                 skillDetail:[{"name": "Salesforce", "level": 3}, {"name": "M365", "level": 2}, {"name": "AM", "level": 2}, {"name": "AWS", "level": 1}],
-                schedule:[{"project": "顧客B Salesforce導入", "end": "2026-09", "ratio": 60}, {"project": "顧客A M365支援", "end": "2026-07", "ratio": 30}] },
+                schedule:[{"project": "顧客B Salesforce導入", "end": "2026-09", "ratio": 60}, {"project": "顧客A M365支援", "end": "2026-07", "ratio": 30}], ffs:"受容性" },
     sato:     { name:'佐藤 健二', role:'戦略・コンサル',         color:'#BC8CFF', initial:'佐',
                 tags:['DX戦略','提案書作成','ナレッジ標準化','業務分析'],
                 capacity:'full',   capLabel:'フル稼働',
@@ -4547,7 +4567,7 @@
                 certs:["中小企業診断士", "PMP"],
                 workStyle:{"remote": true, "resident": false},
                 skillDetail:[{"name": "DX戦略", "level": 3}, {"name": "提案書作成", "level": 3}, {"name": "PM", "level": 3}, {"name": "Salesforce", "level": 1}],
-                schedule:[{"project": "顧客A DX戦略", "end": "2026-12", "ratio": 70}, {"project": "新規提案 顧客C", "end": "2026-07", "ratio": 40}] },
+                schedule:[{"project": "顧客A DX戦略", "end": "2026-12", "ratio": 70}, {"project": "新規提案 顧客C", "end": "2026-07", "ratio": 40}], ffs:"凝集性" },
     yamada:   { name:'山田 拓也', role:'Salesforce',             color:'var(--red)', initial:'山',
                 tags:['Salesforce','権限設計','フロー自動化'],
                 capacity:'free',   capLabel:'余裕あり',
@@ -4561,7 +4581,7 @@
                 certs:["Salesforce ADM201"],
                 workStyle:{"remote": true, "resident": true},
                 skillDetail:[{"name": "Salesforce", "level": 2}, {"name": "権限設計", "level": 2}, {"name": "データ移行", "level": 1}],
-                schedule:[{"project": "顧客B Salesforce導入", "end": "2026-08", "ratio": 60}] },
+                schedule:[{"project": "顧客B Salesforce導入", "end": "2026-08", "ratio": 60}], ffs:"保全性" },
     nakamura: { name:'中村 奈々', role:'トレーニング・定着',     color:'#F97316', initial:'中',
                 tags:['研修設計','定着支援','ファシリテーション','マニュアル'],
                 capacity:'normal', capLabel:'通常稼働',
@@ -4575,7 +4595,7 @@
                 certs:["M365 MS-900", "産業カウンセラー"],
                 workStyle:{"remote": true, "resident": true},
                 skillDetail:[{"name": "研修設計", "level": 3}, {"name": "M365", "level": 2}, {"name": "ファシリテーション", "level": 3}, {"name": "Salesforce", "level": 1}],
-                schedule:[{"project": "顧客B 定着支援", "end": "2026-07", "ratio": 50}, {"project": "顧客A 研修", "end": "2026-06", "ratio": 40}] },
+                schedule:[{"project": "顧客B 定着支援", "end": "2026-07", "ratio": 50}, {"project": "顧客A 研修", "end": "2026-06", "ratio": 40}], ffs:"受容性" },
     ito:      { name:'伊藤 翔平', role:'データ分析・BI',         color:'#06B6D4', initial:'伊',
                 tags:['データ分析','BI','BigQuery','SQL','Looker Studio'],
                 capacity:'free',   capLabel:'余裕あり',
@@ -4589,7 +4609,7 @@
                 certs:["統計検定2級", "AWS DVA"],
                 workStyle:{"remote": true, "resident": false},
                 skillDetail:[{"name": "データ分析", "level": 3}, {"name": "BI", "level": 3}, {"name": "SQL", "level": 3}, {"name": "Python", "level": 2}],
-                schedule:[{"project": "顧客A BI基盤", "end": "2026-07", "ratio": 40}] },
+                schedule:[{"project": "顧客A BI基盤", "end": "2026-07", "ratio": 40}], ffs:"弁別性" },
     kato:     { name:'加藤 さくら', role:'HR・業務改善',         color:'#84CC16', initial:'加',
                 tags:['HR','業務改善','ドキュメント整備','要件定義'],
                 capacity:'free',   capLabel:'余裕あり',
@@ -4603,7 +4623,7 @@
                 certs:["社会保険労務士（勉強中）", "M365 MS-900"],
                 workStyle:{"remote": true, "resident": true},
                 skillDetail:[{"name": "HR業務", "level": 3}, {"name": "業務改善", "level": 2}, {"name": "M365", "level": 2}, {"name": "ドキュメント整備", "level": 2}],
-                schedule:[{"project": "社内HR改善", "end": "2026-06", "ratio": 30}] }
+                schedule:[{"project": "社内HR改善", "end": "2026-06", "ratio": 30}], ffs:"拡散性" }
   };
 
   function openProfile(id) {
@@ -4616,6 +4636,9 @@
     document.getElementById('mp-name').textContent = m.name;
     document.getElementById('mp-role').textContent = m.role;
     document.getElementById('mp-grade').textContent = m.grade || '';
+    var ffsEl = document.getElementById('mp-ffs');
+    if (m.ffs) { ffsEl.textContent = 'FFS: ' + m.ffs; ffsEl.style.display = 'inline'; }
+    else { ffsEl.style.display = 'none'; }
     document.getElementById('mp-grade-note').textContent = m.gradeNote || '';
 
     // 稼働状況
@@ -5258,6 +5281,10 @@
     // スキルリスト
     wikiRenderSkills(m.skillDetail || []);
 
+    // FFS
+    var ffsSelect = document.getElementById('wiki-ffs');
+    if (ffsSelect) ffsSelect.value = m.ffs || '';
+
     // 資格
     wikiRenderTags('wiki-certs-list', m.certs || [], 'cert');
 
@@ -5388,6 +5415,8 @@
     if (!wikiCurrentMember) return;
     var m = memberProfiles[wikiCurrentMember];
     m.careerGoal = document.getElementById('wiki-career').value;
+    var ffsEl2 = document.getElementById('wiki-ffs');
+    if (ffsEl2) m.ffs = ffsEl2.value;
     var msg = document.getElementById('wiki-saved-msg');
     msg.style.display = 'inline';
     setTimeout(function() { msg.style.display = 'none'; }, 3000);
@@ -5417,6 +5446,7 @@
         <div style="display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap">
           <span id="mp-role" style="font-size:12px;color:var(--text-dim)"></span>
           <span id="mp-grade" style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--gold)"></span>
+          <span id="mp-ffs" style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-family:'JetBrains Mono',monospace"></span>
         </div>
       </div>
     </div>
