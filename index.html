@@ -794,7 +794,43 @@
     @media(max-width:480px){
       .sl-sidebar { display:none; }
     }
-</style>
+
+    /* アサイン補助 */
+    .assign-score-wrap { display:flex;align-items:center;gap:10px;margin:8px 0; }
+    .assign-score-bar { flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden; }
+    .assign-score-fill { height:100%;border-radius:3px;background:var(--gold);transition:width 0.4s ease; }
+    .assign-score-pct { font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--gold);width:38px;text-align:right;flex-shrink:0; }
+    .assign-rank { font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--text-dim);width:22px;text-align:center;flex-shrink:0; }
+    .assign-candidate { border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;transition:border-color 0.15s; }
+    .assign-candidate:hover { border-color:var(--border2); }
+    .assign-candidate.rank-1 { border-color:var(--gold); }
+    .assign-reason { display:flex;gap:5px;flex-wrap:wrap;margin-top:8px; }
+    .assign-flag { display:flex;gap:5px;flex-wrap:wrap;margin-top:5px; }
+    .assign-empty { text-align:center;padding:40px 20px;color:var(--text-dim); }
+    .assign-empty .assign-empty-icon { font-size:36px;margin-bottom:10px; }
+    .skill-tag-btn { display:inline-block;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--text);margin:3px;transition:all 0.12s; }
+    .skill-tag-btn.selected { background:var(--gold-dim);color:var(--gold);border-color:var(--gold); }
+    .skill-tag-btn:hover { border-color:var(--border2);color:var(--text-hi); }
+    .assign-input { width:100%;padding:8px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:13px;font-family:inherit;outline:none; }
+    .assign-input:focus { border-color:var(--gold); }
+    .assign-select { width:100%;padding:8px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:13px;font-family:inherit;outline:none;cursor:pointer; }
+    .assign-select:focus { border-color:var(--gold); }
+    .wiki-table { width:100%;border-collapse:collapse;font-size:12px; }
+    .wiki-table th { text-align:left;padding:7px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.8px;border-bottom:1px solid var(--border); }
+    .wiki-table td { padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text); }
+    .wiki-table tr:last-child td { border-bottom:none; }
+    .wiki-table tr:hover td { background:var(--surface2); }
+    .data-src-badge { display:inline-block;padding:2px 7px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.5px; }
+    .src-kintone { background:var(--blue-dim);color:var(--blue); }
+    .src-portal  { background:var(--gold-dim);color:var(--gold); }
+    .src-sp      { background:rgba(188,140,255,0.12);color:var(--purple); }
+    .src-slack   { background:var(--green-dim);color:var(--green); }
+    .collapsible-hdr { display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:12px 16px;background:var(--surface2);border-radius:6px;margin-top:20px;user-select:none; }
+    .collapsible-hdr:hover { background:var(--border); }
+    .collapsible-body { display:none;padding-top:12px; }
+    .collapsible-body.open { display:block; }
+
+  </style>
 </head>
 <body>
 
@@ -824,6 +860,9 @@
     <div class="nav-item" onclick="navigate('todos', this)">
       <span class="nav-icon">✅</span> チームTodo
       <span class="nav-badge">3</span>
+    </div>
+    <div class="nav-item" onclick="navigate('assign', this)">
+      <span class="nav-icon">🔍</span> アサイン補助
     </div>
     <div class="nav-item" onclick="navigate('slack', this)">
       <span class="nav-icon">💬</span> Slack連携イメージ
@@ -2936,6 +2975,183 @@
 
 
 
+
+    <!-- ════════════════ PAGE: ASSIGN ════════════════ -->
+    <div class="page" id="page-assign">
+      <div class="section-title">アサイン補助</div>
+      <div class="text-muted mb-4" style="font-size:12px;line-height:1.7">
+        案件概要を入力すると、スキル・稼働状況・キャリア志向を総合してマッチする要員候補をランキング表示します。
+        要員調整の負荷削減とミスマッチ防止を支援します。
+      </div>
+
+      <div class="grid-2 mb-6">
+
+        <!-- 左: 入力フォーム -->
+        <div class="card" style="align-self:start">
+          <div class="card-header">
+            <div>
+              <div class="card-title">案件概要入力</div>
+              <div class="card-sub">必要条件を入力してください</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:14px">
+            <div class="modal-section-label" style="margin-bottom:6px">案件名</div>
+            <input id="assign-name" class="assign-input" type="text" placeholder="例：顧客C Salesforce導入 フェーズ1" />
+          </div>
+
+          <div style="margin-bottom:14px">
+            <div class="modal-section-label" style="margin-bottom:6px">必要スキル（複数選択可）</div>
+            <div id="skill-tag-area">
+              <!-- JS で生成 -->
+            </div>
+          </div>
+
+          <div class="grid-2" style="gap:10px;margin-bottom:14px">
+            <div>
+              <div class="modal-section-label" style="margin-bottom:6px">開始時期</div>
+              <select id="assign-start" class="assign-select">
+                <option value="immediate">即時（今月中）</option>
+                <option value="next_month">来月以降</option>
+                <option value="q_next">次四半期</option>
+                <option value="undecided">未定</option>
+              </select>
+            </div>
+            <div>
+              <div class="modal-section-label" style="margin-bottom:6px">必要グレード</div>
+              <select id="assign-grade" class="assign-select">
+                <option value="">指定なし</option>
+                <option value="G2">G2以上</option>
+                <option value="G3">G3以上</option>
+                <option value="G4">G4以上</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom:18px">
+            <div class="modal-section-label" style="margin-bottom:6px">稼働形態</div>
+            <div style="display:flex;gap:8px">
+              <button class="skill-tag-btn selected" id="btn-remote" onclick="toggleWorkStyle('remote')">リモート可</button>
+              <button class="skill-tag-btn selected" id="btn-resident" onclick="toggleWorkStyle('resident')">常駐可</button>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" style="width:100%;padding:10px" onclick="runMatching()">
+            🔍 マッチング実行
+          </button>
+        </div>
+
+        <!-- 右: 候補者リスト -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">候補者</div>
+              <div class="card-sub" id="assign-result-sub">スキルを選択して実行してください</div>
+            </div>
+            <span class="ai-tag">✦ AI MOCK</span>
+          </div>
+          <div id="assign-results">
+            <div class="assign-empty">
+              <div class="assign-empty-icon">🔍</div>
+              <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">左のフォームに案件情報を入力</div>
+              <div style="font-size:12px">「マッチング実行」を押すと候補者がスコア順に表示されます</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- データ構造定義（折り畳み） -->
+      <div class="collapsible-hdr" onclick="toggleCollapsible(this)">
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--text-hi)">📐 wikiデータ構造定義</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-top:2px">本機能が必要とするメンバーデータの定義と、実装時のデータ調達先</div>
+        </div>
+        <span style="font-size:12px;color:var(--text-dim)">▼</span>
+      </div>
+      <div class="collapsible-body">
+
+        <div class="grid-2" style="gap:16px;margin-top:4px">
+          <div class="card">
+            <div class="card-title mb-4">メンバーwikiフィールド定義</div>
+            <div style="background:var(--surface2);border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);line-height:1.9">
+              <span style="color:var(--text-dim)">// 既存フィールド（現在ポータルに保存済み）</span><br>
+              name, role, tags, capacity,<br>
+              grade, gradeNote, projects<br><br>
+              <span style="color:var(--gold)">// 追加フィールド（今後wiki化）</span><br>
+              <span style="color:var(--blue)">careerGoal</span>: string         <span style="color:var(--text-dim)">// キャリア志向</span><br>
+              <span style="color:var(--blue)">skillDetail</span>: [{name, level}] <span style="color:var(--text-dim)">// スキル熟練度(1-3)</span><br>
+              <span style="color:var(--blue)">industryExp</span>: string[]       <span style="color:var(--text-dim)">// 経験業界</span><br>
+              <span style="color:var(--blue)">certs</span>: string[]             <span style="color:var(--text-dim)">// 保有資格</span><br>
+              <span style="color:var(--blue)">workStyle</span>: {remote, resident} <span style="color:var(--text-dim)">// 稼働形態</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title mb-4">データ調達先マッピング</div>
+            <table class="wiki-table">
+              <thead>
+                <tr>
+                  <th>フィールド</th>
+                  <th>調達元</th>
+                  <th>方法</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>スキル・資格</td>
+                  <td><span class="data-src-badge src-kintone">Kintone</span></td>
+                  <td>人材DBからAPI同期</td>
+                </tr>
+                <tr>
+                  <td>キャリア志向</td>
+                  <td><span class="data-src-badge src-portal">Portal</span></td>
+                  <td>メンバー自己入力（本ポータル）</td>
+                </tr>
+                <tr>
+                  <td>稼働状況</td>
+                  <td><span class="data-src-badge src-kintone">Kintone</span></td>
+                  <td>案件アサインDBから取得</td>
+                </tr>
+                <tr>
+                  <td>過去案件実績</td>
+                  <td><span class="data-src-badge src-sp">SharePoint</span></td>
+                  <td>アカウントプランをGraph API</td>
+                </tr>
+                <tr>
+                  <td>活動シグナル</td>
+                  <td><span class="data-src-badge src-slack">Slack</span></td>
+                  <td>日報チャンネルのメッセージ解析</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- マッチングスコア計算式 -->
+        <div class="card" style="margin-top:12px">
+          <div class="card-title mb-4">マッチングスコア計算式（モック実装）</div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <div style="flex:1;min-width:160px;padding:12px;background:var(--surface2);border-radius:6px;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--gold)">50点</div>
+              <div style="font-size:12px;font-weight:700;color:var(--text-hi);margin-top:4px">スキル一致率</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:4px">選択タグが何件マッチするか</div>
+            </div>
+            <div style="flex:1;min-width:160px;padding:12px;background:var(--surface2);border-radius:6px;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--blue)">30点</div>
+              <div style="font-size:12px;font-weight:700;color:var(--text-hi);margin-top:4px">キャリア適合度</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:4px">careerGoalとスキルの重複</div>
+            </div>
+            <div style="flex:1;min-width:160px;padding:12px;background:var(--surface2);border-radius:6px;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--green)">20点</div>
+              <div style="font-size:12px;font-weight:700;color:var(--text-hi);margin-top:4px">稼働余力</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:4px">余裕あり20 / 通常10 / フル0</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- ════════════════ PAGE: GUIDE ════════════════ -->
     <div class="page" id="page-guide">
 
@@ -3137,6 +3353,7 @@
     cases: '案件マップ',
     revenue: '売上・アクションプラン',
     growth: 'メンバー成長マップ',
+    assign: 'アサイン補助',
     slack: 'Slack連携イメージ',
     guide: '使い方',
     todos:     'チームTodo',
@@ -3178,6 +3395,7 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     el.classList.add('active');
     document.getElementById('page-' + page).classList.add('active');
+    if (page === 'assign') initAssignPage();
     document.getElementById('page-title').textContent = titles[page];
     // Reset growth lock when navigating away
     if (page !== 'growth') {
@@ -3453,7 +3671,12 @@
                 projects:['顧客A 基幹システム移行（フェーズ2）'],
                 slack:[{t:'2時間前',msg:'テスト環境の構築が完了。来週から本番前検証フェーズに入ります 👍'},
                        {t:'昨日',  msg:'AWS Cost Explorerで今月のコスト分析。想定内でした。明日共有します'}],
-                intro:'インフラは任せてください。複雑な構成も図に落とすのが得意です。' },
+                intro:'インフラは任せてください。複雑な構成も図に落とすのが得意です。',
+                careerGoal:"PMリードとして複数案件を横断管理し、技術とマネジメントを両立したい",
+                industryExp:["製造", "流通", "金融"],
+                certs:["AWS SAA", "PMP"],
+                workStyle:{"remote": true, "resident": true},
+                skillDetail:[{"name": "AWS", "level": 3}, {"name": "インフラ設計", "level": 3}, {"name": "PM", "level": 2}, {"name": "Salesforce", "level": 1}] },
     suzuki:   { name:'鈴木 麻衣', role:'Salesforce・M365',      color:'var(--green)', initial:'鈴',
                 tags:['Salesforce','M365','AM','顧客関係構築'],
                 capacity:'normal', capLabel:'通常稼働',
@@ -3461,7 +3684,12 @@
                 projects:['顧客A M365活用支援','顧客B Salesforce（サポート）'],
                 slack:[{t:'3時間前',msg:'顧客AのTeams活用研修、参加者満足度が高かったです！継続のリクエストも'},
                        {t:'2日前', msg:'山田さんのSalesforce権限設計レビューしました。コメント送ります'}],
-                intro:'顧客との関係づくりが得意です。困ったことがあれば気軽に声かけてください。' },
+                intro:'顧客との関係づくりが得意です。困ったことがあれば気軽に声かけてください。',
+                careerGoal:"Salesforceのアーキテクト資格を取得し、より大規模な導入案件をリードしたい",
+                industryExp:["小売", "製造", "サービス"],
+                certs:["Salesforce AD", "M365 MS-900"],
+                workStyle:{"remote": true, "resident": true},
+                skillDetail:[{"name": "Salesforce", "level": 3}, {"name": "M365", "level": 2}, {"name": "AM", "level": 2}, {"name": "AWS", "level": 1}] },
     sato:     { name:'佐藤 健二', role:'戦略・コンサル',         color:'#BC8CFF', initial:'佐',
                 tags:['DX戦略','提案書作成','ナレッジ標準化','業務分析'],
                 capacity:'full',   capLabel:'フル稼働',
@@ -3469,7 +3697,12 @@
                 projects:['顧客A DX戦略立案','顧客B データ活用構想'],
                 slack:[{t:'1時間前',msg:'ヒアリング完了。先方からデータを使った意思決定の仕組みも欲しいと。提案の幅が広がりそう'},
                        {t:'昨日',   msg:'提案書テンプレートをNotionに整理しました。みんな使ってください'}],
-                intro:'戦略から実行まで一気通貫でやります。提案書のレビューも歓迎です。' },
+                intro:'戦略から実行まで一気通貫でやります。提案書のレビューも歓迎です。',
+                careerGoal:"DX戦略の立案から実行まで一気通貫でリードできるパートナーになりたい",
+                industryExp:["製造", "物流", "小売", "金融"],
+                certs:["中小企業診断士", "PMP"],
+                workStyle:{"remote": true, "resident": false},
+                skillDetail:[{"name": "DX戦略", "level": 3}, {"name": "提案書作成", "level": 3}, {"name": "PM", "level": 3}, {"name": "Salesforce", "level": 1}] },
     yamada:   { name:'山田 拓也', role:'Salesforce',             color:'var(--red)', initial:'山',
                 tags:['Salesforce','権限設計','フロー自動化'],
                 capacity:'free',   capLabel:'余裕あり',
@@ -3477,7 +3710,12 @@
                 projects:['顧客B Salesforce導入（メイン担当）'],
                 slack:[{t:'10分前',msg:'Profileの継承設定で詰まってます。壁打ちできる人いますか'},
                        {t:'昨日',  msg:'顧客B定例。権限設計の方向性で合意できました'}],
-                intro:'Salesforceの深堀り中です。権限設計とフロー自動化が得意分野です。' },
+                intro:'Salesforceの深堀り中です。権限設計とフロー自動化が得意分野です。',
+                careerGoal:"Salesforceの深い技術力を身につけて、将来的にはアーキテクトとして独立したい",
+                industryExp:["サービス", "小売"],
+                certs:["Salesforce ADM201"],
+                workStyle:{"remote": true, "resident": true},
+                skillDetail:[{"name": "Salesforce", "level": 2}, {"name": "権限設計", "level": 2}, {"name": "データ移行", "level": 1}] },
     nakamura: { name:'中村 奈々', role:'トレーニング・定着',     color:'#F97316', initial:'中',
                 tags:['研修設計','定着支援','ファシリテーション','マニュアル'],
                 capacity:'normal', capLabel:'通常稼働',
@@ -3485,7 +3723,12 @@
                 projects:['顧客A ITトレーニング・定着支援'],
                 slack:[{t:'昨日', msg:'研修後のフォローアップ調査を送りました。定着率が上がってきています'},
                        {t:'3日前',msg:'新しい研修資料のフォーマットを試しています。フィードバックもらえると助かります'}],
-                intro:'使いこなしてもらうまでが仕事です。研修設計・ファシリに困ったら声をかけてください。' },
+                intro:'使いこなしてもらうまでが仕事です。研修設計・ファシリに困ったら声をかけてください。',
+                careerGoal:"ITツールの導入支援だけでなく、組織変革まで伴走できるコンサルタントになりたい",
+                industryExp:["製造", "サービス", "HR"],
+                certs:["M365 MS-900", "産業カウンセラー"],
+                workStyle:{"remote": true, "resident": true},
+                skillDetail:[{"name": "研修設計", "level": 3}, {"name": "M365", "level": 2}, {"name": "ファシリテーション", "level": 3}, {"name": "Salesforce", "level": 1}] },
     ito:      { name:'伊藤 翔平', role:'データ分析・BI',         color:'#06B6D4', initial:'伊',
                 tags:['データ分析','BI','BigQuery','SQL','Looker Studio'],
                 capacity:'free',   capLabel:'余裕あり',
@@ -3493,7 +3736,12 @@
                 projects:['顧客B 営業データ可視化・BI構築'],
                 slack:[{t:'昨日', msg:'BigQueryのパーティショニング設計をNotionにまとめました。他案件でも使えると思うので'},
                        {t:'4日前',msg:'先週のダッシュボード、顧客Bから「意思決定が速くなった」とフィードバックもらえました！'}],
-                intro:'データで意思決定を変えたいです。分析・可視化の相談はいつでもどうぞ。' },
+                intro:'データで意思決定を変えたいです。分析・可視化の相談はいつでもどうぞ。',
+                careerGoal:"データ分析基盤の構築から意思決定支援まで、データドリブン経営を実現したい",
+                industryExp:["金融", "製造", "小売"],
+                certs:["統計検定2級", "AWS DVA"],
+                workStyle:{"remote": true, "resident": false},
+                skillDetail:[{"name": "データ分析", "level": 3}, {"name": "BI", "level": 3}, {"name": "SQL", "level": 3}, {"name": "Python", "level": 2}] },
     kato:     { name:'加藤 さくら', role:'HR・業務改善',         color:'#84CC16', initial:'加',
                 tags:['HR','業務改善','ドキュメント整備','要件定義'],
                 capacity:'free',   capLabel:'余裕あり',
@@ -3501,7 +3749,12 @@
                 projects:['（次案件アサイン準備中）'],
                 slack:[{t:'2日前',  msg:'業務フロー整理のテンプレート作りました。よければ使ってください〜'},
                        {t:'1週間前',msg:'採用管理の現状ヒアリングができました。デジタル化のニーズは確かにありそうです'}],
-                intro:'人と組織のDXに挑戦中です。HR関係や業務フロー整理なら力になれます。' }
+                intro:'人と組織のDXに挑戦中です。HR関係や業務フロー整理なら力になれます。',
+                careerGoal:"人事・業務改善の知見を活かしてHR DXのスペシャリストになりたい",
+                industryExp:["HR", "サービス", "製造"],
+                certs:["社会保険労務士（勉強中）", "M365 MS-900"],
+                workStyle:{"remote": true, "resident": true},
+                skillDetail:[{"name": "HR業務", "level": 3}, {"name": "業務改善", "level": 2}, {"name": "M365", "level": 2}, {"name": "ドキュメント整備", "level": 2}] }
   };
 
   function openProfile(id) {
@@ -3581,6 +3834,162 @@
     document.getElementById('growth-content').style.display = 'none';
     window.scrollTo(0, 0);
   });
+
+  // ═══ アサイン補助 ═══
+  var ALL_SKILLS = ['Salesforce','M365','AWS','インフラ','PM','DX戦略','データ分析','BI','SQL',
+                    'Python','HR業務','研修設計','業務改善','クラウド設計','提案書作成','AM'];
+  var selectedSkills = new Set();
+  var workStyleFilter = { remote: true, resident: true };
+
+  function initAssignPage() {
+    var area = document.getElementById('skill-tag-area');
+    if (!area || area.children.length > 0) return;
+    ALL_SKILLS.forEach(function(s) {
+      var btn = document.createElement('button');
+      btn.className = 'skill-tag-btn';
+      btn.textContent = s;
+      btn.onclick = function() { toggleSkillTag(s, btn); };
+      area.appendChild(btn);
+    });
+  }
+
+  function toggleSkillTag(skill, btn) {
+    if (selectedSkills.has(skill)) {
+      selectedSkills.delete(skill);
+      btn.classList.remove('selected');
+    } else {
+      selectedSkills.add(skill);
+      btn.classList.add('selected');
+    }
+  }
+
+  function toggleWorkStyle(type) {
+    workStyleFilter[type] = !workStyleFilter[type];
+    document.getElementById('btn-' + type).classList.toggle('selected', workStyleFilter[type]);
+  }
+
+  function runMatching() {
+    var inputSkills = Array.from(selectedSkills);
+    var requiredGrade = document.getElementById('assign-grade').value;
+    var gradeOrder = { 'G2': 2, 'G3': 3, 'G4': 4, 'G5': 5 };
+
+    var members = Object.keys(memberProfiles).map(function(id) {
+      return Object.assign({ id: id }, memberProfiles[id]);
+    });
+
+    members.forEach(function(m) {
+      var score = 0, reasons = [], flags = [];
+
+      // スキル一致 (50点)
+      if (inputSkills.length > 0) {
+        var matched = inputSkills.filter(function(s) { return m.tags && m.tags.includes(s); });
+        score += (matched.length / inputSkills.length) * 50;
+        if (matched.length) reasons.push(matched.join('・') + 'の経験あり');
+        else flags.push('必要スキル未経験');
+      } else {
+        score += 25; // スキル未指定時は中間点
+      }
+
+      // キャリア適合 (30点)
+      if (m.careerGoal && inputSkills.length > 0) {
+        var careerMatched = inputSkills.filter(function(s) { return m.careerGoal.includes(s); });
+        if (careerMatched.length) {
+          score += 30;
+          reasons.push('キャリア志向と合致');
+        }
+      } else if (!m.careerGoal) {
+        score += 15;
+      }
+
+      // 稼働余力 (20点)
+      if (m.capacity === 'free')        { score += 20; }
+      else if (m.capacity === 'normal') { score += 10; flags.push('現在案件担当中'); }
+      else { flags.push('フル稼働 — 要調整'); }
+
+      // グレードフィルタ
+      if (requiredGrade) {
+        var gradeNum = parseInt((m.grade || '').replace(/G(\d).*/,'$1')) || 0;
+        var reqNum = gradeOrder[requiredGrade] || 0;
+        if (gradeNum < reqNum) {
+          score = Math.max(0, score - 25);
+          flags.push('グレード要件未満');
+        }
+      }
+
+      m.score = Math.min(100, Math.round(score));
+      m.reasons = reasons;
+      m.flags = flags;
+    });
+
+    members.sort(function(a, b) { return b.score - a.score; });
+    renderCandidates(members);
+  }
+
+  function renderCandidates(members) {
+    var container = document.getElementById('assign-results');
+    var sub = document.getElementById('assign-result-sub');
+    sub.textContent = members.length + '名の候補者をスコア順に表示';
+
+    var scoreColor = function(s) {
+      if (s >= 70) return 'var(--green)';
+      if (s >= 40) return 'var(--gold)';
+      return 'var(--text-dim)';
+    };
+
+    var capColors = { free: 'cap-free', normal: 'cap-normal', full: 'cap-full' };
+
+    var html = members.map(function(m, i) {
+      var rank = i + 1;
+      var rankClass = rank === 1 ? 'rank-1' : '';
+      var scoreCol = scoreColor(m.score);
+
+      var reasonHtml = m.reasons.map(function(r) {
+        return '<span class="chip chip-green" style="font-size:11px">' + r + '</span>';
+      }).join('');
+
+      var flagHtml = m.flags.map(function(f) {
+        return '<span class="chip chip-amber" style="font-size:11px">⚠ ' + f + '</span>';
+      }).join('');
+
+      var careerHtml = m.careerGoal
+        ? '<div style="font-size:11px;color:var(--text-dim);margin-top:6px;line-height:1.5">🎯 ' + m.careerGoal + '</div>'
+        : '';
+
+      return '<div class="assign-candidate ' + rankClass + '">'
+        + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">'
+        +   '<span class="assign-rank">#' + rank + '</span>'
+        +   '<div class="avatar" style="background:' + m.color + ';font-size:13px;flex-shrink:0">' + m.initial + '</div>'
+        +   '<div style="flex:1;min-width:0">'
+        +     '<div style="font-size:13px;font-weight:700;color:var(--text-hi)">' + m.name + '</div>'
+        +     '<div style="font-size:11px;color:var(--text-dim)">' + m.role + '</div>'
+        +   '</div>'
+        +   '<span class="member-mini-cap ' + (capColors[m.capacity] || 'cap-normal') + '">' + m.capLabel + '</span>'
+        + '</div>'
+        + '<div class="assign-score-wrap">'
+        +   '<div class="assign-score-bar"><div class="assign-score-fill" style="width:' + m.score + '%;background:' + scoreCol + '"></div></div>'
+        +   '<span class="assign-score-pct" style="color:' + scoreCol + '">' + m.score + '%</span>'
+        + '</div>'
+        + (reasonHtml ? '<div class="assign-reason">' + reasonHtml + '</div>' : '')
+        + (flagHtml   ? '<div class="assign-flag">'   + flagHtml   + '</div>' : '')
+        + careerHtml
+        + '<div style="margin-top:10px">'
+        +   '<button class="btn btn-outline" style="font-size:11px;padding:5px 12px" onclick="openProfile('' + m.id + '')">'
+        +     '詳細プロフィール'
+        +   '</button>'
+        + '</div>'
+        + '</div>';
+    }).join('');
+
+    container.innerHTML = html;
+  }
+
+  function toggleCollapsible(hdr) {
+    var body = hdr.nextElementSibling;
+    var arrow = hdr.querySelector('span:last-child');
+    body.classList.toggle('open');
+    arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+  }
+
 </script>
 
 <!-- ═══ メンバープロフィール モーダル ═══ -->
