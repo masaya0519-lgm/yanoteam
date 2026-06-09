@@ -3911,22 +3911,55 @@
     var m = memberProfiles[id];
     if (!m) return;
     var capClass = m.capacity === 'full' ? 'cap-full' : m.capacity === 'normal' ? 'cap-normal' : 'cap-free';
+
     document.getElementById('mp-avatar').style.background = m.color;
     document.getElementById('mp-avatar').textContent = m.initial;
     document.getElementById('mp-name').textContent = m.name;
     document.getElementById('mp-role').textContent = m.role;
-    document.getElementById('mp-cap').className = 'member-mini-cap ' + capClass;
-    document.getElementById('mp-cap').textContent = m.capLabel;
-    document.getElementById('mp-tags').innerHTML = m.tags.map(function(t){ return '<span class="chip chip-blue" style="font-size:11px">'+t+'</span>'; }).join('');
-    document.getElementById('mp-projects').innerHTML = m.projects.map(function(p){ return '<li style="font-size:12px;color:var(--text);line-height:1.7">'+p+'</li>'; }).join('');
-    document.getElementById('mp-grade').textContent = m.grade;
-    document.getElementById('mp-grade-note').textContent = m.gradeNote;
-    document.getElementById('mp-slack').innerHTML = m.slack.map(function(s){
-      return '<div style="padding:8px 10px;background:var(--bg);border-radius:6px;margin-bottom:5px">'
-        +'<div style="font-size:10px;color:var(--text-dim);margin-bottom:2px">'+s.t+'</div>'
-        +'<div style="font-size:12px;color:var(--text);line-height:1.5">'+s.msg+'</div></div>';
-    }).join('');
-    document.getElementById('mp-intro').textContent = m.intro;
+    document.getElementById('mp-grade').textContent = m.grade || '';
+    document.getElementById('mp-grade-note').textContent = m.gradeNote || '';
+
+    // 稼働状況
+    var cap = document.getElementById('mp-cap');
+    var cap2 = document.getElementById('mp-cap2');
+    cap.className = cap2.className = 'member-mini-cap ' + capClass;
+    cap.textContent = cap2.textContent = m.capLabel;
+
+    // 担当案件
+    var projects = m.projects && m.projects.length
+      ? m.projects.map(function(p){ return '<div style="display:flex;gap:5px"><span style="color:var(--border2)">▸</span><span>'+p+'</span></div>'; }).join('')
+      : '<span style="color:var(--green);font-size:11px">✓ 現在担当案件なし</span>';
+    document.getElementById('mp-projects').innerHTML = projects;
+
+    // スキル（熟練度付き or タグのみ）
+    var skillsHtml = '';
+    if (m.skillDetail && m.skillDetail.length) {
+      var levelLabel = function(l){ return l===3?'リード':l===2?'実務':'入門'; };
+      var levelCls   = function(l){ return l===3?'chip-green':l===2?'chip-blue':'chip-gray'; };
+      skillsHtml = m.skillDetail.map(function(s){
+        return '<span class="chip '+levelCls(s.level)+'" style="font-size:11px">'+s.name
+          +' <span style="opacity:0.65">('+levelLabel(s.level)+')</span></span>';
+      }).join('');
+    } else if (m.tags) {
+      skillsHtml = m.tags.map(function(t){ return '<span class="chip chip-blue" style="font-size:11px">'+t+'</span>'; }).join('');
+    }
+    document.getElementById('mp-skills').innerHTML = skillsHtml;
+
+    // キャリア志向
+    document.getElementById('mp-career').textContent = m.careerGoal || '（未設定 — 1on1→wikiで更新）';
+
+    // 資格
+    var certsHtml = m.certs && m.certs.length
+      ? m.certs.map(function(c){ return '<span class="chip chip-purple" style="font-size:11px">'+c+'</span>'; }).join('')
+      : '<span style="font-size:11px;color:var(--text-dim)">—</span>';
+    document.getElementById('mp-certs').innerHTML = certsHtml;
+
+    // 経験業界
+    var indHtml = m.industryExp && m.industryExp.length
+      ? '経験業界：' + m.industryExp.join('・')
+      : '';
+    document.getElementById('mp-industry').textContent = indHtml;
+
     document.getElementById('member-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -4439,36 +4472,57 @@
       <div class="avatar" id="mp-avatar" style="width:48px;height:48px;font-size:18px;flex-shrink:0"></div>
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span id="mp-name" style="font-size:17px;font-weight:800;color:var(--dark)"></span>
+          <span id="mp-name" style="font-size:17px;font-weight:800;color:var(--text-hi)"></span>
           <span id="mp-cap" class="member-mini-cap"></span>
         </div>
-        <div id="mp-role" style="font-size:12px;color:var(--text-dim);margin-top:3px"></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap">
+          <span id="mp-role" style="font-size:12px;color:var(--text-dim)"></span>
+          <span id="mp-grade" style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--gold)"></span>
+        </div>
       </div>
     </div>
     <div class="member-modal-body">
-      <div style="margin-bottom:14px">
-        <div class="modal-section-label">得意なこと</div>
-        <div id="mp-tags" style="display:flex;gap:5px;flex-wrap:wrap"></div>
-      </div>
-      <div style="margin-bottom:14px">
-        <div class="modal-section-label">担当案件</div>
-        <ul id="mp-projects" style="padding-left:16px;margin:0"></ul>
-      </div>
-      <div style="margin-bottom:14px;padding:10px 12px;background:var(--blue-dim);border-radius:8px;border-left:3px solid var(--gold)">
-        <div class="modal-section-label" style="color:var(--blue)">グレード進捗</div>
-        <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
-          <span id="mp-grade" style="font-size:13px;font-weight:800;color:var(--gold)"></span>
-          <span id="mp-grade-note" style="font-size:12px;color:#1E40AF;line-height:1.5"></span>
+
+      <!-- 稼働状況 -->
+      <div style="margin-bottom:16px;padding:12px 14px;background:var(--surface2);border-radius:7px">
+        <div class="modal-section-label" style="margin-bottom:8px">稼働状況</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:10px;color:var(--text-dim);margin-bottom:3px">現在の状態</div>
+            <span id="mp-cap2" class="member-mini-cap"></span>
+          </div>
+          <div style="flex:1;min-width:160px">
+            <div style="font-size:10px;color:var(--text-dim);margin-bottom:3px">担当案件</div>
+            <div id="mp-projects" style="font-size:12px;color:var(--text);line-height:1.7"></div>
+          </div>
         </div>
       </div>
-      <div style="margin-bottom:14px">
-        <div class="modal-section-label">💬 最近のSlack発信</div>
-        <div id="mp-slack"></div>
+
+      <!-- スキル -->
+      <div style="margin-bottom:16px">
+        <div class="modal-section-label">スキル</div>
+        <div id="mp-skills" style="display:flex;gap:5px;flex-wrap:wrap"></div>
       </div>
-      <div style="padding:10px 12px;background:var(--bg);border-radius:8px">
-        <div class="modal-section-label">一言・仕事スタイル</div>
-        <div id="mp-intro" contenteditable="true" class="editable-text" style="font-size:13px;color:var(--text);line-height:1.6;min-height:20px"></div>
+
+      <!-- キャリア志向 -->
+      <div style="margin-bottom:16px;padding:10px 14px;background:var(--surface2);border-radius:7px;border-left:2px solid var(--gold)">
+        <div class="modal-section-label" style="color:var(--gold);margin-bottom:6px">キャリア志向</div>
+        <div id="mp-career" style="font-size:12px;color:var(--text);line-height:1.65"></div>
       </div>
+
+      <!-- 実績・資格 -->
+      <div style="margin-bottom:16px">
+        <div class="modal-section-label">実績・資格</div>
+        <div id="mp-certs" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px"></div>
+        <div id="mp-industry" style="font-size:12px;color:var(--text-dim)"></div>
+      </div>
+
+      <!-- グレード -->
+      <div style="padding:10px 12px;background:var(--surface2);border-radius:7px;border-left:2px solid var(--border2)">
+        <div class="modal-section-label">グレード進捗</div>
+        <div id="mp-grade-note" style="font-size:12px;color:var(--text);line-height:1.5"></div>
+      </div>
+
     </div>
   </div>
 </div>
