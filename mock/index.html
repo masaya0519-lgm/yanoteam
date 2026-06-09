@@ -825,6 +825,7 @@
     .src-portal  { background:var(--gold-dim);color:var(--gold); }
     .src-sp      { background:rgba(188,140,255,0.12);color:var(--purple); }
     .src-slack   { background:var(--green-dim);color:var(--green); }
+    .src-kaonavi { background:rgba(236,72,153,0.1);color:#F472B6; }
     .collapsible-hdr { display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:12px 16px;background:var(--surface2);border-radius:6px;margin-top:20px;user-select:none; }
     .collapsible-hdr:hover { background:var(--border); }
     .collapsible-body { display:none;padding-top:12px; }
@@ -3092,35 +3093,47 @@
               <thead>
                 <tr>
                   <th>フィールド</th>
-                  <th>調達元</th>
-                  <th>方法</th>
+                  <th>マスター</th>
+                  <th>補完・参照元</th>
+                  <th>備考</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>スキル・資格</td>
+                  <td><strong>スキル</strong></td>
+                  <td><span class="data-src-badge src-portal">Portal（TM編集）</span></td>
+                  <td>
+                    <span class="data-src-badge src-kintone">Kintone 案件履歴</span>
+                    <span class="data-src-badge src-slack" style="margin-left:4px">Slack</span>
+                    <span class="data-src-badge src-kaonavi" style="margin-left:4px">カオナビ</span>
+                  </td>
+                  <td style="color:var(--text-dim)">案件タイプからスキルを推定し、TMが確認・編集</td>
+                </tr>
+                <tr>
+                  <td><strong>キャリア志向</strong></td>
+                  <td><span class="data-src-badge src-portal">Portal（TM入力）</span></td>
+                  <td>
+                    <span class="data-src-badge src-kaonavi">カオナビ</span>
+                  </td>
+                  <td style="color:var(--text-dim)">1on1履歴は仕組みなし。当面TMが手入力</td>
+                </tr>
+                <tr>
+                  <td><strong>稼働状況</strong></td>
                   <td><span class="data-src-badge src-kintone">Kintone</span></td>
-                  <td>人材DBからAPI同期</td>
+                  <td>—</td>
+                  <td style="color:var(--text-dim)">案件アサインDBから自動取得</td>
                 </tr>
                 <tr>
-                  <td>キャリア志向</td>
-                  <td><span class="data-src-badge src-portal">Portal</span></td>
-                  <td>メンバー自己入力（本ポータル）</td>
-                </tr>
-                <tr>
-                  <td>稼働状況</td>
+                  <td><strong>過去案件実績</strong></td>
                   <td><span class="data-src-badge src-kintone">Kintone</span></td>
-                  <td>案件アサインDBから取得</td>
-                </tr>
-                <tr>
-                  <td>過去案件実績</td>
                   <td><span class="data-src-badge src-sp">SharePoint</span></td>
-                  <td>アカウントプランをGraph API</td>
+                  <td style="color:var(--text-dim)">案件参画履歴から参照。スキル推定の主な根拠</td>
                 </tr>
                 <tr>
-                  <td>活動シグナル</td>
-                  <td><span class="data-src-badge src-slack">Slack</span></td>
-                  <td>日報チャンネルのメッセージ解析</td>
+                  <td><strong>資格</strong></td>
+                  <td><span class="data-src-badge src-kaonavi">カオナビ</span></td>
+                  <td>—</td>
+                  <td style="color:var(--text-dim)">カオナビの資格情報フィールドから取得</td>
                 </tr>
               </tbody>
             </table>
