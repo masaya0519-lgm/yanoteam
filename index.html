@@ -3973,7 +3973,7 @@
         + (flagHtml   ? '<div class="assign-flag">'   + flagHtml   + '</div>' : '')
         + careerHtml
         + '<div style="margin-top:10px">'
-        +   '<button class="btn btn-outline" style="font-size:11px;padding:5px 12px" onclick="openProfile('' + m.id + '')">'
+        +   '<button class="btn btn-outline" style="font-size:11px;padding:5px 12px" onclick="openProfile(this.dataset.id)" data-id="' + m.id + '">'
         +     '詳細プロフィール'
         +   '</button>'
         + '</div>'
