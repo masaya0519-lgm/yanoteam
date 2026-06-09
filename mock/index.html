@@ -978,6 +978,73 @@
     }
     .concept-arrow { color:var(--border2);font-size:18px;padding:0 4px;align-self:center; }
 
+  
+    /* guide page */
+    .guide-tab {
+      padding:9px 18px;border-radius:7px;border:1px solid var(--border);background:var(--surface);
+      color:var(--text-dim);font-size:13px;cursor:pointer;transition:all 0.12s;font-family:inherit;
+    }
+    .guide-tab:hover { border-color:var(--border2);color:var(--text-hi); }
+    .guide-tab.active { border-color:var(--gold);background:var(--gold-dim);color:var(--gold);font-weight:700; }
+    .guide-step-wrap {
+      display:flex;gap:16px;margin-bottom:20px;align-items:flex-start;
+    }
+    .guide-step-num {
+      width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;
+      font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
+    }
+    .guide-step-body { flex:1;min-width:0; }
+    .guide-step-title { font-size:14px;font-weight:800;color:var(--text-hi);margin-bottom:5px; }
+    .guide-step-desc { font-size:12px;color:var(--text);line-height:1.7;margin-bottom:10px; }
+    .guide-mockup {
+      background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+      padding:14px 16px;margin-bottom:4px;
+    }
+    .guide-mock-label {
+      font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;
+      text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:5px;
+    }
+    .guide-mock-input, .guide-mock-select {
+      padding:6px 10px;border-radius:5px;border:1px solid var(--border);background:var(--surface);
+      font-size:12px;color:var(--text);margin-bottom:8px;display:block;
+    }
+    .guide-mock-add-btn {
+      padding:3px 9px;border-radius:4px;border:1px dashed var(--border);
+      background:none;color:var(--text-dim);font-size:11px;cursor:default;font-family:inherit;
+    }
+    .guide-candidate-mock {
+      padding:12px;background:var(--surface);border-radius:7px;border:1px solid var(--border);
+    }
+    .guide-mock-rank {
+      font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--gold);
+      width:24px;flex-shrink:0;
+    }
+    .guide-score-bar {
+      width:80px;height:4px;background:var(--border);border-radius:2px;margin-top:4px;
+    }
+    .guide-score-fill { height:100%;background:var(--gold);border-radius:2px; }
+    .guide-reason-chip {
+      font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;
+    }
+    .reason-green { background:var(--green-dim);color:var(--green);border:1px solid rgba(63,185,80,0.25); }
+    .reason-blue  { background:var(--blue-dim);color:var(--blue);border:1px solid rgba(88,166,255,0.25); }
+    .reason-amber { background:var(--gold-dim);color:var(--gold);border:1px solid rgba(240,165,0,0.25); }
+    .guide-member-tab-mock {
+      display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:6px;
+      border:1px solid var(--border);background:var(--surface);font-size:12px;color:var(--text-dim);
+    }
+    .active-mock { border-color:var(--gold);background:var(--gold-dim);color:var(--gold); }
+    .guide-note {
+      font-size:11px;color:var(--text-dim);line-height:1.65;padding:8px 12px;
+      background:var(--surface);border-radius:5px;border:1px solid var(--border);
+    }
+    .guide-tip {
+      font-size:12px;color:var(--text);line-height:1.7;padding:12px 16px;
+      background:var(--surface2);border-radius:7px;border-left:3px solid var(--gold);
+      margin-top:4px;
+    }
+
   </style>
 </head>
 <body>
@@ -3686,116 +3753,357 @@
     <!-- ════════════════ PAGE: GUIDE ════════════════ -->
     <div class="page" id="page-guide">
 
-      <div class="section-title">YanoTeam Portal — 使い方ガイド</div>
-      <div class="text-muted mb-6">このポータルは、チームの情報を一箇所に集めて「協力するのが最も楽な状態」を作るためのツールです。</div>
+      <div class="section-title">使い方ガイド</div>
+      <div class="text-muted" style="margin-bottom:20px">要員調整を効率化するための3つの主要機能を説明します。</div>
 
-      <!-- Overview -->
-      <div class="card mb-4">
-        <div class="card-title mb-4">📐 このポータルでできること</div>
-        <div class="grid-3" style="gap:12px">
-          <div style="padding:14px;background:var(--blue-dim);border-radius:8px">
-            <div style="font-size:20px;margin-bottom:6px">🤝</div>
-            <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px">コラボ機会を自動検知</div>
-            <div style="font-size:12px;color:var(--blue);line-height:1.6">Slack/Teamsの発言を分析し、「この人のスキルがあの案件に使える」を自動で提案します。</div>
+      <!-- ガイドタブ -->
+      <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap" id="guide-tabs">
+        <button class="guide-tab active" data-tab="g-assign" onclick="switchGuideTab('g-assign',this)">
+          🔍 アサイン補助
+        </button>
+        <button class="guide-tab" data-tab="g-member" onclick="switchGuideTab('g-member',this)">
+          👤 メンバー情報
+        </button>
+        <button class="guide-tab" data-tab="g-oneon1" onclick="switchGuideTab('g-oneon1',this)">
+          💬 1on1 → wiki
+        </button>
+      </div>
+
+      <!-- ══════════ アサイン補助 ══════════ -->
+      <div class="guide-panel" id="g-assign">
+
+        <div class="card mb-4">
+          <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:15px;font-weight:800;color:var(--text-hi);margin-bottom:6px">アサイン補助</div>
+              <div style="font-size:13px;color:var(--text);line-height:1.7">
+                案件の種別・必要スキルを入力すると、メンバーを<strong>スキル一致・稼働余力・キャリア志向</strong>の3軸でスコアリングし候補者一覧を表示します。
+                要員調整にかかる確認工数を削減し、ミスマッチを防ぎます。
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <div style="text-align:center;padding:10px 14px;background:var(--surface2);border-radius:7px;min-width:80px">
+                <div style="font-size:20px;font-weight:800;color:var(--gold)">50pt</div>
+                <div style="font-size:10px;color:var(--text-dim)">スキル一致</div>
+              </div>
+              <div style="text-align:center;padding:10px 14px;background:var(--surface2);border-radius:7px;min-width:80px">
+                <div style="font-size:20px;font-weight:800;color:var(--blue)">30pt</div>
+                <div style="font-size:10px;color:var(--text-dim)">キャリア適合</div>
+              </div>
+              <div style="text-align:center;padding:10px 14px;background:var(--surface2);border-radius:7px;min-width:80px">
+                <div style="font-size:20px;font-weight:800;color:var(--green)">20pt</div>
+                <div style="font-size:10px;color:var(--text-dim)">稼働余力</div>
+              </div>
+            </div>
           </div>
-          <div style="padding:14px;background:var(--green-dim);border-radius:8px">
-            <div style="font-size:20px;margin-bottom:6px">📊</div>
-            <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px">案件の状態を一元管理</div>
-            <div style="font-size:12px;color:var(--green);line-height:1.6">マイルストン・課題・進捗をSlackへの返信から自動更新。入力フォームは不要です。</div>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="guide-step-wrap">
+          <div class="guide-step-num">1</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">案件概要を入力する</div>
+            <div class="guide-step-desc">案件名・案件種別・必要スキル・開始時期を入力します。<strong>案件種別を選ぶと必要スキルが自動でセット</strong>されるので、追加・削除だけでOK。</div>
+
+            <!-- UI mockup -->
+            <div class="guide-mockup">
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+                <div style="flex:1;min-width:140px">
+                  <div class="guide-mock-label">案件名</div>
+                  <div class="guide-mock-input">▌ 顧客A — ERP導入支援</div>
+                </div>
+                <div style="flex:1;min-width:140px">
+                  <div class="guide-mock-label">案件種別</div>
+                  <div class="guide-mock-select">ERP導入支援 ▾</div>
+                </div>
+              </div>
+              <div>
+                <div class="guide-mock-label">必要スキル <span style="color:var(--green);font-size:10px">← 種別から自動入力</span></div>
+                <div style="display:flex;gap:5px;flex-wrap:wrap">
+                  <span class="chip chip-blue" style="font-size:11px">ERP導入</span>
+                  <span class="chip chip-blue" style="font-size:11px">業務分析</span>
+                  <span class="chip chip-blue" style="font-size:11px">SAP</span>
+                  <button class="guide-mock-add-btn">＋ スキルを追加</button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div style="padding:14px;background:var(--gold-dim);border-radius:8px">
-            <div style="font-size:20px;margin-bottom:6px">📈</div>
-            <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px">売上とアクションを繋げる</div>
-            <div style="font-size:12px;color:var(--gold);line-height:1.6">KintoneとアカウントプランをAIが分析し、今週チームが集中すべきことを提案します。</div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="guide-step-wrap">
+          <div class="guide-step-num">2</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">マッチングを実行する</div>
+            <div class="guide-step-desc">「マッチング実行」ボタンを押すとスコア順に候補者が表示されます。各カードに<strong>マッチ理由・注意フラグ・稼働状況</strong>が根拠付きで表示されます。</div>
+
+            <!-- UI mockup -->
+            <div class="guide-mockup">
+              <div class="guide-candidate-mock">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+                  <div class="guide-mock-rank">#1</div>
+                  <div style="width:32px;height:32px;border-radius:6px;background:#2563EB;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px">田</div>
+                  <div style="flex:1">
+                    <div style="font-size:13px;font-weight:700;color:var(--text-hi)">田中 慎也</div>
+                    <div style="font-size:11px;color:var(--text-dim)">ITコンサル G3</div>
+                  </div>
+                  <div style="text-align:right">
+                    <div style="font-size:18px;font-weight:800;color:var(--gold)">87<span style="font-size:11px">pt</span></div>
+                    <div class="guide-score-bar"><div class="guide-score-fill" style="width:87%"></div></div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px">
+                  <span class="guide-reason-chip reason-green">✓ ERP導入の経験あり</span>
+                  <span class="guide-reason-chip reason-blue">✓ キャリア志向と合致</span>
+                  <span class="guide-reason-chip reason-amber">⚠ 現在1案件担当中</span>
+                </div>
+                <div style="display:flex;gap:6px;align-items:center">
+                  <span class="member-mini-cap cap-normal" style="font-size:10px">通常稼働</span>
+                  <span style="font-size:11px;color:var(--text-dim)">稼働率 60%</span>
+                  <span style="font-size:11px;color:var(--blue);margin-left:auto;cursor:pointer">詳細 →</span>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="guide-step-wrap">
+          <div class="guide-step-num">3</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">候補者詳細を確認して打診する</div>
+            <div class="guide-step-desc">「詳細」クリックでプロフィールモーダルが開きます。スキル熟練度・キャリア志向・稼働スケジュール（先数ヶ月）を確認して、本人・上長に打診してください。</div>
+
+            <div class="guide-mockup">
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <div style="flex:1;min-width:130px;padding:10px;background:var(--surface);border-radius:6px;border:1px solid var(--border)">
+                  <div style="font-size:10px;color:var(--text-dim);margin-bottom:5px">スキル（熟練度付き）</div>
+                  <div style="display:flex;gap:4px;flex-wrap:wrap">
+                    <span class="chip chip-green" style="font-size:10px">ERP導入（リード）</span>
+                    <span class="chip chip-blue" style="font-size:10px">業務分析（実務）</span>
+                  </div>
+                </div>
+                <div style="flex:1;min-width:130px;padding:10px;background:var(--surface);border-radius:6px;border-left:2px solid var(--gold)">
+                  <div style="font-size:10px;color:var(--gold);margin-bottom:5px">キャリア志向</div>
+                  <div style="font-size:11px;color:var(--text);line-height:1.5">PM補佐として複数案件を横断管理できるようになりたい</div>
+                </div>
+                <div style="flex:1;min-width:130px;padding:10px;background:var(--surface);border-radius:6px;border:1px solid var(--border)">
+                  <div style="font-size:10px;color:var(--text-dim);margin-bottom:5px">稼働スケジュール</div>
+                  <div style="font-size:11px;color:var(--text)">6月〜8月：顧客A (60%)<br><span style="color:var(--green)">9月以降：空き予定</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-tip">
+          💡 <strong>ポイント：</strong>スコアはあくまで参考です。キャリア志向との一致度を重視して、本人の意向を1on1で確認してからアサインを決定してください。
         </div>
       </div>
 
-      <!-- Pages guide -->
-      <div class="card mb-4">
-        <div class="card-title mb-4">🗺 各ページの説明</div>
-        <div style="display:flex;flex-direction:column;gap:0">
-          <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
-            <div style="width:160px;flex-shrink:0">
-              <span style="font-size:14px">🏠</span>
-              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">チームダッシュボード</span>
+      <!-- ══════════ メンバー情報 ══════════ -->
+      <div class="guide-panel" id="g-member" style="display:none">
+
+        <div class="card mb-4">
+          <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:15px;font-weight:800;color:var(--text-hi);margin-bottom:6px">メンバー情報</div>
+              <div style="font-size:13px;color:var(--text);line-height:1.7">
+                TMがメンバーのスキル・キャリア志向・資格・稼働スケジュールを一元管理する画面です。
+                ここで更新した情報が<strong>アサイン補助のマッチングにリアルタイム反映</strong>されます。
+              </div>
             </div>
-            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">チーム全体の状況を毎日確認するトップページ。Slackの日報・案件ch・#generalの投稿が自動集約されます。コラボ提案カードが表示されたら、積極的に動いてみてください。<br><span style="color:var(--gold);font-weight:600">👥 全員が利用</span></div>
-          </div>
-          <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
-            <div style="width:160px;flex-shrink:0">
-              <span style="font-size:14px">📋</span>
-              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">案件マップ</span>
+            <div style="padding:12px 16px;background:var(--surface2);border-radius:7px;min-width:160px">
+              <div style="font-size:10px;color:var(--text-dim);margin-bottom:8px">管理できる情報</div>
+              <div style="font-size:11px;color:var(--text);line-height:1.9">
+                ✓ スキル（熟練度付き）<br>
+                ✓ キャリア志向<br>
+                ✓ 保有資格<br>
+                ✓ 経験業界<br>
+                ✓ 稼働スケジュール
+              </div>
             </div>
-            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">担当中の全案件のマイルストン・課題・目指す状態を確認できます。内容の更新は<strong style="color:var(--dark)">Slackのリマインドに返信するだけ</strong>で自動反映されます。Teamsでの顧客とのやりとりも取り込まれます。<br><span style="color:var(--gold);font-weight:600">👥 全員が利用</span></div>
           </div>
-          <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
-            <div style="width:160px;flex-shrink:0">
-              <span style="font-size:14px">📈</span>
-              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">売上・アクション</span>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="guide-step-wrap">
+          <div class="guide-step-num">1</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">メンバーを選択する</div>
+            <div class="guide-step-desc">ページ上部のタブから編集したいメンバーをクリックします。選択するとそのメンバーの現在の情報がフォームに読み込まれます。</div>
+
+            <div class="guide-mockup">
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <div class="guide-member-tab-mock active-mock">
+                  <div style="width:20px;height:20px;border-radius:3px;background:#2563EB;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700">田</div>
+                  田中
+                </div>
+                <div class="guide-member-tab-mock">
+                  <div style="width:20px;height:20px;border-radius:3px;background:#7C3AED;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700">鈴</div>
+                  鈴木
+                </div>
+                <div class="guide-member-tab-mock">
+                  <div style="width:20px;height:20px;border-radius:3px;background:#059669;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700">佐</div>
+                  佐藤
+                </div>
+                <div style="color:var(--text-dim);font-size:11px;align-self:center">… 全7名</div>
+              </div>
             </div>
-            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">Kintoneの売上データとアカウントプランをもとに今週のアクション提案が表示されます。主に矢野さんが意思決定に活用しますが、メンバーも自分の貢献度の確認に使えます。<br><span style="color:var(--gold);font-weight:600">👥 全員が利用</span></div>
           </div>
-          <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
-            <div style="width:160px;flex-shrink:0">
-              <span style="font-size:14px">🔒</span>
-              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">メンバー成長</span>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="guide-step-wrap">
+          <div class="guide-step-num">2</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">スキルを編集する</div>
+            <div class="guide-step-desc">スキルは<strong>入門・実務・リード</strong>の3段階で熟練度を設定できます。スキルの追加・削除も可能です。レジュメを参照しながら更新してください。</div>
+
+            <div class="guide-mockup">
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div class="skill-edit-row">
+                  <span class="skill-edit-name">ERP導入</span>
+                  <button class="level-btn active-1">入門</button>
+                  <button class="level-btn active-2" style="background:var(--blue-dim);color:var(--blue);border-color:rgba(88,166,255,0.4)">実務</button>
+                  <button class="level-btn">リード</button>
+                  <span style="font-size:10px;color:var(--text-dim);margin-left:4px">← クリックで変更</span>
+                </div>
+                <div class="skill-edit-row">
+                  <span class="skill-edit-name">業務分析</span>
+                  <button class="level-btn">入門</button>
+                  <button class="level-btn">実務</button>
+                  <button class="level-btn active-3" style="background:var(--green-dim);color:var(--green);border-color:rgba(63,185,80,0.4)">リード</button>
+                </div>
+              </div>
             </div>
-            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">スキルマップ・1on1サマリー・品質管理計画・チーム拡大計画が確認できます。1on1の音声記録からAIがキーワードとアクションを自動抽出します。<br><span style="color:var(--red);font-weight:600">🔒 矢野さん（マネージャー）専用</span></div>
-          </div>
-          <div style="display:flex;gap:14px;padding:14px 0">
-            <div style="width:160px;flex-shrink:0">
-              <span style="font-size:14px">💬</span>
-              <span style="font-size:13px;font-weight:700;color:var(--dark);margin-left:6px">Slack連携イメージ</span>
+
+            <div class="guide-note" style="margin-top:10px">
+              <span style="color:var(--gold)">レジュメとの連携（将来）：</span>
+              SharePoint上のレジュメをAIが解析し、スキル・資格・経験業界を自動抽出してここに反映する予定です。
             </div>
-            <div style="font-size:12px;color:var(--text-dim);line-height:1.7">ポータルと連動してSlackに自動送信されるメッセージのサンプルです。朝のダイジェスト・コラボ提案・マイルストンリマインド・週次サマリーが含まれます。<br><span style="color:var(--gold);font-weight:600">📖 MOC確認用</span></div>
           </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="guide-step-wrap">
+          <div class="guide-step-num">3</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">稼働スケジュールを登録する</div>
+            <div class="guide-step-desc">担当案件と終了予定月を登録します。アサイン補助の「空き予定タイムライン」に反映され、数ヶ月先の稼働状況も可視化されます。</div>
+
+            <div class="guide-mockup">
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div class="sched-row">
+                  <div style="flex:1;font-size:12px;color:var(--text)">顧客A — ERP導入支援</div>
+                  <div style="font-size:11px;color:var(--text-dim)">終了: 2026-08</div>
+                  <div style="width:60px;height:6px;background:var(--gold);border-radius:3px;margin-left:8px"></div>
+                </div>
+                <div class="sched-row" style="border:1px dashed var(--border);background:transparent">
+                  <div style="flex:1;font-size:12px;color:var(--text-dim)">＋ 案件を追加</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-tip">
+          💡 <strong>更新タイミングの目安：</strong>スキル・資格は案件終了時・レジュメ更新時、キャリア志向は1on1後（月1回）、稼働スケジュールはアサイン決定時。
         </div>
       </div>
 
-      <!-- Slack interaction guide -->
-      <div class="card mb-4">
-        <div class="card-title mb-4">💬 Slackとの連携の仕組み</div>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;gap:12px;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
-            <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>日報・案件チャンネルへの投稿</strong><br>いつも通りSlackに投稿するだけでOK。Botが自動で読み取ってポータルに反映します。特別なフォーマットは不要です。</div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
-            <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>Botからのリマインドに返信</strong><br>月曜朝にBotからマイルストンの進捗確認が届きます。自然な文章で返信するとポータルが更新されます。ボタンで簡単回答もできます。</div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
-            <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>コラボ提案を受け取る</strong><br>#yanoteam-collabにコラボ提案が届いたら「協力します」ボタンを押すか、メンションで返信してください。それだけでコラボ実績として記録されます。</div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</div>
-            <div style="font-size:12px;color:var(--text);line-height:1.7"><strong>Teams（顧客環境）の発言も連携</strong><br>顧客とのTeamsチャットでの合意事項・決定事項も自動で取り込まれ、案件の課題・進捗に反映されます。</div>
+      <!-- ══════════ 1on1 → wiki ══════════ -->
+      <div class="guide-panel" id="g-oneon1" style="display:none">
+
+        <div class="card mb-4">
+          <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:15px;font-weight:800;color:var(--text-hi);margin-bottom:6px">1on1 → wiki反映</div>
+              <div style="font-size:13px;color:var(--text);line-height:1.7">
+                1on1の文字起こしを貼り付けるだけで、AIがキャリア志向・懸念事項・成長ポイントを自動抽出してメンバー情報のwikiを更新します。
+                <strong>月1回の1on1がそのまま情報更新のトリガー</strong>になります。
+              </div>
+            </div>
+            <div style="padding:12px 14px;background:var(--surface2);border-radius:7px;border-left:2px solid var(--gold)">
+              <div style="font-size:10px;color:var(--gold);margin-bottom:5px">AIが抽出する情報</div>
+              <div style="font-size:11px;color:var(--text);line-height:1.9">
+                🎯 キャリア志向の変化<br>
+                ⚠️ 懸念・不安ポイント<br>
+                📈 直近の成長・習熟スキル
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- FAQ -->
-      <div class="card">
-        <div class="card-title mb-4">❓ よくある質問</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
-            <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. 日報をどのチャンネルに書けばいいですか？</div>
-            <div style="font-size:12px;color:var(--text-dim)">A. 今まで通りの場所でOKです。案件チャンネル・#日報・#generalのいずれも自動で読み取ります。</div>
+        <!-- STEP 1 -->
+        <div class="guide-step-wrap">
+          <div class="guide-step-num">1</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">メンバーと文字起こしを入力する</div>
+            <div class="guide-step-desc">対象メンバーを選んで、1on1の文字起こしをテキストエリアに貼り付けます。文字起こしはMicrosoft Teams・Zoom・Notionなど、形式は問いません。</div>
+
+            <div class="guide-mockup">
+              <div style="margin-bottom:8px">
+                <div class="guide-mock-label">対象メンバー</div>
+                <div class="guide-mock-select" style="width:160px">田中 慎也 ▾</div>
+              </div>
+              <div>
+                <div class="guide-mock-label">1on1 文字起こし</div>
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px;font-size:11px;color:var(--text);line-height:1.7;min-height:60px">
+                  矢野: 最近の案件どうですか？<br>
+                  田中: ERP案件は佳境で大変ですが、設計フェーズが楽しいです。次はもう少し上流からやりたいな…<br>
+                  <span style="color:var(--text-dim)">▌</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
-            <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. 自分のSlack発言が全部見られますか？</div>
-            <div style="font-size:12px;color:var(--text-dim)">A. DMと非公開チャンネルは読み取りません。チームの案件ch・日報ch・#generalのみが対象です。</div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="guide-step-wrap">
+          <div class="guide-step-num">2</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">AI解析を実行する</div>
+            <div class="guide-step-desc">「AI解析」ボタンを押すとキャリア志向・懸念・成長ポイントが自動抽出されます。内容を確認・編集してからwikiに反映します。</div>
+
+            <div class="guide-mockup">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="padding:10px 12px;border-radius:6px;background:var(--surface);border-left:2px solid var(--gold)">
+                  <div style="font-size:10px;color:var(--gold);font-weight:700;margin-bottom:4px">🎯 キャリア志向（抽出）</div>
+                  <div style="font-size:12px;color:var(--text);line-height:1.6">上流設計フェーズを担いたい。PMに近い役割で複数案件に関わりたい気持ちがある。</div>
+                </div>
+                <div style="padding:10px 12px;border-radius:6px;background:var(--surface);border-left:2px solid var(--red)">
+                  <div style="font-size:10px;color:var(--red);font-weight:700;margin-bottom:4px">⚠️ 懸念ポイント（抽出）</div>
+                  <div style="font-size:12px;color:var(--text);line-height:1.6">現在の案件がタイトで、スキルアップの時間が取れていない可能性。</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
-            <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. コラボ提案を断りたい場合は？</div>
-            <div style="font-size:12px;color:var(--text-dim)">A. 「スルーする」ボタンを押すか、返信しなければ大丈夫です。プレッシャーをかけるためのものではありません。</div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="guide-step-wrap">
+          <div class="guide-step-num">3</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">wikiに反映する</div>
+            <div class="guide-step-desc">内容を確認して「wikiに反映」ボタンを押すと、メンバー情報のキャリア志向が更新されます。次のアサイン補助のマッチングから新しい志向が考慮されます。</div>
+
+            <div class="guide-mockup" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <div style="flex:1;min-width:140px;padding:10px;background:var(--surface);border-radius:6px;border:1px solid var(--border)">
+                <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px">更新前</div>
+                <div style="font-size:11px;color:var(--text-dim);text-decoration:line-through">PMリードを目指したい</div>
+              </div>
+              <div style="font-size:18px;color:var(--green)">→</div>
+              <div style="flex:1;min-width:140px;padding:10px;background:var(--green-dim);border-radius:6px;border:1px solid rgba(63,185,80,0.3)">
+                <div style="font-size:10px;color:var(--green);margin-bottom:4px">更新後</div>
+                <div style="font-size:11px;color:var(--text)">上流設計・PM補佐として複数案件に関わりたい</div>
+              </div>
+            </div>
           </div>
-          <div style="padding:10px 12px;border:1px solid var(--border);border-radius:8px">
-            <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:4px">Q. ポータルの情報が実態と違う場合は？</div>
-            <div style="font-size:12px;color:var(--text-dim)">A. 該当のSlackチャンネルに正しい情報を投稿してください。Botが読み取って更新します。直接編集する機能は今後追加予定です。</div>
-          </div>
+        </div>
+
+        <div class="guide-tip">
+          💡 <strong>運用サイクル：</strong>月1回の1on1 → 文字起こしをここに貼り付け → AI解析 → wiki更新。この流れを習慣化することで、常に最新のキャリア志向がマッチングに反映されます。
         </div>
       </div>
 
@@ -5084,7 +5392,16 @@
     msg.style.display = 'inline';
     setTimeout(function() { msg.style.display = 'none'; }, 3000);
   }
-</script>
+
+  function switchGuideTab(tabId, btn) {
+    document.querySelectorAll('.guide-panel').forEach(function(p) { p.style.display = 'none'; });
+    document.querySelectorAll('.guide-tab').forEach(function(b) { b.classList.remove('active'); });
+    var panel = document.getElementById(tabId);
+    if (panel) panel.style.display = 'block';
+    if (btn) btn.classList.add('active');
+  }
+
+  </script>
 
 <!-- ═══ メンバープロフィール モーダル ═══ -->
 <div class="member-modal" id="member-modal" onclick="if(event.target===this)closeProfile()">
