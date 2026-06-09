@@ -3079,11 +3079,12 @@
               name, role, tags, capacity,<br>
               grade, gradeNote, projects<br><br>
               <span style="color:var(--gold)">// 追加フィールド（今後wiki化）</span><br>
-              <span style="color:var(--blue)">careerGoal</span>: string         <span style="color:var(--text-dim)">// キャリア志向</span><br>
-              <span style="color:var(--blue)">skillDetail</span>: [{name, level}] <span style="color:var(--text-dim)">// スキル熟練度(1-3)</span><br>
-              <span style="color:var(--blue)">industryExp</span>: string[]       <span style="color:var(--text-dim)">// 経験業界</span><br>
-              <span style="color:var(--blue)">certs</span>: string[]             <span style="color:var(--text-dim)">// 保有資格</span><br>
-              <span style="color:var(--blue)">workStyle</span>: {remote, resident} <span style="color:var(--text-dim)">// 稼働形態</span>
+              <span style="color:var(--blue)">careerGoal</span>: string          <span style="color:var(--text-dim)">// キャリア志向（TM入力）</span><br>
+              <span style="color:var(--blue)">skillDetail</span>: [{name, level}]  <span style="color:var(--text-dim)">// スキル熟練度(1-3)（レジュメ解析→TM確認）</span><br>
+              <span style="color:var(--blue)">certs</span>: string[]              <span style="color:var(--text-dim)">// 資格（レジュメ解析）</span><br>
+              <span style="color:var(--blue)">industryExp</span>: string[]        <span style="color:var(--text-dim)">// 経験業界（レジュメ＋Kintone）</span><br>
+              <span style="color:var(--blue)">workStyle</span>: {remote, resident} <span style="color:var(--text-dim)">// 稼働形態（TM入力）</span><br>
+              <span style="color:var(--blue)">resumePath</span>: string           <span style="color:var(--text-dim)">// SharePoint上のレジュメURL</span>
             </div>
           </div>
 
@@ -3100,14 +3101,13 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>スキル</strong></td>
-                  <td><span class="data-src-badge src-portal">Portal（TM編集）</span></td>
+                  <td><strong>スキル・実績・資格</strong></td>
+                  <td><span class="data-src-badge src-sp">レジュメ（SharePoint）</span></td>
                   <td>
                     <span class="data-src-badge src-kintone">Kintone 案件履歴</span>
                     <span class="data-src-badge src-slack" style="margin-left:4px">Slack</span>
-                    <span class="data-src-badge src-kaonavi" style="margin-left:4px">カオナビ</span>
                   </td>
-                  <td style="color:var(--text-dim)">案件タイプからスキルを推定し、TMが確認・編集</td>
+                  <td style="color:var(--text-dim)">各自のレジュメをSharePoint所定フォルダに格納。AIで解析してwikiに反映。TMが最終確認・編集</td>
                 </tr>
                 <tr>
                   <td><strong>キャリア志向</strong></td>
@@ -3115,7 +3115,7 @@
                   <td>
                     <span class="data-src-badge src-kaonavi">カオナビ</span>
                   </td>
-                  <td style="color:var(--text-dim)">1on1履歴は仕組みなし。当面TMが手入力</td>
+                  <td style="color:var(--text-dim)">1on1履歴の仕組みは現在なし。カオナビ参照 ＋ TMが手入力</td>
                 </tr>
                 <tr>
                   <td><strong>稼働状況</strong></td>
@@ -3124,16 +3124,10 @@
                   <td style="color:var(--text-dim)">案件アサインDBから自動取得</td>
                 </tr>
                 <tr>
-                  <td><strong>過去案件実績</strong></td>
+                  <td><strong>過去案件参画履歴</strong></td>
                   <td><span class="data-src-badge src-kintone">Kintone</span></td>
-                  <td><span class="data-src-badge src-sp">SharePoint</span></td>
-                  <td style="color:var(--text-dim)">案件参画履歴から参照。スキル推定の主な根拠</td>
-                </tr>
-                <tr>
-                  <td><strong>資格</strong></td>
-                  <td><span class="data-src-badge src-kaonavi">カオナビ</span></td>
-                  <td>—</td>
-                  <td style="color:var(--text-dim)">カオナビの資格情報フィールドから取得</td>
+                  <td><span class="data-src-badge src-sp">レジュメ</span></td>
+                  <td style="color:var(--text-dim)">Kintoneの案件レコードが主。レジュメで補完</td>
                 </tr>
               </tbody>
             </table>
