@@ -831,6 +831,20 @@
     .collapsible-body { display:none;padding-top:12px; }
     .collapsible-body.open { display:block; }
 
+  
+    /* 1on1ページ */
+    .wiki-section { margin-bottom:14px; }
+    .wiki-section-label { font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:8px; }
+    .wiki-item { display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px; }
+    .wiki-item:last-child { border-bottom:none; }
+    .wiki-item-icon { font-size:13px;flex-shrink:0;margin-top:1px; }
+    .wiki-item-text { flex:1;color:var(--text);line-height:1.55; }
+    .wiki-item-text strong { color:var(--text-hi); }
+    .wiki-edit-input { width:100%;border:none;border-bottom:1px solid var(--border);background:transparent;font-size:12px;color:var(--text);padding:2px 4px;outline:none;line-height:1.55; }
+    .wiki-edit-input:focus { border-bottom-color:var(--gold); }
+    .oneon1-loading { text-align:center;padding:24px;color:var(--text-dim);font-size:13px; }
+    .oneon1-applied { background:var(--green-dim);border:1px solid rgba(63,185,80,0.3);border-radius:6px;padding:12px 14px;margin-top:8px;font-size:12px;color:var(--green); }
+
   </style>
 </head>
 <body>
@@ -864,6 +878,9 @@
     </div>
     <div class="nav-item" onclick="navigate('assign', this)">
       <span class="nav-icon">🔍</span> アサイン補助
+    </div>
+    <div class="nav-item" onclick="navigate('oneon1', this)">
+      <span class="nav-icon">🎙️</span> 1on1 → wiki
     </div>
     <div class="nav-item" onclick="navigate('slack', this)">
       <span class="nav-icon">💬</span> Slack連携イメージ
@@ -3002,6 +3019,20 @@
           </div>
 
           <div style="margin-bottom:14px">
+            <div class="modal-section-label" style="margin-bottom:6px">案件種別 <span style="color:var(--text-dim);font-weight:400">（スキルを自動セット）</span></div>
+            <select id="assign-case-type" class="assign-select" onchange="onCaseTypeChange(this.value)">
+              <option value="">選択してください</option>
+              <option value="salesforce">Salesforce導入・運用</option>
+              <option value="m365">M365導入・活用支援</option>
+              <option value="infra">インフラ・クラウド移行</option>
+              <option value="dx">DX戦略・業務改善</option>
+              <option value="data">データ活用・BI基盤</option>
+              <option value="hr">HR DX・組織変革</option>
+              <option value="custom">その他（手動で選択）</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom:14px">
             <div class="modal-section-label" style="margin-bottom:6px">必要スキル（複数選択可）</div>
             <div id="skill-tag-area">
               <!-- JS で生成 -->
@@ -3156,6 +3187,117 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+
+    <!-- ════════════════ PAGE: 1on1 ════════════════ -->
+    <div class="page" id="page-oneon1">
+      <div class="section-title">1on1 → wiki反映</div>
+      <div class="text-muted mb-6" style="font-size:12px;line-height:1.7">
+        1on1の文字起こしをペーストすると、AIがキャリア志向・スキルシグナル・課題を抽出してwikiの下書きを生成します。
+        内容を確認・編集してからメンバーのwikiに反映できます。
+      </div>
+
+      <div class="grid-2" style="gap:16px">
+
+        <!-- 左: 入力 -->
+        <div class="card" style="align-self:start">
+          <div class="card-header">
+            <div class="card-title">文字起こし入力</div>
+          </div>
+
+          <div style="margin-bottom:14px">
+            <div class="modal-section-label" style="margin-bottom:6px">対象メンバー</div>
+            <select id="oneon1-member" class="assign-select">
+              <option value="">選択してください</option>
+              <option value="tanaka">田中 慎也</option>
+              <option value="suzuki">鈴木 麻衣</option>
+              <option value="sato">佐藤 健二</option>
+              <option value="yamada">山田 拓也</option>
+              <option value="nakamura">中村 奈々</option>
+              <option value="ito">伊藤 翔平</option>
+              <option value="kato">加藤 さくら</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom:14px">
+            <div class="modal-section-label" style="margin-bottom:6px">実施日</div>
+            <input id="oneon1-date" class="assign-input" type="date" value="2026-06-09" />
+          </div>
+
+          <div style="margin-bottom:16px">
+            <div class="modal-section-label" style="margin-bottom:6px">文字起こし</div>
+            <textarea id="oneon1-text" class="assign-input" rows="12"
+              style="resize:vertical;line-height:1.7;font-size:12px"
+              placeholder="1on1の文字起こしをここにペーストしてください。
+
+例：
+矢野：最近どう？案件は順調？
+田中：顧客Aはいい感じです。ただ正直、今のインフラ作業だけじゃなくて、もっとお客さんと直接話せる上流の仕事もやっていきたいなと思っていて...
+矢野：上流か、具体的にはどんなイメージ？
+田中：提案とか、課題整理とかですね。技術だけじゃなくてビジネス側の視点も身につけたくて。"></textarea>
+          </div>
+
+          <button class="btn btn-primary" style="width:100%;padding:10px" onclick="runOneon1Analysis()">
+            ✦ AI要約してwiki下書きを生成
+          </button>
+        </div>
+
+        <!-- 右: 抽出結果 -->
+        <div>
+          <div class="card mb-4" id="oneon1-result-card" style="display:none">
+            <div class="card-header">
+              <div>
+                <div class="card-title">AI抽出結果</div>
+                <div class="card-sub" id="oneon1-result-sub"></div>
+              </div>
+              <span class="ai-tag">✦ AI MOCK</span>
+            </div>
+
+            <div id="oneon1-result-body"></div>
+
+            <div style="margin-top:16px;display:flex;gap:8px">
+              <button class="btn btn-primary" style="flex:1" onclick="applyOneon1ToWiki()">
+                ✓ wikiに反映する
+              </button>
+              <button class="btn btn-outline" onclick="resetOneon1()">
+                やり直す
+              </button>
+            </div>
+          </div>
+
+          <div id="oneon1-empty" class="card">
+            <div class="assign-empty" style="padding:32px 20px">
+              <div class="assign-empty-icon">🎙️</div>
+              <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">文字起こしを入力して実行</div>
+              <div style="font-size:12px">キャリア志向・スキル・課題を自動抽出してwikiの下書きを生成します</div>
+            </div>
+          </div>
+
+          <!-- wiki反映済みフィード -->
+          <div class="card" style="margin-top:12px">
+            <div class="card-header">
+              <div class="card-title">最近の反映履歴</div>
+            </div>
+            <div style="display:flex;flex-direction:column">
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start">
+                <div class="avatar" style="background:#58A6FF;font-size:12px;flex-shrink:0">田</div>
+                <div style="flex:1">
+                  <div style="font-size:12px;font-weight:700;color:var(--text-hi)">田中 慎也 <span style="color:var(--text-dim);font-weight:400">— 6月3日</span></div>
+                  <div style="font-size:11px;color:var(--text-dim);margin-top:2px">キャリア志向を更新：「上流工程・提案スキルを伸ばしたい」</div>
+                </div>
+              </div>
+              <div style="padding:10px 0;display:flex;gap:10px;align-items:flex-start">
+                <div class="avatar" style="background:var(--green);font-size:12px;flex-shrink:0">鈴</div>
+                <div style="flex:1">
+                  <div style="font-size:12px;font-weight:700;color:var(--text-hi)">鈴木 麻衣 <span style="color:var(--text-dim);font-weight:400">— 5月27日</span></div>
+                  <div style="font-size:11px;color:var(--text-dim);margin-top:2px">スキル追加：Salesforce Service Cloud / キャリア志向を更新</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3361,6 +3503,7 @@
     revenue: '売上・アクションプラン',
     growth: 'メンバー成長マップ',
     assign: 'アサイン補助',
+    oneon1: '1on1 → wiki反映',
     slack: 'Slack連携イメージ',
     guide: '使い方',
     todos:     'チームTodo',
@@ -3997,6 +4140,295 @@
     arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
   }
 
+
+  // 案件種別 → スキルマッピング
+  var CASE_TYPE_SKILLS = {
+    salesforce: ['Salesforce','権限設計','AM','顧客関係構築'],
+    m365:       ['M365','研修設計','業務改善','定着支援'],
+    infra:      ['クラウド設計','インフラ','AWS','PM','オンプレ移行'],
+    dx:         ['DX戦略','提案書作成','PM'],
+    data:       ['データ分析','BI','SQL','Python'],
+    hr:         ['HR業務','業務改善','M365','研修設計'],
+    custom:     []
+  };
+
+  function onCaseTypeChange(type) {
+    var skills = CASE_TYPE_SKILLS[type] || [];
+    // Reset all tags
+    selectedSkills = new Set(skills);
+    var area = document.getElementById('skill-tag-area');
+    if (area) {
+      Array.from(area.children).forEach(function(btn) {
+        var isSelected = skills.includes(btn.textContent);
+        btn.classList.toggle('selected', isSelected);
+      });
+    }
+  }
+
+  // 候補カード強化版 renderCandidates
+  function renderCandidates(members) {
+    var container = document.getElementById('assign-results');
+    var sub = document.getElementById('assign-result-sub');
+    sub.textContent = members.length + '名の候補者をスコア順に表示';
+    var inputSkills = Array.from(selectedSkills);
+
+    var scoreColor = function(s) {
+      if (s >= 70) return 'var(--green)';
+      if (s >= 40) return 'var(--gold)';
+      return 'var(--text-dim)';
+    };
+
+    var levelLabel = function(l) {
+      return l === 3 ? 'リード' : l === 2 ? '実務' : '入門';
+    };
+    var levelColor = function(l) {
+      return l === 3 ? 'chip-green' : l === 2 ? 'chip-blue' : 'chip-gray';
+    };
+
+    var capColors = { free:'cap-free', normal:'cap-normal', full:'cap-full' };
+
+    var html = members.map(function(m, i) {
+      var rank = i + 1;
+      var scoreCol = scoreColor(m.score);
+
+      // マッチしたスキル詳細
+      var matchedSkillsHtml = '';
+      if (inputSkills.length && m.skillDetail) {
+        var matched = m.skillDetail.filter(function(sd) {
+          return inputSkills.some(function(s) { return sd.name === s || m.tags.includes(s); });
+        }).slice(0, 4);
+        if (matched.length) {
+          matchedSkillsHtml = '<div style="margin-top:8px"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;font-family:\'JetBrains Mono\',monospace;text-transform:uppercase;letter-spacing:0.8px">スキル適合</div>'
+            + matched.map(function(sd) {
+              return '<span class="chip ' + levelColor(sd.level) + '" style="font-size:11px">' + sd.name + ' <span style="opacity:0.7">(' + levelLabel(sd.level) + ')</span></span> ';
+            }).join('') + '</div>';
+        }
+      }
+
+      // 担当中の案件
+      var projectsHtml = '';
+      if (m.projects && m.projects.length) {
+        projectsHtml = '<div style="margin-top:8px"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;font-family:\'JetBrains Mono\',monospace;text-transform:uppercase;letter-spacing:0.8px">現在の担当案件</div>'
+          + m.projects.map(function(p) {
+            return '<div style="font-size:11px;color:var(--text);padding:3px 0;display:flex;gap:5px;align-items:center">'
+              + '<span style="color:var(--border2)">▸</span>' + p + '</div>';
+          }).join('') + '</div>';
+      } else {
+        projectsHtml = '<div style="margin-top:8px;font-size:11px;color:var(--green)">✓ 現在担当案件なし — 即時アサイン可能</div>';
+      }
+
+      // キャリア志向との適合
+      var careerHtml = '';
+      if (m.careerGoal) {
+        var careerMatch = inputSkills.some(function(s) { return m.careerGoal.includes(s); });
+        var careerColor = careerMatch ? 'var(--green)' : 'var(--text-dim)';
+        var careerIcon = careerMatch ? '✅' : '◻';
+        careerHtml = '<div style="margin-top:8px;padding:8px 10px;background:var(--surface2);border-radius:5px;border-left:2px solid ' + careerColor + '">'
+          + '<div style="font-size:10px;color:var(--text-dim);margin-bottom:3px;font-family:\'JetBrains Mono\',monospace;text-transform:uppercase;letter-spacing:0.8px">' + careerIcon + ' キャリア志向</div>'
+          + '<div style="font-size:11px;color:var(--text);line-height:1.5">' + m.careerGoal + '</div>'
+          + '</div>';
+      }
+
+      // 資格
+      var certsHtml = '';
+      if (m.certs && m.certs.length) {
+        certsHtml = '<div style="margin-top:8px"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;font-family:\'JetBrains Mono\',monospace;text-transform:uppercase;letter-spacing:0.8px">保有資格</div>'
+          + m.certs.map(function(c) { return '<span class="chip chip-purple" style="font-size:11px">' + c + '</span> '; }).join('')
+          + '</div>';
+      }
+
+      // フラグ
+      var flagHtml = m.flags.map(function(f) {
+        return '<span class="chip chip-amber" style="font-size:11px">⚠ ' + f + '</span>';
+      }).join('');
+
+      return '<div class="assign-candidate' + (rank===1?' rank-1':'') + '">'
+        // ヘッダー行
+        + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">'
+        +   '<span class="assign-rank">#' + rank + '</span>'
+        +   '<div class="avatar" style="background:' + m.color + ';font-size:13px;flex-shrink:0">' + m.initial + '</div>'
+        +   '<div style="flex:1;min-width:0">'
+        +     '<div style="font-size:13px;font-weight:700;color:var(--text-hi)">' + m.name + '</div>'
+        +     '<div style="font-size:11px;color:var(--text-dim)">' + m.role + ' · ' + (m.grade||'') + '</div>'
+        +   '</div>'
+        +   '<span class="member-mini-cap ' + (capColors[m.capacity]||'cap-normal') + '">' + m.capLabel + '</span>'
+        + '</div>'
+        // スコアバー
+        + '<div class="assign-score-wrap">'
+        +   '<div class="assign-score-bar"><div class="assign-score-fill" style="width:' + m.score + '%;background:' + scoreCol + '"></div></div>'
+        +   '<span class="assign-score-pct" style="color:' + scoreCol + '">' + m.score + '%</span>'
+        + '</div>'
+        + (flagHtml ? '<div class="assign-flag" style="margin-top:6px">' + flagHtml + '</div>' : '')
+        + matchedSkillsHtml
+        + projectsHtml
+        + careerHtml
+        + certsHtml
+        // アクション
+        + '<div style="margin-top:12px;display:flex;gap:8px">'
+        +   '<button class="btn btn-outline" style="font-size:11px;padding:5px 12px" onclick="openProfile(this.dataset.id)" data-id="' + m.id + '">詳細プロフィール</button>'
+        + '</div>'
+        + '</div>';
+    }).join('');
+
+    container.innerHTML = html;
+  }
+
+  // ═══ 1on1 分析 ═══
+  var ONEON1_MOCK_RESULTS = {
+    tanaka: {
+      careerGoal: '上流工程（提案・要件定義）に関わり、技術とビジネスを繋ぐコンサルタントになりたい',
+      skills: [
+        { name: 'PM', signal: '「スケジュール管理が得意になってきた」と発言' },
+        { name: '提案書作成', signal: '「もっとお客さんと直接話したい」という発言から上流志向が明確' }
+      ],
+      concerns: ['技術作業に偏りがちで提案機会が少ない', 'ビジネス系スキルの経験が薄い'],
+      nextAction: '次のアサインで顧客折衝を含む役割を意図的に与える'
+    },
+    suzuki: {
+      careerGoal: 'Salesforceの設計・アーキテクチャ領域を深め、大規模導入をリードできるようになりたい',
+      skills: [
+        { name: 'Salesforce', signal: 'Service Cloud の自習を開始と発言' },
+        { name: 'AM', signal: '顧客との長期関係構築に強い関心を示した' }
+      ],
+      concerns: ['特になし — モチベーション高'],
+      nextAction: 'Salesforce上級資格（Architecture）の受験を後押しする'
+    },
+    yamada: {
+      careerGoal: 'Salesforceの深い技術力を身につけて将来的にはアーキテクトとして活躍したい',
+      skills: [
+        { name: 'Salesforce', signal: '権限設計でつまずいているが自力解決しようとしている' }
+      ],
+      concerns: ['権限設計で詰まっており自信を失いかけている', '一人で抱え込む傾向がある'],
+      nextAction: '鈴木さんとのペアワーク機会を作る。詰まったら相談するよう促す'
+    },
+    sato: {
+      careerGoal: '複数チームを率いてDX戦略全体をコーディネートするプリンシパルコンサルタントになりたい',
+      skills: [
+        { name: 'DX戦略', signal: '新規提案の枠組みを自発的に設計していると発言' }
+      ],
+      concerns: ['過負荷気味。優先度付けのサポートが必要'],
+      nextAction: '案件の優先度を一緒に整理。若手への委任を促す'
+    },
+    nakamura: {
+      careerGoal: 'ITだけでなく人と組織の変革まで伴走できるチェンジマネジメントの専門家になりたい',
+      skills: [
+        { name: '研修設計', signal: '自作の研修資料を見せてくれた。質が高い' },
+        { name: 'ファシリテーション', signal: 'ワークショップの場数を増やしたいと発言' }
+      ],
+      concerns: ['技術的な自信が薄い。もっと評価されるべき'],
+      nextAction: 'ファシリテーション案件に積極アサインし実績を作る'
+    },
+    ito: {
+      careerGoal: 'データエンジニアリングからBIまで一貫して設計できるデータアーキテクトになりたい',
+      skills: [
+        { name: 'SQL', signal: '複雑なクエリのパフォーマンスチューニングを自力で解決したと報告' },
+        { name: 'Python', signal: 'データ前処理の自動化スクリプトを書き始めた' }
+      ],
+      concerns: ['成果が見えにくく評価されていないと感じている様子'],
+      nextAction: '成果を可視化する機会（社内LT等）を設ける'
+    },
+    kato: {
+      careerGoal: '人事制度設計とITを掛け合わせたHR Techのコンサルタントとして独自ポジションを築きたい',
+      skills: [
+        { name: 'HR業務', signal: '顧客の採用フロー改善提案を自分で考えてきた' },
+        { name: '業務改善', signal: 'ドキュメント整備を自発的に進めている' }
+      ],
+      concerns: ['IT側の知識をもっと深めたいと感じている'],
+      nextAction: 'M365やPowerAutomateの実践機会を与える'
+    }
+  };
+
+  function runOneon1Analysis() {
+    var memberId = document.getElementById('oneon1-member').value;
+    var text = document.getElementById('oneon1-text').value.trim();
+    var resultCard = document.getElementById('oneon1-result-card');
+    var emptyCard = document.getElementById('oneon1-empty');
+
+    if (!memberId) { alert('対象メンバーを選択してください'); return; }
+    if (!text) { alert('文字起こしをペーストしてください'); return; }
+
+    var m = memberProfiles[memberId];
+    var resultBody = document.getElementById('oneon1-result-body');
+    var resultSub = document.getElementById('oneon1-result-sub');
+
+    // ローディング表示
+    resultCard.style.display = 'block';
+    emptyCard.style.display = 'none';
+    resultSub.textContent = m.name + ' の1on1を分析中...';
+    resultBody.innerHTML = '<div class="oneon1-loading">✦ AI分析中... しばらくお待ちください</div>';
+
+    // モック遅延
+    setTimeout(function() {
+      var result = ONEON1_MOCK_RESULTS[memberId] || {
+        careerGoal: '（抽出できませんでした）',
+        skills: [],
+        concerns: ['データが不十分'],
+        nextAction: '再度1on1を実施してください'
+      };
+
+      resultSub.textContent = m.name + ' の1on1から抽出しました';
+
+      var html = '<div class="wiki-section">'
+        + '<div class="wiki-section-label">🎯 キャリア志向（更新候補）</div>'
+        + '<div style="padding:8px 10px;background:var(--surface2);border-radius:5px;border-left:2px solid var(--gold)">'
+        +   '<div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">現在のwiki:</div>'
+        +   '<div style="font-size:12px;color:var(--text-dim);margin-bottom:8px">' + (m.careerGoal || '未設定') + '</div>'
+        +   '<div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">今回の1on1から:</div>'
+        +   '<input class="wiki-edit-input" id="oneon1-career-input" value="' + result.careerGoal.replace(/"/g,'&quot;') + '" />'
+        + '</div>'
+        + '</div>';
+
+      if (result.skills.length) {
+        html += '<div class="wiki-section"><div class="wiki-section-label">💡 スキルシグナル</div>';
+        result.skills.forEach(function(s) {
+          html += '<div class="wiki-item">'
+            + '<span class="wiki-item-icon">▸</span>'
+            + '<div class="wiki-item-text"><strong>' + s.name + '</strong> — ' + s.signal + '</div>'
+            + '</div>';
+        });
+        html += '</div>';
+      }
+
+      if (result.concerns.length) {
+        html += '<div class="wiki-section"><div class="wiki-section-label">⚠ 課題・懸念</div>';
+        result.concerns.forEach(function(c) {
+          html += '<div class="wiki-item">'
+            + '<span class="wiki-item-icon" style="color:var(--gold)">!</span>'
+            + '<div class="wiki-item-text">' + c + '</div>'
+            + '</div>';
+        });
+        html += '</div>';
+      }
+
+      html += '<div class="wiki-section">'
+        + '<div class="wiki-section-label">✅ 次のアクション（TMメモ）</div>'
+        + '<input class="wiki-edit-input" id="oneon1-action-input" value="' + result.nextAction.replace(/"/g,'&quot;') + '" />'
+        + '</div>';
+
+      resultBody.innerHTML = html;
+      resultSub.textContent = m.name + ' — ' + document.getElementById('oneon1-date').value + ' の1on1から抽出';
+    }, 1200);
+  }
+
+  function applyOneon1ToWiki() {
+    var memberId = document.getElementById('oneon1-member').value;
+    var careerInput = document.getElementById('oneon1-career-input');
+    if (careerInput && memberId && memberProfiles[memberId]) {
+      memberProfiles[memberId].careerGoal = careerInput.value;
+    }
+    var resultBody = document.getElementById('oneon1-result-body');
+    var m = memberProfiles[memberId] || {};
+    resultBody.innerHTML += '<div class="oneon1-applied">✓ ' + (m.name||'') + ' のwikiに反映しました。アサイン補助のマッチングにも反映されます。</div>';
+    document.querySelector('#oneon1-result-card .btn-primary').disabled = true;
+    document.querySelector('#oneon1-result-card .btn-primary').textContent = '反映済み';
+  }
+
+  function resetOneon1() {
+    document.getElementById('oneon1-result-card').style.display = 'none';
+    document.getElementById('oneon1-empty').style.display = 'block';
+    document.getElementById('oneon1-text').value = '';
+    document.getElementById('oneon1-member').value = '';
+  }
 </script>
 
 <!-- ═══ メンバープロフィール モーダル ═══ -->
