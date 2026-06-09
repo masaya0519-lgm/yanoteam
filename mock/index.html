@@ -3125,114 +3125,52 @@
       </div>
 
 
-      <!-- 運用フロー + データフロー -->
-      <div class="grid-2" style="gap:12px;margin-bottom:8px">
-
-        <!-- TM操作フロー -->
-        <div class="card">
-          <div class="card-header" style="margin-bottom:16px">
-            <div>
-              <div class="card-title">TMの操作フロー</div>
-              <div class="card-sub">案件発生からアサイン決定まで</div>
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:0">
-
-            <div class="flow-step">
-              <div class="flow-num">1</div>
-              <div class="flow-body">
-                <div class="flow-title">案件種別を選択</div>
-                <div class="flow-desc">Kintoneの案件種別フィールドを選ぶと必要スキルが自動セット。手動で追加・削除も可。</div>
-              </div>
-            </div>
-            <div class="flow-arrow">↓</div>
-
-            <div class="flow-step">
-              <div class="flow-num">2</div>
-              <div class="flow-body">
-                <div class="flow-title">候補者を確認</div>
-                <div class="flow-desc">スコア・稼働状況・キャリア志向・スキル熟練度・先の空き予定を確認。</div>
-              </div>
-            </div>
-            <div class="flow-arrow">↓</div>
-
-            <div class="flow-step">
-              <div class="flow-num">3</div>
-              <div class="flow-body">
-                <div class="flow-title">1on1でキャリア志向を確認・更新</div>
-                <div class="flow-desc">「1on1→wiki」画面で文字起こしを入力。AIが志向を抽出しwikiを更新。マッチングに即反映。</div>
-                <div style="margin-top:4px"><span class="chip chip-amber" style="font-size:10px">定期: 月1回</span></div>
-              </div>
-            </div>
-            <div class="flow-arrow">↓</div>
-
-            <div class="flow-step">
-              <div class="flow-num" style="background:var(--green);color:#fff">✓</div>
-              <div class="flow-body">
-                <div class="flow-title">アサイン決定 → Kintoneに反映</div>
-                <div class="flow-desc">ポータルでの確認後、Kintoneの案件レコードにアサインを登録。稼働状況は自動更新。</div>
-              </div>
-            </div>
-
+      <!-- 要員を探すときのフロー -->
+      <div class="card mb-6">
+        <div class="card-header" style="margin-bottom:16px">
+          <div>
+            <div class="card-title">要員を探すときのフロー</div>
+            <div class="card-sub">案件発生時の使い方</div>
           </div>
         </div>
+        <div style="display:flex;align-items:flex-start;gap:0;flex-wrap:wrap">
 
-        <!-- データフロー + 更新タイミング -->
-        <div class="card">
-          <div class="card-header" style="margin-bottom:16px">
-            <div>
-              <div class="card-title">データフローと更新タイミング</div>
-              <div class="card-sub">どこから取ってきて、いつ更新するか</div>
+          <div class="flow-step" style="flex:1;min-width:160px">
+            <div class="flow-num">1</div>
+            <div class="flow-body">
+              <div class="flow-title">案件種別を選択</div>
+              <div class="flow-desc">種別を選ぶと必要スキルが自動でセット。追加・削除も可。</div>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px">
+          <div class="flow-arrow" style="padding:12px 4px 0">→</div>
 
-            <div class="dataflow-row">
-              <div class="dataflow-src"><span class="data-src-badge src-sp">レジュメ</span><span class="data-src-badge src-kintone" style="margin-left:4px">Kintone</span></div>
-              <div class="dataflow-arrow">→</div>
-              <div class="dataflow-dest">スキル・実績</div>
-              <div class="dataflow-when"><span class="chip chip-gray" style="font-size:10px">案件終了時・レジュメ更新時</span></div>
+          <div class="flow-step" style="flex:1;min-width:160px">
+            <div class="flow-num">2</div>
+            <div class="flow-body">
+              <div class="flow-title">候補者を確認</div>
+              <div class="flow-desc">スキル・稼働状況・空き予定・キャリア志向で絞り込む。</div>
             </div>
-
-            <div class="dataflow-row">
-              <div class="dataflow-src"><span class="data-src-badge src-portal">1on1→wiki</span></div>
-              <div class="dataflow-arrow">→</div>
-              <div class="dataflow-dest">キャリア志向</div>
-              <div class="dataflow-when"><span class="chip chip-amber" style="font-size:10px">月1回（1on1後）</span></div>
-            </div>
-
-            <div class="dataflow-row">
-              <div class="dataflow-src"><span class="data-src-badge src-kaonavi">カオナビ</span></div>
-              <div class="dataflow-arrow">→</div>
-              <div class="dataflow-dest">キャリア志向（補完）</div>
-              <div class="dataflow-when"><span class="chip chip-gray" style="font-size:10px">人事面談後</span></div>
-            </div>
-
-            <div class="dataflow-row">
-              <div class="dataflow-src"><span class="data-src-badge src-kintone">Kintone</span></div>
-              <div class="dataflow-arrow">→</div>
-              <div class="dataflow-dest">稼働状況・案件スケジュール</div>
-              <div class="dataflow-when"><span class="chip chip-green" style="font-size:10px">自動（リアルタイム）</span></div>
-            </div>
-
-            <div class="dataflow-row">
-              <div class="dataflow-src"><span class="data-src-badge src-portal">TM手入力</span></div>
-              <div class="dataflow-arrow">→</div>
-              <div class="dataflow-dest">スキル確認・修正</div>
-              <div class="dataflow-when"><span class="chip chip-gray" style="font-size:10px">年2回（期初・期末）</span></div>
-            </div>
-
-            <div style="margin-top:8px;padding:10px 12px;background:var(--gold-dim);border-radius:6px;border:1px solid rgba(240,165,0,0.2)">
-              <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">⚠ 鮮度が重要なデータ</div>
-              <div style="font-size:11px;color:var(--text);line-height:1.6">
-                キャリア志向は<strong>変化が早い</strong>ため月1回の1on1更新を推奨。<br>
-                稼働状況はKintone自動連携で常に最新状態を保つ。
-              </div>
-            </div>
-
           </div>
+          <div class="flow-arrow" style="padding:12px 4px 0">→</div>
+
+          <div class="flow-step" style="flex:1;min-width:160px">
+            <div class="flow-num">3</div>
+            <div class="flow-body">
+              <div class="flow-title">本人・上長と確認</div>
+              <div class="flow-desc">稼働可否・キャリアとの合致をダイレクトに確認。</div>
+            </div>
+          </div>
+          <div class="flow-arrow" style="padding:12px 4px 0">→</div>
+
+          <div class="flow-step" style="flex:1;min-width:160px">
+            <div class="flow-num" style="background:var(--green);color:#fff">✓</div>
+            <div class="flow-body">
+              <div class="flow-title">アサイン決定</div>
+              <div class="flow-desc">Kintoneに登録。稼働状況・タイムラインに自動反映。</div>
+            </div>
+          </div>
+
         </div>
-
       </div>
 
       <!-- データ構造定義（折り畳み） -->
