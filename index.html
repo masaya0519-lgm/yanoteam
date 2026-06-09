@@ -945,6 +945,39 @@
     }
     .wiki-saved-msg { font-size:12px;color:var(--green);display:none; }
 
+  
+    /* concept overview cards */
+    .concept-banner {
+      border:1px solid rgba(240,165,0,0.25);background:linear-gradient(135deg,rgba(36,51,86,0.9) 0%,rgba(26,39,68,0.9) 100%);
+      border-radius:10px;padding:20px 24px;margin-bottom:24px;
+    }
+    .concept-banner-title {
+      font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+      text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);margin-bottom:14px;
+      display:flex;align-items:center;gap:6px;
+    }
+    .concept-cols { display:flex;gap:16px;flex-wrap:wrap; }
+    .concept-col { flex:1;min-width:180px; }
+    .concept-col-label {
+      font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+      margin-bottom:8px;font-family:'JetBrains Mono',monospace;
+    }
+    .concept-col-label.lbl-red { color:var(--red); }
+    .concept-col-label.lbl-gold { color:var(--gold); }
+    .concept-col-label.lbl-green { color:var(--green); }
+    .concept-col-label.lbl-blue { color:var(--blue); }
+    .concept-bullet {
+      display:flex;align-items:flex-start;gap:6px;font-size:12px;color:var(--text);
+      line-height:1.65;margin-bottom:5px;
+    }
+    .concept-bullet-dot { flex-shrink:0;margin-top:2px;font-size:10px; }
+    .concept-page-tag {
+      display:inline-block;padding:3px 9px;border-radius:4px;font-size:11px;font-weight:700;
+      background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);margin:3px;
+      font-family:'JetBrains Mono',monospace;
+    }
+    .concept-arrow { color:var(--border2);font-size:18px;padding:0 4px;align-self:center; }
+
   </style>
 </head>
 <body>
@@ -980,7 +1013,7 @@
       <span class="nav-icon">🔍</span> アサイン補助
     </div>
     <div class="nav-item" onclick="navigate('wiki', this)">
-      <span class="nav-icon">✏️</span> wikiメンテ
+      <span class="nav-icon">✏️</span> メンバー情報
     </div>
     <div class="nav-item" onclick="navigate('oneon1', this)">
       <span class="nav-icon">🎙️</span> 1on1 → wiki
@@ -1038,6 +1071,48 @@
 
     <!-- ════════════════ PAGE: DASHBOARD ════════════════ -->
     <div class="page active" id="page-dashboard">
+
+      <!-- MOCコンセプトバナー -->
+      <div class="concept-banner">
+        <div class="concept-banner-title">📋 このMOCについて — YanoTeam チームインテリジェンスポータル</div>
+        <div class="concept-cols">
+
+          <div class="concept-col">
+            <div class="concept-col-label lbl-red">⚡ 現状の課題</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--red)">▸</span>要員調整のたびにTMが個別確認・調整を行っており工数が大きい</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--red)">▸</span>メンバーのスキル・稼働・キャリア志向が散在しており把握困難</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--red)">▸</span>本人の志向と案件のミスマッチが定着リスクに直結している</div>
+          </div>
+
+          <div class="concept-arrow">→</div>
+
+          <div class="concept-col">
+            <div class="concept-col-label lbl-gold">🎯 目指す状態</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--gold)">▸</span>案件発生時に最適な要員を<strong>数分以内</strong>で特定できる</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--gold)">▸</span>スキル・稼働・キャリア志向を一元可視化・継続的に更新</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--gold)">▸</span>1on1を起点に情報の鮮度を保つサイクルの確立</div>
+          </div>
+
+          <div class="concept-arrow">→</div>
+
+          <div class="concept-col">
+            <div class="concept-col-label lbl-green">🔧 この画面でできること</div>
+            <div style="margin-bottom:6px">
+              <span class="concept-page-tag">アサイン補助</span>
+              <span style="font-size:11px;color:var(--text-dim)">案件条件でメンバーを自動スコアリング</span>
+            </div>
+            <div style="margin-bottom:6px">
+              <span class="concept-page-tag">メンバー情報</span>
+              <span style="font-size:11px;color:var(--text-dim)">スキル・志向をTMが一元管理</span>
+            </div>
+            <div>
+              <span class="concept-page-tag">1on1 → wiki</span>
+              <span style="font-size:11px;color:var(--text-dim)">文字起こしからキャリア志向を自動抽出</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
 
       <!-- Stats: 案件数と人数だけ -->
       <div style="display:flex;gap:12px;margin-bottom:22px">
@@ -3100,6 +3175,31 @@
     <!-- ════════════════ PAGE: ASSIGN ════════════════ -->
     <div class="page" id="page-assign">
       <div class="section-title">アサイン補助</div>
+      <!-- アサイン補助コンセプト -->
+      <div class="concept-banner">
+        <div class="concept-banner-title">🔍 アサイン補助 — この画面の目的</div>
+        <div class="concept-cols">
+          <div class="concept-col">
+            <div class="concept-col-label lbl-red">課題</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--red)">▸</span>要員調整のたびに全メンバーの状況を個別確認する必要がある</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--red)">▸</span>スキルや志向の適合判断が経験と勘に頼りミスマッチが起きやすい</div>
+          </div>
+          <div class="concept-arrow">→</div>
+          <div class="concept-col">
+            <div class="concept-col-label lbl-gold">目指す状態</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--gold)">▸</span>案件種別を選ぶだけで候補者がスコア順に自動表示される</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--gold)">▸</span>スキル一致・稼働余力・キャリア志向を根拠として可視化</div>
+          </div>
+          <div class="concept-arrow">→</div>
+          <div class="concept-col">
+            <div class="concept-col-label lbl-green">使い方</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--green)">①</span>案件種別・必要スキルを入力</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--green)">②</span>マッチング実行 → 候補者が根拠付きで表示</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--green)">③</span>詳細確認 → 本人・上長に打診</div>
+          </div>
+        </div>
+      </div>
+
       <div class="text-muted mb-4" style="font-size:12px;line-height:1.7">
         案件概要を入力すると、スキル・稼働状況・キャリア志向を総合してマッチする要員候補をランキング表示します。
         要員調整の負荷削減とミスマッチ防止を支援します。
@@ -3346,6 +3446,31 @@
     <!-- ════════════════ PAGE: 1on1 ════════════════ -->
     <div class="page" id="page-oneon1">
       <div class="section-title">1on1 → wiki反映</div>
+      <!-- 1on1コンセプト -->
+      <div class="concept-banner">
+        <div class="concept-banner-title">💬 1on1 → wiki反映 — この画面の目的</div>
+        <div class="concept-cols">
+          <div class="concept-col">
+            <div class="concept-col-label lbl-red">課題</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--red)">▸</span>1on1で把握したキャリア志向がTMの記憶にしか残らない</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--red)">▸</span>メンバーの志向は変化するが更新のタイミングがない</div>
+          </div>
+          <div class="concept-arrow">→</div>
+          <div class="concept-col">
+            <div class="concept-col-label lbl-gold">目指す状態</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--gold)">▸</span>1on1の文字起こしをAIが解析し志向を自動抽出・更新</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--gold)">▸</span>月1回の1on1で情報の鮮度を保つサイクルを確立</div>
+          </div>
+          <div class="concept-arrow">→</div>
+          <div class="concept-col">
+            <div class="concept-col-label lbl-green">使い方</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--green)">①</span>メンバーを選択</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--green)">②</span>1on1の文字起こしを貼り付け</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--green)">③</span>AI解析 → キャリア志向がwikiに反映</div>
+          </div>
+        </div>
+      </div>
+
       <div class="text-muted mb-6" style="font-size:12px;line-height:1.7">
         1on1の文字起こしをペーストすると、AIがキャリア志向・スキルシグナル・課題を抽出してwikiの下書きを生成します。
         内容を確認・編集してからメンバーのwikiに反映できます。
@@ -3456,7 +3581,32 @@
 
     <!-- ════════════════ PAGE: WIKI ════════════════ -->
     <div class="page" id="page-wiki">
-      <div class="section-title">wikiメンテ</div>
+      <div class="section-title">メンバー情報</div>
+      <!-- メンバー情報コンセプト -->
+      <div class="concept-banner">
+        <div class="concept-banner-title">👤 メンバー情報 — この画面の目的</div>
+        <div class="concept-cols">
+          <div class="concept-col">
+            <div class="concept-col-label lbl-red">課題</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--red)">▸</span>メンバーのスキル・資格・キャリア志向が各所に散在、一覧できない</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--red)">▸</span>情報が古くなりマッチング精度が低下する</div>
+          </div>
+          <div class="concept-arrow">→</div>
+          <div class="concept-col">
+            <div class="concept-col-label lbl-gold">目指す状態</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--gold)">▸</span>TMが最新のメンバー情報を一箇所で管理・更新できる</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--gold)">▸</span>変更がアサイン補助のマッチングにリアルタイム反映</div>
+          </div>
+          <div class="concept-arrow">→</div>
+          <div class="concept-col">
+            <div class="concept-col-label lbl-green">更新タイミング</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--green)">▸</span>スキル・資格：案件終了時・レジュメ更新時</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--green)">▸</span>キャリア志向：月1回（1on1後）</div>
+            <div class="concept-bullet"><span class="concept-bullet-dot" style="color:var(--green)">▸</span>稼働スケジュール：案件アサイン時</div>
+          </div>
+        </div>
+      </div>
+
       <div class="text-muted mb-4" style="font-size:12px;line-height:1.7">
         メンバーのスキル・キャリア志向・資格・稼働スケジュールを管理します。ここで更新した情報はアサイン補助のマッチングにすぐ反映されます。
       </div>
@@ -3735,7 +3885,7 @@
     revenue: '売上・アクションプラン',
     growth: 'メンバー成長マップ',
     assign: 'アサイン補助',
-    wiki: 'wikiメンテ',
+    wiki: 'メンバー情報',
     oneon1: '1on1 → wiki反映',
     slack: 'Slack連携イメージ',
     guide: '使い方',
@@ -4760,7 +4910,7 @@
       + '<div class="timeline-avail-from" style="color:' + availColor + '">空き予定: ' + availLabel + '</div></div>';
   }
 
-  // ═══ wikiメンテ ═══
+  // ═══ メンバー情報 ═══
   var wikiCurrentMember = null;
 
   function initWikiPage() {
