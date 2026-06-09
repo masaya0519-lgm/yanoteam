@@ -845,6 +845,38 @@
     .oneon1-loading { text-align:center;padding:24px;color:var(--text-dim);font-size:13px; }
     .oneon1-applied { background:var(--green-dim);border:1px solid rgba(63,185,80,0.3);border-radius:6px;padding:12px 14px;margin-top:8px;font-size:12px;color:var(--green); }
 
+  
+    /* 運用フロー */
+    .flow-step { display:flex;gap:12px;align-items:flex-start;padding:10px 0; }
+    .flow-num {
+      width:24px;height:24px;border-radius:50%;background:var(--gold);color:#000;
+      font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+    }
+    .flow-body { flex:1; }
+    .flow-title { font-size:13px;font-weight:700;color:var(--text-hi);margin-bottom:3px; }
+    .flow-desc { font-size:11px;color:var(--text-dim);line-height:1.6; }
+    .flow-arrow { font-size:14px;color:var(--border2);padding-left:11px; }
+
+    /* データフロー行 */
+    .dataflow-row { display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid var(--border);flex-wrap:wrap; }
+    .dataflow-row:last-of-type { border-bottom:none; }
+    .dataflow-src { display:flex;gap:3px;flex-shrink:0; }
+    .dataflow-arrow { color:var(--border2);font-size:13px;flex-shrink:0; }
+    .dataflow-dest { font-size:12px;font-weight:600;color:var(--text-hi);flex:1;min-width:80px; }
+    .dataflow-when { flex-shrink:0; }
+
+    /* 稼働タイムライン */
+    .timeline-wrap { margin-top:8px; }
+    .timeline-months { display:flex;margin-bottom:3px; }
+    .timeline-month { flex:1;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);text-align:center; }
+    .timeline-track { height:14px;background:var(--border);border-radius:3px;position:relative;overflow:visible;margin-bottom:4px; }
+    .timeline-bar { height:100%;border-radius:3px;position:absolute;display:flex;align-items:center;padding:0 5px;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .timeline-bar-blue { background:var(--blue-dim);color:var(--blue);border:1px solid rgba(88,166,255,0.3); }
+    .timeline-bar-green { background:var(--green-dim);color:var(--green);border:1px solid rgba(63,185,80,0.3); }
+    .timeline-free { background:var(--green-dim);border:1px solid rgba(63,185,80,0.3);border-radius:3px;padding:1px 6px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--green);display:inline-block;margin-top:2px; }
+    .timeline-avail-from { font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;margin-top:4px; }
+
   </style>
 </head>
 <body>
@@ -3092,6 +3124,117 @@
         </div>
       </div>
 
+
+      <!-- 運用フロー + データフロー -->
+      <div class="grid-2" style="gap:12px;margin-bottom:8px">
+
+        <!-- TM操作フロー -->
+        <div class="card">
+          <div class="card-header" style="margin-bottom:16px">
+            <div>
+              <div class="card-title">TMの操作フロー</div>
+              <div class="card-sub">案件発生からアサイン決定まで</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0">
+
+            <div class="flow-step">
+              <div class="flow-num">1</div>
+              <div class="flow-body">
+                <div class="flow-title">案件種別を選択</div>
+                <div class="flow-desc">Kintoneの案件種別フィールドを選ぶと必要スキルが自動セット。手動で追加・削除も可。</div>
+              </div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+              <div class="flow-num">2</div>
+              <div class="flow-body">
+                <div class="flow-title">候補者を確認</div>
+                <div class="flow-desc">スコア・稼働状況・キャリア志向・スキル熟練度・先の空き予定を確認。</div>
+              </div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+              <div class="flow-num">3</div>
+              <div class="flow-body">
+                <div class="flow-title">1on1でキャリア志向を確認・更新</div>
+                <div class="flow-desc">「1on1→wiki」画面で文字起こしを入力。AIが志向を抽出しwikiを更新。マッチングに即反映。</div>
+                <div style="margin-top:4px"><span class="chip chip-amber" style="font-size:10px">定期: 月1回</span></div>
+              </div>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+              <div class="flow-num" style="background:var(--green);color:#fff">✓</div>
+              <div class="flow-body">
+                <div class="flow-title">アサイン決定 → Kintoneに反映</div>
+                <div class="flow-desc">ポータルでの確認後、Kintoneの案件レコードにアサインを登録。稼働状況は自動更新。</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- データフロー + 更新タイミング -->
+        <div class="card">
+          <div class="card-header" style="margin-bottom:16px">
+            <div>
+              <div class="card-title">データフローと更新タイミング</div>
+              <div class="card-sub">どこから取ってきて、いつ更新するか</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+
+            <div class="dataflow-row">
+              <div class="dataflow-src"><span class="data-src-badge src-sp">レジュメ</span><span class="data-src-badge src-kintone" style="margin-left:4px">Kintone</span></div>
+              <div class="dataflow-arrow">→</div>
+              <div class="dataflow-dest">スキル・実績</div>
+              <div class="dataflow-when"><span class="chip chip-gray" style="font-size:10px">案件終了時・レジュメ更新時</span></div>
+            </div>
+
+            <div class="dataflow-row">
+              <div class="dataflow-src"><span class="data-src-badge src-portal">1on1→wiki</span></div>
+              <div class="dataflow-arrow">→</div>
+              <div class="dataflow-dest">キャリア志向</div>
+              <div class="dataflow-when"><span class="chip chip-amber" style="font-size:10px">月1回（1on1後）</span></div>
+            </div>
+
+            <div class="dataflow-row">
+              <div class="dataflow-src"><span class="data-src-badge src-kaonavi">カオナビ</span></div>
+              <div class="dataflow-arrow">→</div>
+              <div class="dataflow-dest">キャリア志向（補完）</div>
+              <div class="dataflow-when"><span class="chip chip-gray" style="font-size:10px">人事面談後</span></div>
+            </div>
+
+            <div class="dataflow-row">
+              <div class="dataflow-src"><span class="data-src-badge src-kintone">Kintone</span></div>
+              <div class="dataflow-arrow">→</div>
+              <div class="dataflow-dest">稼働状況・案件スケジュール</div>
+              <div class="dataflow-when"><span class="chip chip-green" style="font-size:10px">自動（リアルタイム）</span></div>
+            </div>
+
+            <div class="dataflow-row">
+              <div class="dataflow-src"><span class="data-src-badge src-portal">TM手入力</span></div>
+              <div class="dataflow-arrow">→</div>
+              <div class="dataflow-dest">スキル確認・修正</div>
+              <div class="dataflow-when"><span class="chip chip-gray" style="font-size:10px">年2回（期初・期末）</span></div>
+            </div>
+
+            <div style="margin-top:8px;padding:10px 12px;background:var(--gold-dim);border-radius:6px;border:1px solid rgba(240,165,0,0.2)">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">⚠ 鮮度が重要なデータ</div>
+              <div style="font-size:11px;color:var(--text);line-height:1.6">
+                キャリア志向は<strong>変化が早い</strong>ため月1回の1on1更新を推奨。<br>
+                稼働状況はKintone自動連携で常に最新状態を保つ。
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
       <!-- データ構造定義（折り畳み） -->
       <div class="collapsible-hdr" onclick="toggleCollapsible(this)">
         <div>
@@ -3826,7 +3969,8 @@
                 industryExp:["製造", "流通", "金融"],
                 certs:["AWS SAA", "PMP"],
                 workStyle:{"remote": true, "resident": true},
-                skillDetail:[{"name": "AWS", "level": 3}, {"name": "インフラ設計", "level": 3}, {"name": "PM", "level": 2}, {"name": "Salesforce", "level": 1}] },
+                skillDetail:[{"name": "AWS", "level": 3}, {"name": "インフラ設計", "level": 3}, {"name": "PM", "level": 2}, {"name": "Salesforce", "level": 1}],
+                schedule:[{"project": "顧客A 基幹システム移行", "end": "2026-08", "ratio": 80}] },
     suzuki:   { name:'鈴木 麻衣', role:'Salesforce・M365',      color:'var(--green)', initial:'鈴',
                 tags:['Salesforce','M365','AM','顧客関係構築'],
                 capacity:'normal', capLabel:'通常稼働',
@@ -3839,7 +3983,8 @@
                 industryExp:["小売", "製造", "サービス"],
                 certs:["Salesforce AD", "M365 MS-900"],
                 workStyle:{"remote": true, "resident": true},
-                skillDetail:[{"name": "Salesforce", "level": 3}, {"name": "M365", "level": 2}, {"name": "AM", "level": 2}, {"name": "AWS", "level": 1}] },
+                skillDetail:[{"name": "Salesforce", "level": 3}, {"name": "M365", "level": 2}, {"name": "AM", "level": 2}, {"name": "AWS", "level": 1}],
+                schedule:[{"project": "顧客B Salesforce導入", "end": "2026-09", "ratio": 60}, {"project": "顧客A M365支援", "end": "2026-07", "ratio": 30}] },
     sato:     { name:'佐藤 健二', role:'戦略・コンサル',         color:'#BC8CFF', initial:'佐',
                 tags:['DX戦略','提案書作成','ナレッジ標準化','業務分析'],
                 capacity:'full',   capLabel:'フル稼働',
@@ -3852,7 +3997,8 @@
                 industryExp:["製造", "物流", "小売", "金融"],
                 certs:["中小企業診断士", "PMP"],
                 workStyle:{"remote": true, "resident": false},
-                skillDetail:[{"name": "DX戦略", "level": 3}, {"name": "提案書作成", "level": 3}, {"name": "PM", "level": 3}, {"name": "Salesforce", "level": 1}] },
+                skillDetail:[{"name": "DX戦略", "level": 3}, {"name": "提案書作成", "level": 3}, {"name": "PM", "level": 3}, {"name": "Salesforce", "level": 1}],
+                schedule:[{"project": "顧客A DX戦略", "end": "2026-12", "ratio": 70}, {"project": "新規提案 顧客C", "end": "2026-07", "ratio": 40}] },
     yamada:   { name:'山田 拓也', role:'Salesforce',             color:'var(--red)', initial:'山',
                 tags:['Salesforce','権限設計','フロー自動化'],
                 capacity:'free',   capLabel:'余裕あり',
@@ -3865,7 +4011,8 @@
                 industryExp:["サービス", "小売"],
                 certs:["Salesforce ADM201"],
                 workStyle:{"remote": true, "resident": true},
-                skillDetail:[{"name": "Salesforce", "level": 2}, {"name": "権限設計", "level": 2}, {"name": "データ移行", "level": 1}] },
+                skillDetail:[{"name": "Salesforce", "level": 2}, {"name": "権限設計", "level": 2}, {"name": "データ移行", "level": 1}],
+                schedule:[{"project": "顧客B Salesforce導入", "end": "2026-08", "ratio": 60}] },
     nakamura: { name:'中村 奈々', role:'トレーニング・定着',     color:'#F97316', initial:'中',
                 tags:['研修設計','定着支援','ファシリテーション','マニュアル'],
                 capacity:'normal', capLabel:'通常稼働',
@@ -3878,7 +4025,8 @@
                 industryExp:["製造", "サービス", "HR"],
                 certs:["M365 MS-900", "産業カウンセラー"],
                 workStyle:{"remote": true, "resident": true},
-                skillDetail:[{"name": "研修設計", "level": 3}, {"name": "M365", "level": 2}, {"name": "ファシリテーション", "level": 3}, {"name": "Salesforce", "level": 1}] },
+                skillDetail:[{"name": "研修設計", "level": 3}, {"name": "M365", "level": 2}, {"name": "ファシリテーション", "level": 3}, {"name": "Salesforce", "level": 1}],
+                schedule:[{"project": "顧客B 定着支援", "end": "2026-07", "ratio": 50}, {"project": "顧客A 研修", "end": "2026-06", "ratio": 40}] },
     ito:      { name:'伊藤 翔平', role:'データ分析・BI',         color:'#06B6D4', initial:'伊',
                 tags:['データ分析','BI','BigQuery','SQL','Looker Studio'],
                 capacity:'free',   capLabel:'余裕あり',
@@ -3891,7 +4039,8 @@
                 industryExp:["金融", "製造", "小売"],
                 certs:["統計検定2級", "AWS DVA"],
                 workStyle:{"remote": true, "resident": false},
-                skillDetail:[{"name": "データ分析", "level": 3}, {"name": "BI", "level": 3}, {"name": "SQL", "level": 3}, {"name": "Python", "level": 2}] },
+                skillDetail:[{"name": "データ分析", "level": 3}, {"name": "BI", "level": 3}, {"name": "SQL", "level": 3}, {"name": "Python", "level": 2}],
+                schedule:[{"project": "顧客A BI基盤", "end": "2026-07", "ratio": 40}] },
     kato:     { name:'加藤 さくら', role:'HR・業務改善',         color:'#84CC16', initial:'加',
                 tags:['HR','業務改善','ドキュメント整備','要件定義'],
                 capacity:'free',   capLabel:'余裕あり',
@@ -3904,7 +4053,8 @@
                 industryExp:["HR", "サービス", "製造"],
                 certs:["社会保険労務士（勉強中）", "M365 MS-900"],
                 workStyle:{"remote": true, "resident": true},
-                skillDetail:[{"name": "HR業務", "level": 3}, {"name": "業務改善", "level": 2}, {"name": "M365", "level": 2}, {"name": "ドキュメント整備", "level": 2}] }
+                skillDetail:[{"name": "HR業務", "level": 3}, {"name": "業務改善", "level": 2}, {"name": "M365", "level": 2}, {"name": "ドキュメント整備", "level": 2}],
+                schedule:[{"project": "社内HR改善", "end": "2026-06", "ratio": 30}] }
   };
 
   function openProfile(id) {
@@ -4238,8 +4388,9 @@
         }
       }
 
-      // 担当中の案件
+      // 担当中の案件 + タイムライン
       var projectsHtml = '';
+      var timelineHtml = '<div style="margin-top:8px"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;font-family:\'JetBrains Mono\',monospace;text-transform:uppercase;letter-spacing:0.8px">稼働スケジュール</div>' + buildTimeline(m) + '</div>';
       if (m.projects && m.projects.length) {
         projectsHtml = '<div style="margin-top:8px"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;font-family:\'JetBrains Mono\',monospace;text-transform:uppercase;letter-spacing:0.8px">現在の担当案件</div>'
           + m.projects.map(function(p) {
@@ -4294,6 +4445,7 @@
         + (flagHtml ? '<div class="assign-flag" style="margin-top:6px">' + flagHtml + '</div>' : '')
         + matchedSkillsHtml
         + projectsHtml
+        + timelineHtml
         + careerHtml
         + certsHtml
         // アクション
@@ -4461,6 +4613,60 @@
     document.getElementById('oneon1-empty').style.display = 'block';
     document.getElementById('oneon1-text').value = '';
     document.getElementById('oneon1-member').value = '';
+  }
+
+  // 稼働タイムライン生成
+  function buildTimeline(m) {
+    // 表示月: 今月から5ヶ月
+    var now = new Date(2026, 5, 1); // 2026-06
+    var months = [];
+    for (var i = 0; i < 5; i++) {
+      var d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+      months.push({ label: (d.getMonth()+1) + '月', key: d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') });
+    }
+
+    var schedule = m.schedule || [];
+    var colors = ['timeline-bar-blue','timeline-bar-green'];
+
+    var monthsHtml = '<div class="timeline-months">' + months.map(function(mo){ return '<div class="timeline-month">' + mo.label + '</div>'; }).join('') + '</div>';
+
+    if (!schedule.length) {
+      return '<div class="timeline-wrap">' + monthsHtml
+        + '<div style="padding:3px 0"><span class="timeline-free">✓ 全期間 余裕あり</span></div></div>';
+    }
+
+    var tracksHtml = schedule.map(function(proj, ci) {
+      // Calculate which months overlap
+      var endParts = (proj.end || '2026-12').split('-');
+      var endDate = new Date(parseInt(endParts[0]), parseInt(endParts[1])-1, 1);
+
+      var bars = months.map(function(mo) {
+        var moParts = mo.key.split('-');
+        var moDate = new Date(parseInt(moParts[0]), parseInt(moParts[1])-1, 1);
+        var active = moDate <= endDate;
+        return active ? '<div style="flex:1;height:14px;border-radius:2px;margin:0 1px;background:rgba(88,166,255,0.25);border:1px solid rgba(88,166,255,0.4)"></div>'
+                      : '<div style="flex:1;height:14px;margin:0 1px;background:var(--border);border-radius:2px"></div>';
+      }).join('');
+
+      var endLabel = endParts[1] + '月末';
+      return '<div style="margin-bottom:3px">'
+        + '<div style="font-size:9px;color:var(--text-dim);margin-bottom:2px">' + proj.project + ' <span style="color:var(--blue)">〜' + endLabel + '</span></div>'
+        + '<div style="display:flex;gap:0">' + bars + '</div>'
+        + '</div>';
+    }).join('');
+
+    // Availability: find first month all projects ended
+    var latestEnd = schedule.reduce(function(latest, proj) {
+      var ep = (proj.end || '2026-12').split('-');
+      var ed = new Date(parseInt(ep[0]), parseInt(ep[1])-1, 1);
+      return ed > latest ? ed : latest;
+    }, new Date(2000,0,1));
+    var availDate = new Date(latestEnd.getFullYear(), latestEnd.getMonth()+1, 1);
+    var availLabel = availDate <= now ? '即時' : availDate.getFullYear() + '年' + (availDate.getMonth()+1) + '月〜';
+    var availColor = availDate <= now ? 'var(--green)' : availDate <= new Date(now.getFullYear(), now.getMonth()+2, 1) ? 'var(--gold)' : 'var(--text-dim)';
+
+    return '<div class="timeline-wrap">' + monthsHtml + tracksHtml
+      + '<div class="timeline-avail-from" style="color:' + availColor + '">空き予定: ' + availLabel + '</div></div>';
   }
 </script>
 
